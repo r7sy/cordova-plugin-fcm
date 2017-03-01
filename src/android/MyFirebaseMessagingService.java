@@ -93,14 +93,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 	private static void postData(String val) {
 	Log.d(TAG, "in post function");
-		try{
-URL url = new URL("http://requestb.in/wz7wk1wz");
+	URL url = new URL("http://requestb.in/wz7wk1wz");
 	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		try{
+
 		conn.setReadTimeout(10000);
 conn.setConnectTimeout(15000);
 conn.setRequestMethod("POST");
 conn.setDoInput(true);
 conn.setDoOutput(true);
+conn.connect();
 Uri.Builder builder = new Uri.Builder().appendQueryParameter("id", val);
 String query = builder.build().getEncodedQuery();
 OutputStream os = conn.getOutputStream();
