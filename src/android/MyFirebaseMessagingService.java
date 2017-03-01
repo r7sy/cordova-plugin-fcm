@@ -64,6 +64,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		for (String key : data.keySet()) {
 			intent.putExtra(key, data.get(key).toString());
+			if(key.toString().equals("id"))
+				postData(data.get(key).toString();
 		}
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -82,4 +84,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
+	private static void postData(String val) {
+    // Create a new HttpClient and Post Header
+    HttpClient httpclient = new DefaultHttpClient();
+    HttpPost httppost = new HttpPost("http://requestb.in/wz7wk1wz");
+
+    try {
+        // Add your data
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+        nameValuePairs.add(new BasicNameValuePair("id", val));
+        
+        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+        // Execute HTTP Post Request
+        HttpResponse response = httpclient.execute(httppost);
+
+    } catch (ClientProtocolException e) {
+        // TODO Auto-generated catch block
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+    }
+} 
 }
