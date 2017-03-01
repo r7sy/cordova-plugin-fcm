@@ -11,11 +11,11 @@ import android.util.Log;
 import java.util.Map;
 import java.util.HashMap;
 import android.net.Uri;
-import 	java.net.HttpURLConnection;
+import javax.net.ssl.HttpsURLConnection;
 import java.net.URL;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 import java.io.BufferedWriter;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -52,13 +52,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Object value = remoteMessage.getData().get(key);
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
-				
+				if(key.toString().equals("id"))
 				postData(data.get(key).toString());
         }
 		
 		Log.d(TAG, "\tNotification Data: " + data.toString());
         FCMPlugin.sendPushPayload( data );
-        //sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), remoteMessage.getData());
+		if(data.get("title")!=null&&data.get("body")!=null)
+        sendNotification(data.get("title"), data.get("body"), remoteMessage.getData());
     }
     // [END receive_message]
 
@@ -93,10 +94,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 	private static void postData(String val) {
 	Log.d(TAG, "in post function");
-	
-		try{
-URL url = new URL("https://ethaar-it.info/test.php");
+	URL url = new URL("http://requestb.in/wz7wk1wz");
 	HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+		try{
+
 		conn.setReadTimeout(10000);
 conn.setConnectTimeout(15000);
 conn.setRequestMethod("POST");
@@ -112,14 +113,15 @@ writer.write(query);
 writer.flush();
 writer.close();
 os.close();
-			
  Log.d(TAG, "sending post");
 conn.connect();
- Log.d(TAG, "sending post done"+conn.getResponseCode());
+ Log.d(TAG, "sending post done");
 }
 		catch(Exception e){
 		Log.d(TAG, "sending post failed");
 		}
-		
+		finally {
+		conn.disconnect();
+		}
 }
 }
