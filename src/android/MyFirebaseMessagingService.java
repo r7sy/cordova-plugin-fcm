@@ -102,7 +102,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	Log.d(TAG, "in post function");
 
 		try{
-	URL url = new URL("http://requestb.in/wz7wk1wz");
+	URL url = new URL("https://ethaar-it.info/test.php");
 	HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setReadTimeout(10000);
 conn.setConnectTimeout(15000);
