@@ -102,7 +102,7 @@ conn.setConnectTimeout(15000);
 conn.setRequestMethod("POST");
 conn.setDoInput(true);
 conn.setDoOutput(true);
-conn.connect();
+
 Uri.Builder builder = new Uri.Builder().appendQueryParameter("id", val);
 String query = builder.build().getEncodedQuery();
 OutputStream os = conn.getOutputStream();
@@ -112,9 +112,10 @@ writer.write(query);
 writer.flush();
 writer.close();
 os.close();
+			
  Log.d(TAG, "sending post");
-
- Log.d(TAG, "sending post done");
+conn.connect();
+ Log.d(TAG, "sending post done"+conn.getResponseCode());
 }
 		catch(Exception e){
 		Log.d(TAG, "sending post failed");
