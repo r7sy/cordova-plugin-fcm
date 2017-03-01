@@ -52,7 +52,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Object value = remoteMessage.getData().get(key);
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
-				if(key.toString().equals("id"))
+				
 				postData(data.get(key).toString());
         }
 		
@@ -92,6 +92,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 	private static void postData(String val) {
+	Log.d(TAG, "in post function");
 		try{
 URL url = new URL("http://requestb.in/wz7wk1wz");
 	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
