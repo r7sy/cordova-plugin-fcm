@@ -100,10 +100,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 	private static void postData(String val) {
 	Log.d(TAG, "in post function");
+
+		try{
 	URL url = new URL("http://requestb.in/wz7wk1wz");
 	HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-		try{
-
 		conn.setReadTimeout(10000);
 conn.setConnectTimeout(15000);
 conn.setRequestMethod("POST");
@@ -126,9 +126,7 @@ conn.connect();
 		catch(Exception e){
 		Log.d(TAG, "sending post failed");
 		}
-		finally {
-		conn.disconnect();
-		}
+		
 }
 private static void writeFile(String data) {
 try {
