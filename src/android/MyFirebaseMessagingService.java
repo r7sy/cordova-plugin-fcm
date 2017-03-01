@@ -10,20 +10,13 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import java.util.Map;
 import java.util.HashMap;
-
-import org.apache.http.message.BasicNameValuePair;
-
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.client.HttpClient;
-import	org.apache.http.client.methods.HttpPost;
-import	org.apache.http.client.methods.HttpPost;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import java.io.IOException;
-import 	org.apache.http.client.entity.UrlEncodedFormEntity;
-import java.util.List;
-
+import android.net.Uri;
+import 	java.net.HttpURLConnection;
+import java.net.URL;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.java.net.HttpURLConnection;
+import java.io.BufferedWriter;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -98,24 +91,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
 	private static void postData(String val) {
-    // Create a new HttpClient and Post Header
-    HttpClient httpclient = new DefaultHttpClient();
-    HttpPost httppost = new HttpPost("http://requestb.in/wz7wk1wz");
+		try{
+URL urlObj = new URL("http://requestb.in/wz7wk1wz");
+	HttpURLConnection conn = (HttpsURLConnection) url.openConnection();
+		conn.setReadTimeout(10000);
+conn.setConnectTimeout(15000);
+conn.setRequestMethod("POST");
+conn.setDoInput(false);
+conn.setDoOutput(true);
+Uri.Builder builder = new Uri.Builder().appendQueryParameter("id", paramValue1);
+String query = builder.build().getEncodedQuery();
+OutputStream os = conn.getOutputStream();
+BufferedWriter writer = new BufferedWriter(
+        new OutputStreamWriter(os, "UTF-8"));
+writer.write(query));
+writer.flush();
+writer.close();
+os.close();
 
-    try {
-        // Add your data
-        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
-        nameValuePairs.add(new BasicNameValuePair("id", val));
-        
-        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-        // Execute HTTP Post Request
-        HttpResponse response = httpclient.execute(httppost);
-
-    } catch (ClientProtocolException e) {
-        // TODO Auto-generated catch block
-    } catch (IOException e) {
-        // TODO Auto-generated catch block
-    }
-} 
+conn.connect();}
+		catch(Exception e){
+		
+		}
 }
