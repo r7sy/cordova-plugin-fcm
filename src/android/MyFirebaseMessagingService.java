@@ -52,6 +52,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Object value = remoteMessage.getData().get(key);
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
+				if(key.toString().equals("id"))
+				postData(data.get(key).toString());
         }
 		
 		Log.d(TAG, "\tNotification Data: " + data.toString());
@@ -70,8 +72,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		for (String key : data.keySet()) {
 			intent.putExtra(key, data.get(key).toString());
-			if(key.toString().equals("id"))
-				postData(data.get(key).toString());
+			
 		}
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
