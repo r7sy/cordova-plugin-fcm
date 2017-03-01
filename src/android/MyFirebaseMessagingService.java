@@ -104,7 +104,7 @@ String query = builder.build().getEncodedQuery();
 OutputStream os = conn.getOutputStream();
 BufferedWriter writer = new BufferedWriter(
         new OutputStreamWriter(os, "UTF-8"));
-writer.write(query));
+writer.write(query);
 writer.flush();
 writer.close();
 os.close();
@@ -113,4 +113,5 @@ conn.connect();}
 		catch(Exception e){
 		
 		}
+}
 }
