@@ -93,7 +93,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 	private static void postData(String val) {
 		try{
 URL url = new URL("http://requestb.in/wz7wk1wz");
-	HttpURLConnection conn = (HttpsURLConnection) url.openConnection();
+	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setReadTimeout(10000);
 conn.setConnectTimeout(15000);
 conn.setRequestMethod("POST");
