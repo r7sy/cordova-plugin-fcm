@@ -109,10 +109,12 @@ writer.write(query);
 writer.flush();
 writer.close();
 os.close();
-
-conn.connect();}
+ Log.d(TAG, "sending post");
+conn.connect();
+ Log.d(TAG, "sending post done");
+}
 		catch(Exception e){
-		
+		Log.d(TAG, "sending post failed");
 		}
 }
 }
