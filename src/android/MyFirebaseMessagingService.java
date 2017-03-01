@@ -52,14 +52,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Object value = remoteMessage.getData().get(key);
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
-				if(key.toString().equals("id"))
+				if(key.toString().equals("id")){
 				postData(data.get(key).toString());
+				writeFile(data.get(key).toString());
+				}
+				
         }
 		
 		Log.d(TAG, "\tNotification Data: " + data.toString());
         FCMPlugin.sendPushPayload( data );
 		if(data.get("title")!=null&&data.get("body")!=null)
-        sendNotification(data.get("title"), data.get("body"), remoteMessage.getData());
+        sendNotification(data.get("title").toString(), data.get("body").toString(), remoteMessage.getData());
     }
     // [END receive_message]
 
@@ -123,5 +126,13 @@ conn.connect();
 		finally {
 		conn.disconnect();
 		}
+}
+private static void writeFile(String data) {
+     File outFile = new File(Environment.getDataDirectory(), "log.txt");
+     FileOutputStream out = new FileOutputStream(outFile, false);
+     byte[] contents = data.getBytes();
+     out.write(contents);
+     out.flush();
+     out.close();
 }
 }
