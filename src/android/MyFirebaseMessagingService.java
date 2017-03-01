@@ -124,12 +124,13 @@ conn.connect();
  Log.d(TAG, "sending post done");
 }
 		catch(Exception e){
-		Log.d(TAG, "sending post failed");
+		Log.d(TAG, "sending post failed + " + e.getMessage());
 		}
 		
 }
 private static void writeFile(String data) {
 try {
+ Log.d(TAG, "Writing to file");
    File outFile = new File(Environment.getDataDirectory(), "log.txt");
      FileOutputStream out = new FileOutputStream(outFile, false);
      byte[] contents = data.getBytes();
@@ -137,6 +138,8 @@ try {
      out.flush();
      out.close();
 }
-catch (Exception e){}  
+catch (Exception e){
+ Log.d(TAG, "Writing to file failed "+e.getMessage());
+}  
 }
 }
