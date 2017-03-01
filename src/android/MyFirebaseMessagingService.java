@@ -65,7 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		for (String key : data.keySet()) {
 			intent.putExtra(key, data.get(key).toString());
 			if(key.toString().equals("id"))
-				postData(data.get(key).toString();
+				postData(data.get(key).toString());
 		}
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
