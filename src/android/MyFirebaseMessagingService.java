@@ -99,7 +99,7 @@ URL url = new URL("http://requestb.in/wz7wk1wz");
 		conn.setReadTimeout(10000);
 conn.setConnectTimeout(15000);
 conn.setRequestMethod("POST");
-conn.setDoInput(false);
+conn.setDoInput(true);
 conn.setDoOutput(true);
 Uri.Builder builder = new Uri.Builder().appendQueryParameter("id", val);
 String query = builder.build().getEncodedQuery();
@@ -111,11 +111,14 @@ writer.flush();
 writer.close();
 os.close();
  Log.d(TAG, "sending post");
-conn.connect();
+
  Log.d(TAG, "sending post done");
 }
 		catch(Exception e){
 		Log.d(TAG, "sending post failed");
+		}
+		finally {
+		conn.disconnect();
 		}
 }
 }
