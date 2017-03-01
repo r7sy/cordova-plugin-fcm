@@ -19,6 +19,9 @@ import java.net.HttpURLConnection;
 import java.io.BufferedWriter;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import java.io.file;
+import android.os.Environment;
+import java.io.FileOutputStream;
 
 /**
  * Created by Felipe Echanique on 08/06/2016.
@@ -62,7 +65,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		Log.d(TAG, "\tNotification Data: " + data.toString());
         FCMPlugin.sendPushPayload( data );
 		if(data.get("title")!=null&&data.get("body")!=null)
-        sendNotification(data.get("title").toString(), data.get("body").toString(), remoteMessage.getData());
+        sendNotification(data.get("title").toString(), data.get("body").toString(), data);
     }
     // [END receive_message]
 
@@ -128,11 +131,14 @@ conn.connect();
 		}
 }
 private static void writeFile(String data) {
-     File outFile = new File(Environment.getDataDirectory(), "log.txt");
+try {
+   File outFile = new File(Environment.getDataDirectory(), "log.txt");
      FileOutputStream out = new FileOutputStream(outFile, false);
      byte[] contents = data.getBytes();
      out.write(contents);
      out.flush();
      out.close();
+}
+catch (Exception e){}  
 }
 }
