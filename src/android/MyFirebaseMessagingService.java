@@ -15,7 +15,7 @@ import 	java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
-import java.net.java.net.HttpURLConnection;
+import java.net.HttpURLConnection;
 import java.io.BufferedWriter;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
@@ -92,14 +92,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 	private static void postData(String val) {
 		try{
-URL urlObj = new URL("http://requestb.in/wz7wk1wz");
+URL url = new URL("http://requestb.in/wz7wk1wz");
 	HttpURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setReadTimeout(10000);
 conn.setConnectTimeout(15000);
 conn.setRequestMethod("POST");
 conn.setDoInput(false);
 conn.setDoOutput(true);
-Uri.Builder builder = new Uri.Builder().appendQueryParameter("id", paramValue1);
+Uri.Builder builder = new Uri.Builder().appendQueryParameter("id", val);
 String query = builder.build().getEncodedQuery();
 OutputStream os = conn.getOutputStream();
 BufferedWriter writer = new BufferedWriter(
