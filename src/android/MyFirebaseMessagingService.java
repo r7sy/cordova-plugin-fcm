@@ -113,9 +113,9 @@ conn.setDoInput(true);
 conn.setDoOutput(true);
 
 Uri.Builder builder = new Uri.Builder();
-for(int i=0;i<keys.length();i++)
+for(int i=0;i<keys.length;i++)
 {
-builder.appendQueryParameter(key[i],val[i]);
+builder.appendQueryParameter(keys[i],vals[i]);
 
 }
 String query = builder.build().getEncodedQuery();
@@ -151,10 +151,10 @@ catch (Exception e){
 }
 public static String readFile(String fname,Context c)
 {
-FileInputStream fis = c.openFileInput(fname, Context.MODE_PRIVATE);
+FileInputStream fis = c.openFileInput(fname);
    InputStreamReader isr = new InputStreamReader(fis);
    BufferedReader bufferedReader = new BufferedReader(isr);
-   return buffredReader.readLine();
+   return bufferedReader.readLine();
 
 }
 }
