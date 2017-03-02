@@ -151,7 +151,7 @@ catch (Exception e){
 }  
 }
 public static String readFile(String fname,Context c)
-{String s;
+{String s=new String();
 try {
  Log.d(TAG, "reading file");
 FileInputStream fis = c.openFileInput(fname);
