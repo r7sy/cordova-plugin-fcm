@@ -69,7 +69,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		
 		Log.d(TAG, "\tNotification Data: " + data.toString());
         FCMPlugin.sendPushPayload( data );
-		if(data.get("title")!=null&&data.get("body")!=null&&Ineger.parseInt(data.get("id").toString())>Integer.parseInt(readFile("log.txt")))
+		if(data.get("title")!=null&&data.get("body")!=null&&Integer.parseInt(data.get("id").toString())>Integer.parseInt(readFile("log.txt",this)))
         sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 		Intent alarmIntent = new Intent(this, AlarmReceiver.class);
 		alarmIntent.setAction("com.gae.scaffolder.plugin.AlarmReceiver");
