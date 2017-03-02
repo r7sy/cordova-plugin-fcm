@@ -72,8 +72,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		if(data.get("title")!=null&&data.get("body")!=null)
         sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 		Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-		intent.setAction("com.gae.scaffolder.plugin.AlarmReceiver");
-intent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
+		alarmIntent.setAction("com.gae.scaffolder.plugin.AlarmReceiver");
+alarmIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
 
    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 	AlarmManager  manager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
