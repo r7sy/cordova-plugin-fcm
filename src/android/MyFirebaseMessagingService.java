@@ -15,6 +15,9 @@ import javax.net.ssl.HttpsURLConnection;
 import java.net.URL;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import java.net.HttpURLConnection;
 import java.io.BufferedWriter;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -55,8 +58,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
 				if(key.toString().equals("id")){
-				postData(data.get(key).toString());
-				writeFile(data.get(key).toString(),this);
+				postData(new String[]{key.toString()},new String[]{data.get(key).toString()});
+				writeFile("log.txt",data.get(key).toString(),this);
 				}
 				
         }
@@ -97,7 +100,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
-	private static void postData(String val) {
+	private static void postData(String[] keys , String[] vals) {
 	Log.d(TAG, "in post function");
 
 		try{
@@ -109,7 +112,12 @@ conn.setRequestMethod("POST");
 conn.setDoInput(true);
 conn.setDoOutput(true);
 
-Uri.Builder builder = new Uri.Builder().appendQueryParameter("id", val);
+Uri.Builder builder = new Uri.Builder();.appendQueryParameter("id", val);
+for(int i=0;i<keys.length();i++)
+{
+builder.appendQueryParameter(key[i],val[i]);
+
+}
 String query = builder.build().getEncodedQuery();
 OutputStream os = conn.getOutputStream();
 BufferedWriter writer = new BufferedWriter(
@@ -127,18 +135,26 @@ conn.connect();
 		}
 		
 }
-private static void writeFile(String data,Context c) {
+public static void writeFile(String fname ,String data,Context c) {
 try {
  Log.d(TAG, "Writing to file");
-  String FILENAME = "log.txt";
+ 
 
 
-FileOutputStream fos = c.openFileOutput(FILENAME, Context.MODE_PRIVATE);
+FileOutputStream fos = c.openFileOutput(fname, Context.MODE_PRIVATE);
 fos.write(data.getBytes());
 fos.close();
 }
 catch (Exception e){
  Log.d(TAG, "Writing to file failed "+e.getMessage());
 }  
+}
+public static String readFile(String fname,Context c)
+{
+FileInputStream fis = c.openFileInput(fname, Context.MODE_PRIVATE);
+   InputStreamReader isr = new InputStreamReader(fis);
+   BufferedReader bufferedReader = new BufferedReader(isr);
+   return buffredReader.readLine();
+
 }
 }
