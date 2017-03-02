@@ -22,7 +22,10 @@ import java.net.HttpURLConnection;
 import java.io.BufferedWriter;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.lang.Runnable;
 import java.io.FileOutputStream;
 
 /**
@@ -71,6 +74,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         FCMPlugin.sendPushPayload( data );
 		if(data.get("title")!=null&&data.get("body")!=null)
         sendNotification(data.get("title").toString(), data.get("body").toString(), data);
+		
+		ScheduledExecutorService scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
+
+// This schedule a runnable task every 2 minutes
+scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
+  public void run() {
+  Log.d(TAG, "Periodic rdwan message");
+		
+  }
+}, 0, 5, TimeUnit.SECONDS);
     }
     // [END receive_message]
 
