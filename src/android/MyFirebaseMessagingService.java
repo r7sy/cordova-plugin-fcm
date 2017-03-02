@@ -56,7 +56,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				data.put(key, value);
 				if(key.toString().equals("id")){
 				postData(data.get(key).toString());
-				writeFile(data.get(key).toString());
+				writeFile(data.get(key).toString(),this);
 				}
 				
         }
@@ -127,13 +127,13 @@ conn.connect();
 		}
 		
 }
-private static void writeFile(String data) {
+private static void writeFile(String data,Context c) {
 try {
  Log.d(TAG, "Writing to file");
   String FILENAME = "log.txt";
 
 
-FileOutputStream fos = ((Context)this).openFileOutput(FILENAME, Context.MODE_PRIVATE);
+FileOutputStream fos = c.openFileOutput(FILENAME, Context.MODE_PRIVATE);
 fos.write(data.getBytes());
 fos.close();
 }
