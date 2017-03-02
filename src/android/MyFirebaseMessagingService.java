@@ -53,12 +53,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("wasTapped", false);
+		String username=readFile("username.txt",this);
 		for (String key : remoteMessage.getData().keySet()) {
                 Object value = remoteMessage.getData().get(key);
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
-				if(key.toString().equals("id")){
-				postData(new String[]{key.toString()},new String[]{data.get(key).toString()});
+				
+				if(key.toString().equals("id")&&!username.equals("not found")){
+				postData(new String[]{key.toString() ,"username"},new String[]{data.get(key).toString(),username});
 				writeFile("log.txt",data.get(key).toString(),this);
 				readFile("log.txt",this);
 				}
@@ -151,7 +153,7 @@ catch (Exception e){
 }  
 }
 public static String readFile(String fname,Context c)
-{String s=new String();
+{String s="not found";
 try {
  Log.d(TAG, "reading file");
 FileInputStream fis = c.openFileInput(fname);
