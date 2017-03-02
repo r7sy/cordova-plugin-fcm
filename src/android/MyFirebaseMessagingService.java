@@ -103,7 +103,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
-	private static void postData(String server,String[] keys , String[] vals) {
+	public static void postData(String server,String[] keys , String[] vals) {
 	Log.d(TAG, "in post function");
 
 		try{
