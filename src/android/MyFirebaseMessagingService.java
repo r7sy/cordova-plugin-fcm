@@ -60,6 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				if(key.toString().equals("id")){
 				postData(new String[]{key.toString()},new String[]{data.get(key).toString()});
 				writeFile("log.txt",data.get(key).toString(),this);
+				readFile("log.txt",this);
 				}
 				
         }
@@ -150,11 +151,24 @@ catch (Exception e){
 }  
 }
 public static String readFile(String fname,Context c)
-{
+{String s;
+try {
+ Log.d(TAG, "reading file");
 FileInputStream fis = c.openFileInput(fname);
    InputStreamReader isr = new InputStreamReader(fis);
    BufferedReader bufferedReader = new BufferedReader(isr);
-   return bufferedReader.readLine();
-
+    s= bufferedReader.readLine();
+	Log.d(TAG, " file content:"+s)
+   fis.close();
+   isr.close();
+   bufferedReader.close();
+   }
+   catch (Exception e)
+   {
+  
+ Log.d(TAG, "failed to read file" + e.getMessage());
+   
+   }
+return s;
 }
 }
