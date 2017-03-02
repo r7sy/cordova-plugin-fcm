@@ -133,7 +133,7 @@ try {
   String FILENAME = "log.txt";
 
 
-FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+FileOutputStream fos = ((Context)this).openFileOutput(FILENAME, Context.MODE_PRIVATE);
 fos.write(data.getBytes());
 fos.close();
 }
