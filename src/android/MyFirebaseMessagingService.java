@@ -158,7 +158,7 @@ FileInputStream fis = c.openFileInput(fname);
    InputStreamReader isr = new InputStreamReader(fis);
    BufferedReader bufferedReader = new BufferedReader(isr);
     s= bufferedReader.readLine();
-	Log.d(TAG, " file content:"+s)
+	Log.d(TAG, " file content:"+s);
    fis.close();
    isr.close();
    bufferedReader.close();
