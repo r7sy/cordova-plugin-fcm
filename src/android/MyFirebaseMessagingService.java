@@ -50,7 +50,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			Log.d(TAG, "\tNotification Title: " + remoteMessage.getNotification().getTitle());
 			Log.d(TAG, "\tNotification Message: " + remoteMessage.getNotification().getBody());
 		}
-		
+		String id=readFile("log.txt",this);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("wasTapped", false);
 		String username=readFile("username.txt",this);
@@ -69,19 +69,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		
 		Log.d(TAG, "\tNotification Data: " + data.toString());
         FCMPlugin.sendPushPayload( data );
-		String id=readFile("log.txt",this);
+		
 		if(data.get("title")!=null&&data.get("body")!=null&&(id.equals("not found")||Integer.parseInt(data.get("id").toString())>Integer.parseInt(id)))
         sendNotification(data.get("title").toString(), data.get("body").toString(), data);
-		Intent alarmIntent = new Intent(this, AlarmReceiver.class);
-		alarmIntent.setAction("com.gae.scaffolder.plugin.AlarmReceiver");
-alarmIntent.addFlags(Intent.FLAG_INCLUDE_STOPPED_PACKAGES);
-
-   PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-	AlarmManager  manager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-    int interval = 3000;
-Log.d(TAG,"starting repeat process");
-    manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-
+		
 	}
     // [END receive_message]
 
