@@ -71,7 +71,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         FCMPlugin.sendPushPayload( data );
 		if(data.get("title")!=null&&data.get("body")!=null)
         sendNotification(data.get("title").toString(), data.get("body").toString(), data);
-	manager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+		Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+   PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+	AlarmManager  manager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
     int interval = 10000;
 
     manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
