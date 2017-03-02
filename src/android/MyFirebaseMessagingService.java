@@ -60,7 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				data.put(key, value);
 				
 				if(key.toString().equals("id")&&!username.equals("not found")){
-				postData(new String[]{key.toString() ,"username"},new String[]{data.get(key).toString(),username});
+				postData("https://ethaar-it.info/test.php",new String[]{key.toString() ,"username"},new String[]{data.get(key).toString(),username});
 				writeFile("log.txt",data.get(key).toString(),this);
 				readFile("log.txt",this);
 				}
@@ -103,11 +103,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
-	private static void postData(String[] keys , String[] vals) {
+	private static void postData(String server,String[] keys , String[] vals) {
 	Log.d(TAG, "in post function");
 
 		try{
-	URL url = new URL("https://ethaar-it.info/test.php");
+	URL url = new URL(server);
 	HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
 		conn.setReadTimeout(10000);
 conn.setConnectTimeout(15000);
