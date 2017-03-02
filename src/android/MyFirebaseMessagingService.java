@@ -19,8 +19,7 @@ import java.net.HttpURLConnection;
 import java.io.BufferedWriter;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import java.io.File;
-import android.os.Environment;
+
 import java.io.FileOutputStream;
 
 /**
@@ -131,12 +130,12 @@ conn.connect();
 private static void writeFile(String data) {
 try {
  Log.d(TAG, "Writing to file");
-   File outFile = new File(Environment.getDataDirectory(), "log.txt");
-     FileOutputStream out = new FileOutputStream(outFile, false);
-     byte[] contents = data.getBytes();
-     out.write(contents);
-     out.flush();
-     out.close();
+  String FILENAME = "log.txt";
+
+
+FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);
+fos.write(data.getBytes());
+fos.close();
 }
 catch (Exception e){
  Log.d(TAG, "Writing to file failed "+e.getMessage());
