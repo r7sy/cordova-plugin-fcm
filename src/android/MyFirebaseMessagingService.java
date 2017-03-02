@@ -74,8 +74,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		Intent alarmIntent = new Intent(this, AlarmReceiver.class);
    PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
 	AlarmManager  manager = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
-    int interval = 10000;
-
+    int interval = 3000;
+Log.d(TAG,"starting repeat process");
     manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
 
 	}
