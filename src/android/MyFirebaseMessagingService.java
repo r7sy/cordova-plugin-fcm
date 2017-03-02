@@ -121,7 +121,7 @@ writer.close();
 os.close();
  Log.d(TAG, "sending post");
 conn.connect();
- Log.d(TAG, "sending post done");
+ Log.d(TAG, "sending post done" +conn.getResponseCode());
 }
 		catch(Exception e){
 		Log.d(TAG, "sending post failed + " + e.getMessage());
