@@ -149,7 +149,9 @@ try {
 FileOutputStream fos = c.openFileOutput(fname, (append ?Context.MODE_APPEND:Context.MODE_PRIVATE));
 BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(fos));
 
-bufferedWriter.writeLine(data);
+bufferedWriter.write(data,0,data.length());
+bufferedWriter.newLine();
+bufferedWriter.flush();
 bufferedWriter.close();
 fos.close();
 }
