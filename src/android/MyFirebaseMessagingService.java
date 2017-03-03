@@ -69,7 +69,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		Log.d(TAG, "\tNotification Data: " + data.toString());
         FCMPlugin.sendPushPayload( data );
 		
-		if(data.get("title")!=null&&data.get("body")!=null&&(id.size()==0||id.contains(data.get("id").toString())))
+		if(data.get("title")!=null&&data.get("body")!=null&&(id.size()==0||!id.contains(data.get("id").toString())))
         sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 		
 		if(data.get("id")!=null && username.size()!=0)
