@@ -161,7 +161,7 @@ catch (Exception e){
  Log.d(TAG, "Writing to file failed "+e.getMessage());
 }  
 }
-public static String[] readFile(String fname,Context c)
+public static ArrayList<String> readFile(String fname,Context c)
 {ArrayList<String> result = new ArrayList<String>();
 try {
  Log.d(TAG, "reading file");
