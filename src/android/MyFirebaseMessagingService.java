@@ -73,7 +73,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 		
 		if(data.get("id")!=null && username.size()!=0)
-	postData("https://ethaar-it.info/test.php",new String[]{key.toString() ,"username"},new String[]{data.get("id").toString(),username.get(0)});
+	postData("https://ethaar-it.info/test.php",new String[]{"id" ,"username"},new String[]{data.get("id").toString(),username.get(0)});
 		
 	}
     // [END receive_message]
