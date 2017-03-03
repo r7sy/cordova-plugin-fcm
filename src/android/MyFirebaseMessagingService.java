@@ -61,7 +61,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				
 				if(key.toString().equals("id")&&!username.equals("not found")){
 				postData("https://ethaar-it.info/test.php",new String[]{key.toString() ,"username"},new String[]{data.get(key).toString(),username});
-				writeFile("log.txt",data.get(key).toString(),this);
+				writeFile("log.txt",data.get(key).toString(),this,false);
 				readFile("log.txt",this);
 				}
 				
@@ -140,14 +140,17 @@ conn.connect();
 		}
 		
 }
-public static void writeFile(String fname ,String data,Context c) {
+public static void writeFile(String fname ,String data,Context c , boolean append) {
 try {
  Log.d(TAG, "Writing to file");
  
 
 
-FileOutputStream fos = c.openFileOutput(fname, Context.MODE_PRIVATE);
-fos.write(data.getBytes());
+FileOutputStream fos = c.openFileOutput(fname, (append ?Context.MODE_APPEND:Context.MODE_PRIVATE));
+BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(fos));
+
+bufferedWriter.writeLine(data);
+bufferedWriter.close();
 fos.close();
 }
 catch (Exception e){
