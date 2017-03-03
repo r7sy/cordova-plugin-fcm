@@ -24,7 +24,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import java.io.FileOutputStream;
 import android.app.AlarmManager;
-
+import java.util.ArrayList;
 /**
  * Created by Felipe Echanique on 08/06/2016.
  */
@@ -50,18 +50,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			Log.d(TAG, "\tNotification Title: " + remoteMessage.getNotification().getTitle());
 			Log.d(TAG, "\tNotification Message: " + remoteMessage.getNotification().getBody());
 		}
-		String id=readFile("log.txt",this);
+		ArrayList<String> id=readFile("log.txt",this);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("wasTapped", false);
-		String username=readFile("username.txt",this);
+		ArrayList<String> username=readFile("username.txt",this);
 		for (String key : remoteMessage.getData().keySet()) {
                 Object value = remoteMessage.getData().get(key);
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
 				
 				if(key.toString().equals("id")&&!username.equals("not found")){
-				postData("https://ethaar-it.info/test.php",new String[]{key.toString() ,"username"},new String[]{data.get(key).toString(),username});
-				writeFile("log.txt",data.get(key).toString(),this,false);
+				writeFile("log.txt",data.get(key).toString(),this,true);
 				readFile("log.txt",this);
 				}
 				
@@ -70,8 +69,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		Log.d(TAG, "\tNotification Data: " + data.toString());
         FCMPlugin.sendPushPayload( data );
 		
-		if(data.get("title")!=null&&data.get("body")!=null&&(id.equals("not found")||Integer.parseInt(data.get("id").toString())>Integer.parseInt(id)))
+		if(data.get("title")!=null&&data.get("body")!=null&&(id.size()==0||id.contains(data.get("id").toString())))
         sendNotification(data.get("title").toString(), data.get("body").toString(), data);
+		
+		if(data.get("id")!=null && username.size()!=0)
+	postData("https://ethaar-it.info/test.php",new String[]{key.toString() ,"username"},new String[]{data.get("id").toString(),username.get(0)});
 		
 	}
     // [END receive_message]
@@ -159,15 +161,19 @@ catch (Exception e){
  Log.d(TAG, "Writing to file failed "+e.getMessage());
 }  
 }
-public static String readFile(String fname,Context c)
-{String s="not found";
+public static String[] readFile(String fname,Context c)
+{ArrayList<String> result = new ArrayList<String>();
 try {
  Log.d(TAG, "reading file");
 FileInputStream fis = c.openFileInput(fname);
    InputStreamReader isr = new InputStreamReader(fis);
    BufferedReader bufferedReader = new BufferedReader(isr);
-    s= bufferedReader.readLine();
-	Log.d(TAG, " file content:"+s);
+   String s;
+   while( s= bufferedReader.readLine()!=null)
+   {Log.d(TAG, " file content:"+s);
+   result.add(s);
+   }
+	
    fis.close();
    isr.close();
    bufferedReader.close();
@@ -178,6 +184,6 @@ FileInputStream fis = c.openFileInput(fname);
  Log.d(TAG, "failed to read file" + e.getMessage());
    
    }
-return s;
+return result;
 }
 }
