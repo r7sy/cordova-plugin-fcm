@@ -59,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
 				
-				if(key.toString().equals("id")&&!username.equals("not found")){
+				if(key.toString().equals("id")&&username.size()!=0 && ! id.contains(data.get("id").toString())){
 				writeFile("log.txt",data.get(key).toString(),this,true);
 				readFile("log.txt",this);
 				}
