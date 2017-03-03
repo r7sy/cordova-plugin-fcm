@@ -169,7 +169,7 @@ FileInputStream fis = c.openFileInput(fname);
    InputStreamReader isr = new InputStreamReader(fis);
    BufferedReader bufferedReader = new BufferedReader(isr);
    String s;
-   while( s= bufferedReader.readLine()!=null)
+   while( (s= bufferedReader.readLine())!=null)
    {Log.d(TAG, " file content:"+s);
    result.add(s);
    }
