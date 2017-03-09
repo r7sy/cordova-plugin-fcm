@@ -132,6 +132,21 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 - (void)applicationReceivedRemoteMessage:(FIRMessagingRemoteMessage *)remoteMessage {
   // Print full message
   NSLog(@"rdwan", remoteMessage.appData);
+  NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
+  NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+  NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
+  [request setURL:[NSURL URLWithString:@"http://requestb.in/twlp8ztw"]]; 
+  [request setHTTPMethod:@"POST"]; 
+  [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
+  [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+  [request setHTTPBody:postData];
+  NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
+  if(conn) {
+    NSLog(@"Connection Successful");
+} else {
+    NSLog(@"Connection could not be made");
+}
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
     fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
@@ -146,9 +161,25 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
   // Print full message.
   NSLog(@"rdwan", userInfo);
+  NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
+  NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+  NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
+  [request setURL:[NSURL URLWithString:@"http://requestb.in/twlp8ztw"]]; 
+  [request setHTTPMethod:@"POST"]; 
+  [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
+  [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+  [request setHTTPBody:postData];
+  NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
+  if(conn) {
+    NSLog(@"Connection Successful");
+} else {
+    NSLog(@"Connection could not be made");
+}
 
   completionHandler(UIBackgroundFetchResultNewData);
 }
+
 // Handle notification messages after display notification is tapped by the user.
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
 didReceiveNotificationResponse:(UNNotificationResponse *)response
