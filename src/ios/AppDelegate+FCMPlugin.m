@@ -129,7 +129,26 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     // Change this to your preferred presentation option
     completionHandler(UNNotificationPresentationOptionNone);
 }
+- (void)applicationReceivedRemoteMessage:(FIRMessagingRemoteMessage *)remoteMessage {
+  // Print full message
+  NSLog(@"rdwan", remoteMessage.appData);
+}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+    fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+  // If you are receiving a notification message while your app is in the background,
+  // this callback will not be fired till the user taps on the notification launching the application.
+  // TODO: Handle data of notification
 
+  // Print message ID.
+  if (userInfo[kGCMMessageIDKey]) {
+    NSLog(@"rdwan", userInfo[kGCMMessageIDKey]);
+  }
+
+  // Print full message.
+  NSLog(@"rdwan", userInfo);
+
+  completionHandler(UIBackgroundFetchResultNewData);
+}
 // Handle notification messages after display notification is tapped by the user.
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center
 didReceiveNotificationResponse:(UNNotificationResponse *)response
