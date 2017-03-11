@@ -162,7 +162,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type
 {
     NSLog(@"didReceiveIncomingPushWithPayload",@"message recieved");
-	 NSLog(@"rdwan", userInfo);
+	
   NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
   NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
