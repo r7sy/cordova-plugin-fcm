@@ -18,6 +18,7 @@
   under the License.
 -->
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+ xmlns:android="http://schemas.android.com/apk/res/android"
            id="cordova-plugin-fcm"
       version="2.1.1">
     <name>FCMPlugin</name>
@@ -40,12 +41,6 @@
 	
     <!-- ANDROID CONFIGURATION -->
     <platform name="android">
-	    <config-file target="AndroidManifest.xml" parent="/*">
-            <uses-permission android:name="android.permission.INTERNET" />
-        </config-file>
-	    <config-file target="AndroidManifest.xml" parent="/manifest/application">
-	    <receiver android:name="AlarmReceiver"></receiver>
-		    </config-file>
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
 			<activity android:exported="true" android:name="com.gae.scaffolder.plugin.FCMPluginActivity" android:launchMode="singleTop">
 				<intent-filter>   
@@ -75,7 +70,7 @@
         <framework src="com.google.firebase:firebase-messaging:+" />
 		
 		<framework src="src/android/FCMPlugin.gradle" custom="true" type="gradleReference"/>
-		<source-file src="src/android/AlarmReceiver.java" target-dir="src/com/gae/scaffolder/plugin" />
+			
 		<source-file src="src/android/FCMPlugin.java" target-dir="src/com/gae/scaffolder/plugin" />
 		<source-file src="src/android/MyFirebaseMessagingService.java" target-dir="src/com/gae/scaffolder/plugin" />
 		<source-file src="src/android/MyFirebaseInstanceIDService.java" target-dir="src/com/gae/scaffolder/plugin" />
