@@ -23,7 +23,7 @@ import java.io.BufferedWriter;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import java.io.FileOutputStream;
-import android.app.AlarmManager;
+
 import java.util.ArrayList;
 /**
  * Created by Felipe Echanique on 08/06/2016.
