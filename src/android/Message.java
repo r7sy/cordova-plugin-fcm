@@ -11,6 +11,7 @@ public class Message {
 	public Message(String id , String title , String body , String senderId,String senderName,String arrivalTime)
 	{ 
 	this.id=id;
+	this.title=title;
 	this.body=body;
 	this.senderId=senderId;
 	this.senderName =senderName;
