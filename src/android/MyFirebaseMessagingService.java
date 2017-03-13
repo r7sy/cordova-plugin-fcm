@@ -211,10 +211,10 @@ FileInputStream fis = c.openFileInput(fname);
   return messages;
 }
  public static Message readMessage(JsonReader reader) throws IOException {
-      String id;
-	 String title;
-	 String body;
-	 String senderId;
+      String id=null;
+	 String titleid=null;
+	 String bodyid=null;
+	 String senderIdid=null;
 	String arrivalTime=null;
 
      reader.beginObject();
