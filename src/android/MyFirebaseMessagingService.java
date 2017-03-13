@@ -53,7 +53,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			Log.d(TAG, "\tNotification Message: " + remoteMessage.getNotification().getBody());
 		}
 		ArrayList<String> id=readFile("log.txt",this);
-		Map<String, Object> data = new HashMap<String, String>();
+		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("wasTapped", false);
 		ArrayList<String> username=readFile("username.txt",this);
 		for (String key : remoteMessage.getData().keySet()) {
