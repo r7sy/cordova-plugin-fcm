@@ -24,7 +24,7 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import java.io.FileOutputStream;
 import android.util.JsonWriter;
-
+import 	java.io.IOException;
 import android.util.JsonReader;
 import java.util.ArrayList;
 /**
@@ -210,7 +210,7 @@ FileInputStream fis = c.openFileInput(fname);
 	}
   return messages;
 }
- public Message readMessage(JsonReader reader) throws IOException {
+ public static Message readMessage(JsonReader reader) throws IOException {
       String id;
 	 String title;
 	 String body;
@@ -223,7 +223,7 @@ FileInputStream fis = c.openFileInput(fname);
        if (name.equals("id")) {
          id = reader.nextString();
        } else if (name.equals("title")) {
-         text = reader.nextString();
+         title = reader.nextString();
        } else if (name.equals("body") ) {
          body=reader.nextString();
        } else if (name.equals("arrivalTime")) {
