@@ -53,11 +53,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			Log.d(TAG, "\tNotification Message: " + remoteMessage.getNotification().getBody());
 		}
 		ArrayList<String> id=readFile("log.txt",this);
-		Map<String, String> data = new HashMap<String, String>();
+		Map<String, Object> data = new HashMap<String, String>();
 		data.put("wasTapped", false);
 		ArrayList<String> username=readFile("username.txt",this);
 		for (String key : remoteMessage.getData().keySet()) {
-                String value = remoteMessage.getData().get(key);
+                Object value = remoteMessage.getData().get(key);
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
 				
@@ -75,7 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 			ArrayList<Message> messages =new ArrayList<Message>();
 			readJsonFile("messages.json",this,messages);
-			messages.add(new Message(data.get("id"),data.get("title"),data.get("body"),data.get("senderId"),data.get("senderName"),null));
+			messages.add(new Message(remoteMessage.getData().get("id"),remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),remoteMessage.getData().get("senderId"),remoteMessage.getData().get("senderName"),null));
 			writeJsonFile("messages.json",this,messages);
 			}
 		
