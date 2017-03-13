@@ -23,7 +23,9 @@ import java.io.BufferedWriter;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import java.io.FileOutputStream;
+import android.util.JsonWriter;
 
+import android.util.JsonReader;
 import java.util.ArrayList;
 /**
  * Created by Felipe Echanique on 08/06/2016.
@@ -61,7 +63,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				
 				if(key.toString().equals("id")&&username.size()!=0 && ! id.contains(data.get("id").toString())){
 				writeFile("log.txt",data.get(key).toString(),this,true);
-				readFile("log.txt",this);
+				
 				}
 				
         }
@@ -186,4 +188,51 @@ FileInputStream fis = c.openFileInput(fname);
    }
 return result;
 }
+public static ArrayList<Message> readJsonFile(String fname,Context c)
+{
+	ArrayList<Message> messages = new ArrayList<Message>();
+	try{
+	
+FileInputStream fis = c.openFileInput(fname);
+	 InputStreamReader isr = new InputStreamReader(fis);
+  JsonReader reader=new JsonReader(isr);
+  reader.beginArray();
+    while (reader.hasNext()) {
+       messages.add(readMessage(reader));
+     }
+  reader.endArray();
+  reader.close();	
+		
+	}
+	catch(Exception e){
+ Log.d(TAG, "failed to read json file" + e.getMessage());
+		
+	}
+  return messages;
+}
+ public Message readMessage(JsonReader reader) throws IOException {
+      String id;
+	 String title;
+	 String body;
+	 String senderId;
+	String arrivalTime=null;
+
+     reader.beginObject();
+     while (reader.hasNext()) {
+       String name = reader.nextName();
+       if (name.equals("id")) {
+         id = reader.nextString();
+       } else if (name.equals("title")) {
+         text = reader.nextString();
+       } else if (name.equals("body") ) {
+         body=reader.nextString();
+       } else if (name.equals("arrivalTime")) {
+         arrivalTime=reader.nextString();
+       } else {
+         reader.skipValue();
+       }
+     }
+     reader.endObject();
+     return new Message(id, title , body , senderId ,arrivalTime );
+   }
 }
