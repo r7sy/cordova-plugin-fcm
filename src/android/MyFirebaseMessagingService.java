@@ -72,7 +72,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         FCMPlugin.sendPushPayload( data );
 		
 		if(data.get("title")!=null&&data.get("body")!=null&&data.get("id")!=null&&(id.size()==0||!id.contains(data.get("id").toString())))
-        sendNotification(data.get("title").toString(), data.get("body").toString(), data);
+        {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
+			ArrayList<Message> messages =new ArrayList<Message>();
+			readJsonFile("messages.json",this,messages);
+			messages.add(new Message(data.get("id"),data.get("title"),data.get("body"),data.get("senderId"),data.get("senderName"),null);
+			writeJsonFile("messages.json",this,messages);
+			}
 		
 		if(data.get("id")!=null && username.size()!=0)
 	postData("https://ethaar-it.info/test.php",new String[]{"id" ,"username"},new String[]{data.get("id").toString(),username.get(0)});
@@ -188,9 +193,8 @@ FileInputStream fis = c.openFileInput(fname);
    }
 return result;
 }
-public static ArrayList<Message> readJsonFile(String fname,Context c)
+public static void readJsonFile(String fname,Context c,ArrayList<Message> messages)
 {
-	ArrayList<Message> messages = new ArrayList<Message>();
 	try{
 	
 FileInputStream fis = c.openFileInput(fname);
@@ -208,13 +212,14 @@ FileInputStream fis = c.openFileInput(fname);
  Log.d(TAG, "failed to read json file" + e.getMessage());
 		
 	}
-  return messages;
 }
  public static Message readMessage(JsonReader reader) throws IOException {
       String id=null;
-	 String titleid=null;
-	 String bodyid=null;
-	 String senderIdid=null;
+	 String title=null;
+	 String body=null;
+	 String senderId=null;
+	 
+	 String senderName=null;
 	String arrivalTime=null;
 
      reader.beginObject();
@@ -226,6 +231,10 @@ FileInputStream fis = c.openFileInput(fname);
          title = reader.nextString();
        } else if (name.equals("body") ) {
          body=reader.nextString();
+       } else if (name.equals("senderName")) {
+         senderName=reader.nextString();
+       } else if (name.equals("senderId")) {
+         senderId=reader.nextString();
        } else if (name.equals("arrivalTime")) {
          arrivalTime=reader.nextString();
        } else {
@@ -233,6 +242,41 @@ FileInputStream fis = c.openFileInput(fname);
        }
      }
      reader.endObject();
-     return new Message(id, title , body , senderId ,arrivalTime );
+     return new Message(id, title , body , senderId ,senderName,arrivalTime );
+   }
+   public static writeJsonFile(String fname ,Context c, ArrayList<Message> messages)
+   {
+	   try {
+ Log.d(TAG, "Writing to file");
+ 
+
+
+FileOutputStream fos = c.openFileOutput(fname, Context.MODE_PRIVATE);
+JsonWriter writer = new JsonWriter(new OutputStreamWriter(fos));
+writer.setIndent("  ");
+writer.beginArray();
+     for (Message message : messages) {
+       writeMessage(writer, message);
+     }
+     writer.endArray();
+writer.close();
+}
+catch (Exception e){
+ Log.d(TAG, "Writing to json file failed "+e.getMessage());
+}  
+
+	   
+   }
+    public static void writeMessage(JsonWriter writer, Message message) throws IOException {
+     writer.beginObject();
+     writer.name("id").value(message.getId());
+     writer.name("title").value(message.getTitle());
+     writer.name("body").value(message.getBody());
+     writer.name("senderId").value(message.getSenderId());
+	 
+     writer.name("senderName").value(message.getSenderName());
+	 writer.name("arrivalTime").value(Long.toString(message.getArrivalTime()));
+    
+     writer.endObject();
    }
 }
