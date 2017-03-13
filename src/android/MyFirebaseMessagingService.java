@@ -75,7 +75,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 			ArrayList<Message> messages =new ArrayList<Message>();
 			readJsonFile("messages.json",this,messages);
-			messages.add(new Message(data.get("id"),data.get("title"),data.get("body"),data.get("senderId"),data.get("senderName"),null);
+			messages.add(new Message(data.get("id"),data.get("title"),data.get("body"),data.get("senderId"),data.get("senderName"),null));
 			writeJsonFile("messages.json",this,messages);
 			}
 		
@@ -244,10 +244,10 @@ FileInputStream fis = c.openFileInput(fname);
      reader.endObject();
      return new Message(id, title , body , senderId ,senderName,arrivalTime );
    }
-   public static writeJsonFile(String fname ,Context c, ArrayList<Message> messages)
+   public static void writeJsonFile(String fname ,Context c, ArrayList<Message> messages)
    {
 	   try {
- Log.d(TAG, "Writing to file");
+ Log.d(TAG, "Writing to json file");
  
 
 
