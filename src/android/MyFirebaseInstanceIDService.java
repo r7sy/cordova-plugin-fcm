@@ -18,11 +18,11 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         // Get updated InstanceID token.
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
         Log.d(TAG, "Refreshed token: " + refreshedToken);
-		ArrayList<String> s= MyFirebaseMessagingService.readFile("username.txt",this);
+		ArrayList<String> s= MyFirebaseMessagingService.readFile("mobileNumber.txt",this);
 		if(s.size()!=0)
 		{
 		MyFirebaseMessagingService.postData("https://ethaar-it.info/registerUser.php"
-		,new String[]{"username","token"},new String[]{s.get(0),refreshedToken});
+		,new String[]{"mobileNumber","token" , "OS"},new String[]{s.get(0),refreshedToken,"android"});
 		}
 		FCMPlugin.sendTokenRefresh( refreshedToken );
 
