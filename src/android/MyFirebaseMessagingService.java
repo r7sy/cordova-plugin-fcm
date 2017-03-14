@@ -55,7 +55,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		ArrayList<String> id=readFile("log.txt",this);
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("wasTapped", false);
-		ArrayList<String> username=readFile("username.txt",this);
+		ArrayList<String> username=readFile("mobileNumber.txt",this);
 		for (String key : remoteMessage.getData().keySet()) {
                 Object value = remoteMessage.getData().get(key);
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
@@ -80,7 +80,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			}
 		
 		if(data.get("id")!=null && username.size()!=0)
-	postData("https://ethaar-it.info/test.php",new String[]{"id" ,"username"},new String[]{data.get("id").toString(),username.get(0)});
+	postData("https://ethaar-it.info/confirmRecieve.php",new String[]{"id" ,"mobileNumber"},new String[]{data.get("id").toString(),username.get(0)});
 		
 	}
     // [END receive_message]
