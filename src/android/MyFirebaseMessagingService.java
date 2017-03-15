@@ -69,8 +69,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 		
 		Log.d(TAG, "\tNotification Data: " + data.toString());
-        FCMPlugin.sendPushPayload( data );
-		
+       
 		if(data.get("title")!=null&&data.get("body")!=null&&data.get("id")!=null&&(id.size()==0||!id.contains(data.get("id").toString())))
         {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 			ArrayList<Message> messages =new ArrayList<Message>();
@@ -81,6 +80,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		
 		if(data.get("id")!=null && username.size()!=0)
 	postData("https://ethaar-it.info/confirmRecieve.php",new String[]{"id" ,"mobileNumber"},new String[]{data.get("id").toString(),username.get(0)});
+		   
+		   FCMPlugin.sendPushPayload( data );
 		
 	}
     // [END receive_message]
