@@ -318,14 +318,14 @@ catch (Exception e){
 	  
    }
    public static String getSenderSound(String id,Context c)
-   {
+   {  Log.d(TAG, "getting id for sender " + id);
 	   ArrayList<Sender> senders = new ArrayList<Sender>();
 	   try{
 		readJsonFile("senders.json",c,senders);
 	   for(int i=0; i < senders.size() ;i++)
 	   {
 		   if(senders.get(i).getId().equals(id))
-		   {
+		   {  Log.d(TAG, "getting id for sender " + id + senders.get(i).getSound() );
 			   return senders.get(i).getSound();
 		   }
 		   
@@ -334,7 +334,7 @@ catch (Exception e){
 	   {
 		   Log.d(TAG, e.getMessage());
 	   }
-	   
+	   Log.d(TAG, "getting id for sender null " + id + senders.get(i).getSound() );
 	   
 	   return null;
    }
