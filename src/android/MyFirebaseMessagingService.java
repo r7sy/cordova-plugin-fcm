@@ -27,6 +27,7 @@ import android.util.JsonWriter;
 import 	java.io.IOException;
 import android.util.JsonReader;
 import java.util.ArrayList;
+import android.database.Cursor;
 /**
  * Created by Felipe Echanique on 08/06/2016.
  */
