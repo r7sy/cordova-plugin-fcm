@@ -26,8 +26,8 @@ FCMPlugin.prototype.getToken = function( success, error ){
 	exec(success, error, "FCMPlugin", 'getToken', []);
 }
 // PICK RINGTONE //
-FCMPlugin.prototype.pickRingtone = function( success, error ){
-	exec(success, error, "FCMPlugin", 'ringtone', []);
+FCMPlugin.prototype.pickRingtone = function(id,success, error ){
+	exec(success, error, "FCMPlugin", 'ringtone', [id]);
 }
 
 // DEFAULT NOTIFICATION CALLBACK //
