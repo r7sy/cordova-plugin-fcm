@@ -60,7 +60,7 @@ public class FCMPlugin extends CordovaPlugin {
 		   PluginResult r = new PluginResult(PluginResult.Status.NO_RESULT);
 			r.setKeepCallback(true);
 			callbackContext.sendPluginResult(r);
-			cordova.getActivity().startActivityForResult(intent, 5);
+			cordova.startActivityForResult(intent, 5);
 			return true;
 		}
 			// GET TOKEN //
@@ -179,6 +179,7 @@ public class FCMPlugin extends CordovaPlugin {
 	@Override
 public void onActivityResult(final int requestCode, final int resultCode, final Intent intent)
  {
+	 Log.d(TAG, "==> FCMPlugin onActivityResult");
      if (resultCode == Activity.RESULT_OK && requestCode == 5)
      {
           Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
@@ -192,6 +193,7 @@ public void onActivityResult(final int requestCode, final int resultCode, final 
               result =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString();
 			
 		 }
+		  Log.d(TAG, result);
 		  this.callback.success( result);
 
 		  
