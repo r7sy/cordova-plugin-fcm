@@ -93,7 +93,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      * @param messageBody FCM message body received.
      */
     private void sendNotification(String title, String messageBody, Map<String, Object> data) {
-        Intent intent = new Intent(this, FCMPluginActivity.class);
+        String senderId= data.get("senderId").toString();
+		Intent intent = new Intent(this, FCMPluginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		for (String key : data.keySet()) {
 			intent.putExtra(key, data.get(key).toString());
@@ -101,16 +102,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		}
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-
-        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		String sound =FCMPlugin.getSenderSound(senderId);
+		   Uri soundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+		if(sound!=null&& !sound.equals("none") )
+		{
+			Uri soundUri= Uri.parse(sound;);
+		}
+     
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(getApplicationInfo().icon)
                 .setContentTitle(title)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
-                .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
-
+               .setContentIntent(pendingIntent);
+			if(!sound.equals("none"))
+				 notificationBuilder.setSound(soundUri)
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
