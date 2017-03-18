@@ -312,7 +312,7 @@ catch (Exception e){
 	   {
 		   if(senders.get(i).getId().equals(id))
 		   {
-			   return senders.get(i).getSound);
+			   return senders.get(i).getSound();
 		   }
 		   
 	   }
