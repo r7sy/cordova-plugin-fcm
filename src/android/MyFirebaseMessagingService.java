@@ -285,7 +285,7 @@ catch (Exception e){
     manager.setType(RingtoneManager.TYPE_NOTIFICATION);
     Cursor cursor = manager.getCursor();
 
-    ArrayList<String> list = new ArrayList<>();
+    ArrayList<String> list = new ArrayList<String>();
     while (cursor.moveToNext()) {
         String id = cursor.getString(RingtoneManager.ID_COLUMN_INDEX);
         String uri = cursor.getString(RingtoneManager.URI_COLUMN_INDEX);
