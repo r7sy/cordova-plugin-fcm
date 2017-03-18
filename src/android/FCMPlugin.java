@@ -265,7 +265,7 @@ JsonWriter writer = new JsonWriter(new OutputStreamWriter(fos));
 writer.setIndent("  ");
 writer.beginArray();
      for (Sender sender : senders) {
-       writeMessage(writer, sender);
+       writeSender(writer, sender);
      }
      writer.endArray();
 writer.close();
@@ -286,7 +286,7 @@ catch (Exception e){
    }
    public  void updateSenderSound(String id , String sound)
    { ArrayList<Sender> senders = new ArrayList<Sender>();
-	   readJsonFile("senders.json",this,senders);
+	   readJsonFile("senders.json",cordova.getActivity(),senders);
 	   boolean found = false;
 	   for(int i=0; i < senders.size() ;i++)
 	   {
@@ -303,7 +303,7 @@ catch (Exception e){
 		   senders.add(new Sender(id,sound));
 		   
 	   }
-	   writeJsonFile("senders.json",this,senders);
+	   writeJsonFile("senders.json",cordova.getActivity(),senders);
    }
    public static String getSenderSound(String id,Context c)
    {
