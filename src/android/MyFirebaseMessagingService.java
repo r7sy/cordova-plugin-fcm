@@ -106,7 +106,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		   Uri soundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		if(sound!=null&& !sound.equals("none") )
 		{
-			Uri soundUri= Uri.parse(sound;);
+			Uri soundUri= Uri.parse(sound);
 		}
      
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -116,7 +116,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                .setContentIntent(pendingIntent);
 			if(!sound.equals("none"))
-				 notificationBuilder.setSound(soundUri)
+				 notificationBuilder.setSound(soundUri);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
