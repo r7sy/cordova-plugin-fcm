@@ -14,7 +14,8 @@ import android.os.Bundle;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.iid.FirebaseInstanceId;
-
+import android.media.RingtoneManager;
+impirt android.content.Intent;
 import java.util.Map;
 
 public class FCMPlugin extends CordovaPlugin {
@@ -47,6 +48,18 @@ public class FCMPlugin extends CordovaPlugin {
 				//
 				callbackContext.success();
 			}
+		// CHOOSE RINGTONE //
+		else if (action.equals("ringtone"))
+		{ Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select RingTone");
+		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+		   PluginResult r = new PluginResult(PluginResult.Status.NO_RESULT);
+			r.setKeepCallback(true);
+			callbackContext.sendPluginResult(r);
+			cordova.getActivity().startActivityForResult(intent, 5);
+			return true;
+		}
 			// GET TOKEN //
 			else if (action.equals("getToken")) {
 				cordova.getActivity().runOnUiThread(new Runnable() {
@@ -160,4 +173,25 @@ public class FCMPlugin extends CordovaPlugin {
 		gWebView = null;
 		notificationCallBackReady = false;
 	}
+	@Override
+protected void onActivityResult(final int requestCode, final int resultCode, final Intent intent)
+ {
+     if (resultCode == Activity.RESULT_OK && requestCode == 5)
+     {
+          Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+         String result = new String();
+          if (uri != null)
+          {
+              result = uri.toString();
+          }
+          else
+          {
+              result =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString();
+			
+		 }
+		  this.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
+
+		  
+      }            
+  }
 } 
