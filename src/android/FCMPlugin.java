@@ -4,12 +4,14 @@ import org.apache.cordova.CordovaWebView;
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaInterface;
+import android.net.Uri;
+import org.apache.cordova.PluginResult;
 import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -21,7 +23,7 @@ import java.util.Map;
 public class FCMPlugin extends CordovaPlugin {
  
 	private static final String TAG = "FCMPlugin";
-	
+	private CallbackContext callback;
 	public static CordovaWebView gWebView;
 	public static String notificationCallBack = "FCMPlugin.onNotificationReceived";
 	public static String tokenRefreshCallBack = "FCMPlugin.onTokenRefreshReceived";
@@ -50,7 +52,8 @@ public class FCMPlugin extends CordovaPlugin {
 			}
 		// CHOOSE RINGTONE //
 		else if (action.equals("ringtone"))
-		{ Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+		{callback = callbackContext;
+			Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
 		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
 		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select RingTone");
 		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
@@ -174,7 +177,7 @@ public class FCMPlugin extends CordovaPlugin {
 		notificationCallBackReady = false;
 	}
 	@Override
-protected void onActivityResult(final int requestCode, final int resultCode, final Intent intent)
+public void onActivityResult(final int requestCode, final int resultCode, final Intent intent)
  {
      if (resultCode == Activity.RESULT_OK && requestCode == 5)
      {
@@ -189,7 +192,7 @@ protected void onActivityResult(final int requestCode, final int resultCode, fin
               result =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString();
 			
 		 }
-		  this.callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
+		  this.callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
 
 		  
       }            
