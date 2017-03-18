@@ -334,8 +334,7 @@ catch (Exception e){
 	   {
 		   Log.d(TAG, e.getMessage());
 	   }
-	   Log.d(TAG, "getting id for sender null " + id + senders.get(i).getSound() );
-	   
+
 	   return null;
    }
 } 
