@@ -71,5 +71,5 @@ public class FCMPluginActivity extends Activity {
 		super.onStop();
 		Log.d(TAG, "==> FCMPluginActivity onStop");
 	}
-
+	
 }
