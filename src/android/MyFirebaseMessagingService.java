@@ -107,7 +107,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
-                .setSound(getNotificationSounds().get(5))
+                .setSound(Uri.parse(getNotificationSounds().get(5)))
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
