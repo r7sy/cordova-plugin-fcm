@@ -286,7 +286,8 @@ catch (Exception e){
    }
    public  void updateSenderSound(String id , String sound)
    { ArrayList<Sender> senders = new ArrayList<Sender>();
-	   readJsonFile("senders.json",cordova.getActivity(),senders);
+	 try{
+		  readJsonFile("senders.json",cordova.getActivity(),senders);
 	   boolean found = false;
 	   for(int i=0; i < senders.size() ;i++)
 	   {
@@ -303,12 +304,24 @@ catch (Exception e){
 		   senders.add(new Sender(id,sound));
 		   
 	   }
-	   writeJsonFile("senders.json",cordova.getActivity(),senders);
+	 } 
+	 catch(Exception e)
+	 {
+		 
+	 }try {
+		  writeJsonFile("senders.json",cordova.getActivity(),senders);
+		 
+	 }catch (Exception e ) {
+		 
+		 
+	 }
+	  
    }
    public static String getSenderSound(String id,Context c)
    {
 	   ArrayList<Sender> senders = new ArrayList<Sender>();
-	   readJsonFile("senders.json",c,senders);
+	   try{
+		readJsonFile("senders.json",c,senders);
 	   for(int i=0; i < senders.size() ;i++)
 	   {
 		   if(senders.get(i).getId().equals(id))
@@ -316,7 +329,11 @@ catch (Exception e){
 			   return senders.get(i).getSound();
 		   }
 		   
-	   }
+	   }   
+	   }catch (Exception e)
+	   {}
+	   
+	   
 	   return null;
    }
 } 
