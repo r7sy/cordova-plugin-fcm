@@ -75,7 +75,8 @@
 		
 		<framework src="src/android/FCMPlugin.gradle" custom="true" type="gradleReference"/>
 		<source-file src="src/android/Message.java" target-dir="src/com/gae/scaffolder/plugin" />
-			
+			<source-file src="src/android/Sender.java" target-dir="src/com/gae/scaffolder/plugin" />
+		
 		<source-file src="src/android/FCMPlugin.java" target-dir="src/com/gae/scaffolder/plugin" />
 		<source-file src="src/android/MyFirebaseMessagingService.java" target-dir="src/com/gae/scaffolder/plugin" />
 		<source-file src="src/android/MyFirebaseInstanceIDService.java" target-dir="src/com/gae/scaffolder/plugin" />
