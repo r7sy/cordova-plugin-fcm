@@ -25,6 +25,10 @@ FCMPlugin.prototype.onTokenRefresh = function( callback ){
 FCMPlugin.prototype.getToken = function( success, error ){
 	exec(success, error, "FCMPlugin", 'getToken', []);
 }
+// PICK RINGTONE //
+FCMPlugin.prototype.pickRingtone = function( success, error ){
+	exec(success, error, "FCMPlugin", 'ringtone', []);
+}
 
 // DEFAULT NOTIFICATION CALLBACK //
 FCMPlugin.prototype.onNotificationReceived = function(payload){
