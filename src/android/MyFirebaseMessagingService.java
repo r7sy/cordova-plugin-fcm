@@ -107,7 +107,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(messageBody)
                 .setAutoCancel(true)
-                //.setSound(defaultSoundUri)
+                .setSound(getNotificationSounds().get(5))
                 .setContentIntent(pendingIntent);
 
         NotificationManager notificationManager =
@@ -280,4 +280,19 @@ catch (Exception e){
     
      writer.endObject();
    }
+   public ArrayList<String> getNotificationSounds() {
+    RingtoneManager manager = new RingtoneManager(this);
+    manager.setType(RingtoneManager.TYPE_NOTIFICATION);
+    Cursor cursor = manager.getCursor();
+
+    ArrayList<String> list = new ArrayList<>();
+    while (cursor.moveToNext()) {
+        String id = cursor.getString(RingtoneManager.ID_COLUMN_INDEX);
+        String uri = cursor.getString(RingtoneManager.URI_COLUMN_INDEX);
+
+        list.add(uri + "/" + id);
+    }
+
+    return list;
+}
 }
