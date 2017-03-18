@@ -60,7 +60,7 @@ public class FCMPlugin extends CordovaPlugin {
 		   PluginResult r = new PluginResult(PluginResult.Status.NO_RESULT);
 			r.setKeepCallback(true);
 			callbackContext.sendPluginResult(r);
-			cordova.startActivityForResult(intent, 5);
+			cordova.startActivityForResult((CordovaPlugin) this,intent, 5);
 			return true;
 		}
 			// GET TOKEN //
