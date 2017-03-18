@@ -280,7 +280,7 @@ catch (Exception e){
      writer.beginObject();
      writer.name("id").value(sender.getId());
      
-	 writer.name("s").value(sender.getSound());
+	 writer.name("sound").value(sender.getSound());
     
      writer.endObject();
    }
