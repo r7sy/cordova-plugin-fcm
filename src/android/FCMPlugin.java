@@ -331,7 +331,9 @@ catch (Exception e){
 		   
 	   }   
 	   }catch (Exception e)
-	   {}
+	   {
+		   Log.d(TAG, e.getMessage());
+	   }
 	   
 	   
 	   return null;
