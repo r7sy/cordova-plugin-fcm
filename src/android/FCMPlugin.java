@@ -192,7 +192,7 @@ public void onActivityResult(final int requestCode, final int resultCode, final 
               result =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString();
 			
 		 }
-		  this.callback.sendPluginResult(new PluginResult(PluginResult.Status.OK, result));
+		  this.callback.success( result);
 
 		  
       }            
