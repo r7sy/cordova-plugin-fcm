@@ -8,11 +8,22 @@ import android.net.Uri;
 import org.apache.cordova.PluginResult;
 import android.util.Log;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.io.BufferedReader;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import android.app.Activity;
 import android.os.Bundle;
+import java.io.FileOutputStream;
+import android.util.JsonWriter;
+import 	java.io.IOException;
+import android.util.JsonReader;
+import java.util.ArrayList;
+import java.io.BufferedWriter;
 
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -29,7 +40,7 @@ public class FCMPlugin extends CordovaPlugin {
 	public static String tokenRefreshCallBack = "FCMPlugin.onTokenRefreshReceived";
 	public static Boolean notificationCallBackReady = false;
 	public static Map<String, Object> lastPush = null;
-	 
+	 public String senderId;
 	public FCMPlugin() {}
 	
 	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
@@ -57,6 +68,7 @@ public class FCMPlugin extends CordovaPlugin {
 		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
 		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select RingTone");
 		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+		  this.senderId=args.getString(0);
 		   PluginResult r = new PluginResult(PluginResult.Status.NO_RESULT);
 			r.setKeepCallback(true);
 			callbackContext.sendPluginResult(r);
@@ -194,9 +206,116 @@ public void onActivityResult(final int requestCode, final int resultCode, final 
 			
 		 }
 		  Log.d(TAG, result);
+		  this.updateSenderSound(this.senderId,result);
 		  this.callback.success( result);
 
 		  
       }            
   }
+  public static void readJsonFile(String fname,Context c,ArrayList<Sender> senders)
+{
+	try{
+	
+FileInputStream fis = c.openFileInput(fname);
+	 InputStreamReader isr = new InputStreamReader(fis);
+  JsonReader reader=new JsonReader(isr);
+  reader.beginArray();
+    while (reader.hasNext()) {
+       senders.add(readSender(reader));
+     }
+  reader.endArray();
+  reader.close();	
+		
+	}
+	catch(Exception e){
+ Log.d(TAG, "failed to read json file" + e.getMessage());
+		
+	}
+}
+   public static Sender readSender(JsonReader reader) throws IOException {
+      String id=null;
+	 String sound=null;
+
+     reader.beginObject();
+     while (reader.hasNext()) {
+       String name = reader.nextName();
+       if (name.equals("id")) {
+         id = reader.nextString();
+       } else if (name.equals("sound")) {
+         sound = reader.nextString();
+       } else {
+         reader.skipValue();
+       }
+     }
+     reader.endObject();
+     return new Sender(id, sound );
+   }
+  
+  
+  public static void writeJsonFile(String fname ,Context c, ArrayList<Sender> senders)
+   {
+	   try {
+ Log.d(TAG, "Writing senders to json file");
+ 
+
+
+FileOutputStream fos = c.openFileOutput(fname, Context.MODE_PRIVATE);
+JsonWriter writer = new JsonWriter(new OutputStreamWriter(fos));
+writer.setIndent("  ");
+writer.beginArray();
+     for (Sender sender : senders) {
+       writeMessage(writer, sender);
+     }
+     writer.endArray();
+writer.close();
+}
+catch (Exception e){
+ Log.d(TAG, "Writing to json file failed "+e.getMessage());
+}  
+
+	   
+   }
+  public static void writeSender(JsonWriter writer, Sender sender) throws IOException {
+     writer.beginObject();
+     writer.name("id").value(sender.getId());
+     
+	 writer.name("s").value(sender.getSound());
+    
+     writer.endObject();
+   }
+   public  void updateSenderSound(String id , String sound)
+   { ArrayList<Sender> senders = new ArrayList<Sender>();
+	   readJsonFile("senders.json",this,senders);
+	   boolean found = false;
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {
+			   senders.get(i).setSound(sound);
+			   found=true;
+			   break;
+		   }
+		   
+	   }
+	   if(!found)
+	   {
+		   senders.add(new Sender(id,sound));
+		   
+	   }
+	   writeJsonFile("senders.json",this,senders);
+   }
+   public static String getSenderSound(String id,Context c)
+   {
+	   ArrayList<Sender> senders = new ArrayList<Sender>();
+	   readJsonFile("senders.json",c,senders);
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {
+			   return senders.get(i).getSound);
+		   }
+		   
+	   }
+	   return null;
+   }
 } 
