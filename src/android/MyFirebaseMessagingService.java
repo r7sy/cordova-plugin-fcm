@@ -102,11 +102,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		}
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-		String sound =FCMPlugin.getSenderSound(senderId);
+		String sound =FCMPlugin.getSenderSound(senderId,this);
 		   Uri soundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 		if(sound!=null&& !sound.equals("none") )
 		{
-			Uri soundUri= Uri.parse(sound);
+			 soundUri= Uri.parse(sound);
 		}
      
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
