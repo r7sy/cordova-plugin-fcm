@@ -32,6 +32,10 @@ FCMPlugin.prototype.pickRingtone = function(id,success, error ){
 FCMPlugin.prototype.mute = function(id,success, error ){
 	exec(success, error, "FCMPlugin", 'mute', [id]);
 }
+
+FCMPlugin.prototype.unmute = function(id,success, error ){
+	exec(success, error, "FCMPlugin", 'unmute', [id]);
+}
 // DEFAULT NOTIFICATION CALLBACK //
 FCMPlugin.prototype.onNotificationReceived = function(payload){
 	console.log("Received push notification")
