@@ -6,15 +6,17 @@ public class Message {
 	private String body;
 	private String senderId;
 	
+	private String thumbnail;
 	private String senderName;
 	private Date arrivalTime;
-	public Message(String id , String title , String body , String senderId,String senderName,String arrivalTime)
+	public Message(String id , String title , String body , String senderId,String senderName,String thumbnail,String arrivalTime)
 	{ 
 	this.id=id;
 	this.title=title;
 	this.body=body;
 	this.senderId=senderId;
 	this.senderName =senderName;
+	this.thumbnail = thumbnail;
 	if(arrivalTime==null)
 	{
 		this.arrivalTime=new Date();
@@ -32,6 +34,7 @@ public class Message {
 	public String getSenderId(){return this.senderId;}
 	public Long getArrivalTime(){return this.arrivalTime.getTime();}
 	public String getSenderName(){return this.senderName;};
-	
+
+	public String getThumbnail(){return this.thumbnail;}
 	
 }
