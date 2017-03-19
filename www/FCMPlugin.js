@@ -29,7 +29,9 @@ FCMPlugin.prototype.getToken = function( success, error ){
 FCMPlugin.prototype.pickRingtone = function(id,success, error ){
 	exec(success, error, "FCMPlugin", 'ringtone', [id]);
 }
-
+FCMPlugin.prototype.mute = function(id,success, error ){
+	exec(success, error, "FCMPlugin", 'mute', [id]);
+}
 // DEFAULT NOTIFICATION CALLBACK //
 FCMPlugin.prototype.onNotificationReceived = function(payload){
 	console.log("Received push notification")
