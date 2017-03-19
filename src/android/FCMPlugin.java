@@ -76,6 +76,12 @@ public class FCMPlugin extends CordovaPlugin {
 			cordova.startActivityForResult((CordovaPlugin) this,intent, 5);
 			return true;
 		}
+		// MUTE //
+		else if (action.equals("mute"))
+		{
+			updateSenderSound(args.getString(0),"none");
+			callbackContext.success( );
+		}
 			// GET TOKEN //
 			else if (action.equals("getToken")) {
 				cordova.getActivity().runOnUiThread(new Runnable() {
