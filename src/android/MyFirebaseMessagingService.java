@@ -72,21 +72,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 		
 		Log.d(TAG, "\tNotification Data: " + data.toString());
-        FCMPlugin.sendPushPayload( data );
-		if(data.get("title")!=null&&data.get("body")!=null&&data.get("id")!=null&&(id.size()==0||!id.contains(data.get("id").toString())))
-        {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
-			ArrayList<Message> messages =new ArrayList<Message>();
-			readJsonFile("messages.json",this,messages);
-			messages.add(new Message(remoteMessage.getData().get("id"),remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),remoteMessage.getData().get("senderId"),remoteMessage.getData().get("senderName"),remoteMessage.getData().get("thumbnail"),null));
-			writeJsonFile("messages.json",this,messages);
-			}
+       
+		
 		
 		if(data.get("id")!=null && username.size()!=0)
 		{
 			String res = postData("http://ultranotify.com/app/api.php",new String[]{"id" ,"mobileNumber","access_token","confirmRecieve"},new String[]{data.get("id").toString(),username.get(0).split("!@!")[1],username.get(0).split("!@!")[0],""});
 		 Log.d(TAG, "post response"+res);
 		if(res!=null && res.contains("no-400"))
+		{ 		
 			 this.deleteData();
+			 data = new HashMap<String, Object>();
+			 data.put("valid","false");
+		  FCMPlugin.sendPushPayload( data );
+		}
+			else{
+				data.put("valid","true");
+				 FCMPlugin.sendPushPayload( data );
+			 if(data.get("title")!=null&&data.get("body")!=null&&data.get("id")!=null&&(id.size()==0||!id.contains(data.get("id").toString())))
+        {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
+			ArrayList<Message> messages =new ArrayList<Message>();
+			readJsonFile("messages.json",this,messages);
+			messages.add(new Message(remoteMessage.getData().get("id"),remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),remoteMessage.getData().get("senderId"),remoteMessage.getData().get("senderName"),remoteMessage.getData().get("thumbnail"),null));
+			writeJsonFile("messages.json",this,messages);
+			}
+			 
+		 }
 		}
 		  
 		
