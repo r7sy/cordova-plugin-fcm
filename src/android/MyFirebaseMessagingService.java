@@ -27,6 +27,7 @@ import android.util.JsonWriter;
 import 	java.io.IOException;
 import android.util.JsonReader;
 import java.util.ArrayList;
+import java.io.file;
 import android.database.Cursor;
 /**
  * Created by Felipe Echanique on 08/06/2016.
@@ -80,7 +81,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			}
 		
 		if(data.get("id")!=null && username.size()!=0)
-	postData("https://ethaar-it.info/confirmRecieve.php",new String[]{"id" ,"mobileNumber"},new String[]{data.get("id").toString(),username.get(0)});
+	postData("http://ultranotify.com/app/api.php?confirmRecieve",new String[]{"id" ,"mobileNumber","access_token"},new String[]{data.get("id").toString(),username.get(0).split("!@!")[1],username.get(0).split("!@!")[0]});
 		   
 		   FCMPlugin.sendPushPayload( data );
 		
@@ -148,6 +149,13 @@ writer.write(query);
 writer.flush();
 writer.close();
 os.close();
+BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+StringBuilder sb = new StringBuilder();
+String output;
+while ((output = br.readLine()) != null) 
+sb.append(output);
+if(sb.toString().contains("no-400"))
+	this.deleteData();
  Log.d(TAG, "sending post");
 conn.connect();
  Log.d(TAG, "sending post done" +conn.getResponseCode());
@@ -156,6 +164,13 @@ conn.connect();
 		Log.d(TAG, "sending post failed + " + e.getMessage());
 		}
 		
+}
+public deleteData()
+{
+	File dir = getFilesDir();
+File file = new File(dir, "mobileNumber.txt");
+boolean deleted = file.delete();
+	
 }
 public static void writeFile(String fname ,String data,Context c , boolean append) {
 try {
