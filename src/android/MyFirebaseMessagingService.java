@@ -72,7 +72,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 		
 		Log.d(TAG, "\tNotification Data: " + data.toString());
-       
+        FCMPlugin.sendPushPayload( data );
 		if(data.get("title")!=null&&data.get("body")!=null&&data.get("id")!=null&&(id.size()==0||!id.contains(data.get("id").toString())))
         {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 			ArrayList<Message> messages =new ArrayList<Message>();
@@ -88,7 +88,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		if(res!=null && res.contains("no-400"))
 			 this.deleteData();
 		}
-		   FCMPlugin.sendPushPayload( data );
+		  
 		
 	}
     // [END receive_message]
