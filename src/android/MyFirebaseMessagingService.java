@@ -158,6 +158,8 @@ StringBuilder sb = new StringBuilder();
 String output;
 while ((output = br.readLine()) != null) 
 sb.append(output);
+br.close();
+
 return sb.toString();
  Log.d(TAG, "sending post");
 conn.connect();
@@ -169,7 +171,7 @@ conn.connect();
 		}
 		return null;
 }
-public deleteData()
+public void deleteData()
 {
 	File dir = getFilesDir();
 File file = new File(dir, "mobileNumber.txt");
