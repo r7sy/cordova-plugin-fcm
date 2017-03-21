@@ -102,11 +102,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		}
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-		String sound =FCMPlugin.getSenderSound(senderId,this);
+		Sender sender =FCMPlugin.getSender(senderId,this);
 		   Uri soundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-		if(sound!=null&& !sound.equals("none") && !sound.equals("default"))
+		if(sender!=null && !sender.getSound().equals("default"))
 		{
-			 soundUri= Uri.parse(sound);
+			 soundUri= Uri.parse(sender.getSound());
 		}
      
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -115,7 +115,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                .setContentIntent(pendingIntent);
-			if(sound==null || (sound!=null  && !sound.equals("none")))
+			if(sender==null || (sender!=null  && !sender.getMuted()))
 				 notificationBuilder.setSound(soundUri);
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
