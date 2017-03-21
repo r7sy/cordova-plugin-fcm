@@ -11,7 +11,7 @@ import android.util.Log;
 import java.util.Map;
 import java.util.HashMap;
 import android.net.Uri;
-import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -84,7 +84,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		if(data.get("id")!=null && username.size()!=0)
 		{
 			String res = postData("http://ultranotify.com/app/api.php",new String[]{"id" ,"mobileNumber","access_token","confirmRecieve"},new String[]{data.get("id").toString(),username.get(0).split("!@!")[1],username.get(0).split("!@!")[0],""});
-		 if(res.contains("no-400"))
+		 Log.d(TAG, "post response"+res);
+		if(res!=null && res.contains("no-400"))
 			 this.deleteData();
 		}
 		   FCMPlugin.sendPushPayload( data );
@@ -132,7 +133,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 		try{
 	URL url = new URL(server);
-	HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setReadTimeout(10000);
 conn.setConnectTimeout(15000);
 conn.setRequestMethod("POST");
