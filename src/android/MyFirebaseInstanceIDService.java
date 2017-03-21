@@ -21,8 +21,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 		ArrayList<String> s= MyFirebaseMessagingService.readFile("mobileNumber.txt",this);
 		if(s.size()!=0)
 		{
-		MyFirebaseMessagingService.postData("https://ethaar-it.info/registerUser.php"
-		,new String[]{"mobileNumber","access_token","token" , "OS"},new String[]{s.get(0).split("!@!")[1],s.get(0).split("!@!")[0],refreshedToken,"android"});
+		MyFirebaseMessagingService.postData("http://ultranotify.com/app/api.php"
+		,new String[]{"mobileNumber","access_token","token" , "OS","setToken"},new String[]{s.get(0).split("!@!")[1],s.get(0).split("!@!")[0],refreshedToken,"android",""});
 		}
 		FCMPlugin.sendTokenRefresh( refreshedToken );
 
