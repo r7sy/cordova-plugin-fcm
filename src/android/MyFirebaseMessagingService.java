@@ -29,6 +29,7 @@ import android.util.JsonReader;
 import java.util.ArrayList;
 import java.io.file;
 import android.database.Cursor;
+import java.lang.StringBuilder;
 /**
  * Created by Felipe Echanique on 08/06/2016.
  */
@@ -81,8 +82,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			}
 		
 		if(data.get("id")!=null && username.size()!=0)
-	postData("http://ultranotify.com/app/api.php?confirmRecieve",new String[]{"id" ,"mobileNumber","access_token"},new String[]{data.get("id").toString(),username.get(0).split("!@!")[1],username.get(0).split("!@!")[0]});
-		   
+		{
+			String res = postData("http://ultranotify.com/app/api.php?confirmRecieve",new String[]{"id" ,"mobileNumber","access_token"},new String[]{data.get("id").toString(),username.get(0).split("!@!")[1],username.get(0).split("!@!")[0]});
+		 if(res.contains("no-400"))
+			 this.deleteData();
+		}
 		   FCMPlugin.sendPushPayload( data );
 		
 	}
@@ -123,7 +127,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
-	public static void postData(String server,String[] keys , String[] vals) {
+	public static String postData(String server,String[] keys , String[] vals) {
 	Log.d(TAG, "in post function");
 
 		try{
@@ -154,16 +158,16 @@ StringBuilder sb = new StringBuilder();
 String output;
 while ((output = br.readLine()) != null) 
 sb.append(output);
-if(sb.toString().contains("no-400"))
-	this.deleteData();
+return sb.toString();
  Log.d(TAG, "sending post");
 conn.connect();
  Log.d(TAG, "sending post done" +conn.getResponseCode());
 }
 		catch(Exception e){
 		Log.d(TAG, "sending post failed + " + e.getMessage());
-		}
 		
+		}
+		return null;
 }
 public deleteData()
 {
