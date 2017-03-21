@@ -83,7 +83,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 		
 		if(data.get("id")!=null && username.size()!=0)
 		{
-			String res = postData("http://ultranotify.com/app/api.php?confirmRecieve",new String[]{"id" ,"mobileNumber","access_token"},new String[]{data.get("id").toString(),username.get(0).split("!@!")[1],username.get(0).split("!@!")[0]});
+			String res = postData("http://ultranotify.com/app/api.php",new String[]{"id" ,"mobileNumber","access_token","confirmRecieve"},new String[]{data.get("id").toString(),username.get(0).split("!@!")[1],username.get(0).split("!@!")[0],""});
 		 if(res.contains("no-400"))
 			 this.deleteData();
 		}
