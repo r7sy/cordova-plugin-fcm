@@ -1,207 +1,232 @@
 package com.gae.scaffolder.plugin;
 
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.media.RingtoneManager;
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.CordovaInterface;
 import android.net.Uri;
-import android.support.v4.app.NotificationCompat;
+import org.apache.cordova.PluginResult;
 import android.util.Log;
-import java.util.Map;
-import java.util.HashMap;
-import android.net.Uri;
-import javax.net.ssl.HttpsURLConnection;
-import java.net.URL;
+import android.content.Context;
+
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
-import java.net.HttpURLConnection;
-import java.io.BufferedWriter;
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import android.app.Activity;
+import android.os.Bundle;
 import java.io.FileOutputStream;
 import android.util.JsonWriter;
 import 	java.io.IOException;
 import android.util.JsonReader;
 import java.util.ArrayList;
-import android.database.Cursor;
-/**
- * Created by Felipe Echanique on 08/06/2016.
- */
-public class MyFirebaseMessagingService extends FirebaseMessagingService {
+import java.io.BufferedWriter;
 
-    private static final String TAG = "FCMPlugin";
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.iid.FirebaseInstanceId;
+import android.media.RingtoneManager;
+import android.content.Intent;
+import java.util.Map;
 
-    /**
-     * Called when message is received.
-     *
-     * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
-     */
-    // [START receive_message]
-    @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
-        // TODO(developer): Handle FCM messages here.
-        // If the application is in the foreground handle both data and notification messages here.
-        // Also if you intend on generating your own notifications as a result of a received FCM
-        // message, here is where that should be initiated. See sendNotification method below.
-        Log.d(TAG, "==> MyFirebaseMessagingService onMessageReceived");
-		
-		if( remoteMessage.getNotification() != null){
-			Log.d(TAG, "\tNotification Title: " + remoteMessage.getNotification().getTitle());
-			Log.d(TAG, "\tNotification Message: " + remoteMessage.getNotification().getBody());
-		}
-		ArrayList<String> id=readFile("log.txt",this);
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("wasTapped", false);
-		ArrayList<String> username=readFile("mobileNumber.txt",this);
-		for (String key : remoteMessage.getData().keySet()) {
-                Object value = remoteMessage.getData().get(key);
-                Log.d(TAG, "\tKey: " + key + " Value: " + value);
-				data.put(key, value);
-				
-				if(key.toString().equals("id")&&username.size()!=0 && ! id.contains(data.get("id").toString())){
-				writeFile("log.txt",data.get(key).toString(),this,true);
-				
-				}
-				
-        }
-		
-		Log.d(TAG, "\tNotification Data: " + data.toString());
-       
-		if(data.get("title")!=null&&data.get("body")!=null&&data.get("id")!=null&&(id.size()==0||!id.contains(data.get("id").toString())))
-        {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
-			ArrayList<Message> messages =new ArrayList<Message>();
-			readJsonFile("messages.json",this,messages);
-			messages.add(new Message(remoteMessage.getData().get("id"),remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),remoteMessage.getData().get("senderId"),remoteMessage.getData().get("senderName"),remoteMessage.getData().get("thumbnail"),null));
-			writeJsonFile("messages.json",this,messages);
-			}
-		
-		if(data.get("id")!=null && username.size()!=0)
-	postData("https://ethaar-it.info/confirmRecieve.php",new String[]{"id" ,"mobileNumber"},new String[]{data.get("id").toString(),username.get(0)});
-		   
-		   FCMPlugin.sendPushPayload( data );
-		
-	}
-    // [END receive_message]
-
-    /**
-     * Create and show a simple notification containing the received FCM message.
-     *
-     * @param messageBody FCM message body received.
-     */
-    private void sendNotification(String title, String messageBody, Map<String, Object> data) {
-        String senderId= data.get("senderId").toString();
-		Intent intent = new Intent(this, FCMPluginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		for (String key : data.keySet()) {
-			intent.putExtra(key, data.get(key).toString());
-			
-		}
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
-		Sender sender =FCMPlugin.getSender(senderId,this);
-		   Uri soundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-		if(sender!=null && !sender.getSound().equals("default"))
-		{
-			 soundUri= Uri.parse(sender.getSound());
-		}
-     
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(getApplicationInfo().icon)
-                .setContentTitle(title)
-                .setContentText(messageBody)
-                .setAutoCancel(true)
-               .setContentIntent(pendingIntent);
-			if(sender==null || (sender!=null  && !sender.getMuted()))
-				 notificationBuilder.setSound(soundUri);
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
-    }
-	public static void postData(String server,String[] keys , String[] vals) {
-	Log.d(TAG, "in post function");
-
-		try{
-	URL url = new URL(server);
-	HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-		conn.setReadTimeout(10000);
-conn.setConnectTimeout(15000);
-conn.setRequestMethod("POST");
-conn.setDoInput(true);
-conn.setDoOutput(true);
-
-Uri.Builder builder = new Uri.Builder();
-for(int i=0;i<keys.length;i++)
-{
-builder.appendQueryParameter(keys[i],vals[i]);
-
-}
-String query = builder.build().getEncodedQuery();
-OutputStream os = conn.getOutputStream();
-BufferedWriter writer = new BufferedWriter(
-        new OutputStreamWriter(os, "UTF-8"));
-writer.write(query);
-writer.flush();
-writer.close();
-os.close();
- Log.d(TAG, "sending post");
-conn.connect();
- Log.d(TAG, "sending post done" +conn.getResponseCode());
-}
-		catch(Exception e){
-		Log.d(TAG, "sending post failed + " + e.getMessage());
-		}
-		
-}
-public static void writeFile(String fname ,String data,Context c , boolean append) {
-try {
- Log.d(TAG, "Writing to file");
+public class FCMPlugin extends CordovaPlugin {
  
-
-
-FileOutputStream fos = c.openFileOutput(fname, (append ?Context.MODE_APPEND:Context.MODE_PRIVATE));
-BufferedWriter bufferedWriter=new BufferedWriter(new OutputStreamWriter(fos));
-
-bufferedWriter.write(data,0,data.length());
-bufferedWriter.newLine();
-bufferedWriter.flush();
-bufferedWriter.close();
-fos.close();
-}
-catch (Exception e){
- Log.d(TAG, "Writing to file failed "+e.getMessage());
-}  
-}
-public static ArrayList<String> readFile(String fname,Context c)
-{ArrayList<String> result = new ArrayList<String>();
-try {
- Log.d(TAG, "reading file");
-FileInputStream fis = c.openFileInput(fname);
-   InputStreamReader isr = new InputStreamReader(fis);
-   BufferedReader bufferedReader = new BufferedReader(isr);
-   String s;
-   while( (s= bufferedReader.readLine())!=null)
-   {Log.d(TAG, " file content:"+s);
-   result.add(s);
-   }
+	private static final String TAG = "FCMPlugin";
+	private CallbackContext callback;
+	public static CordovaWebView gWebView;
+	public static String notificationCallBack = "FCMPlugin.onNotificationReceived";
+	public static String tokenRefreshCallBack = "FCMPlugin.onTokenRefreshReceived";
+	public static Boolean notificationCallBackReady = false;
+	public static Map<String, Object> lastPush = null;
+	 public String senderId;
+	public FCMPlugin() {}
 	
-   fis.close();
-   isr.close();
-   bufferedReader.close();
-   }
-   catch (Exception e)
-   {
+	public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+		super.initialize(cordova, webView);
+		gWebView = webView;
+		Log.d(TAG, "==> FCMPlugin initialize");
+		FirebaseMessaging.getInstance().subscribeToTopic("android");
+		FirebaseMessaging.getInstance().subscribeToTopic("all");
+	}
+	 
+	public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
+
+		Log.d(TAG,"==> FCMPlugin execute: "+ action);
+		
+		try{
+			// READY //
+			if (action.equals("ready")) {
+				//
+				callbackContext.success();
+			}
+		// CHOOSE RINGTONE //
+		else if (action.equals("ringtone"))
+		{callback = callbackContext;
+			Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, "Select RingTone");
+		  intent.putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+		  this.senderId=args.getString(0);
+		   PluginResult r = new PluginResult(PluginResult.Status.NO_RESULT);
+			r.setKeepCallback(true);
+			callbackContext.sendPluginResult(r);
+			cordova.startActivityForResult((CordovaPlugin) this,intent, 5);
+			return true;
+		}
+		// MUTE //
+		else if (action.equals("mute"))
+		{
+			
+			muteSender(args.getString(0));
+			callbackContext.success( );
+		}
+		// UNMUTE //
+		else if (action.equals("unmute"))
+		{
+			unmuteSender(args.getString(0));
+			callbackContext.success( );
+		}
+			// GET TOKEN //
+			else if (action.equals("getToken")) {
+				cordova.getActivity().runOnUiThread(new Runnable() {
+					public void run() {
+						try{
+							String token = FirebaseInstanceId.getInstance().getToken();
+							callbackContext.success( FirebaseInstanceId.getInstance().getToken() );
+							Log.d(TAG,"\tToken: "+ token);
+						}catch(Exception e){
+							Log.d(TAG,"\tError retrieving token");
+						}
+					}
+				});
+			}
+			// NOTIFICATION CALLBACK REGISTER //
+			else if (action.equals("registerNotification")) {
+				notificationCallBackReady = true;
+				cordova.getActivity().runOnUiThread(new Runnable() {
+					public void run() {
+						if(lastPush != null) FCMPlugin.sendPushPayload( lastPush );
+						lastPush = null;
+						callbackContext.success();
+					}
+				});
+			}
+			// UN/SUBSCRIBE TOPICS //
+			else if (action.equals("subscribeToTopic")) {
+				cordova.getThreadPool().execute(new Runnable() {
+					public void run() {
+						try{
+							FirebaseMessaging.getInstance().subscribeToTopic( args.getString(0) );
+							callbackContext.success();
+						}catch(Exception e){
+							callbackContext.error(e.getMessage());
+						}
+					}
+				});
+			}
+			else if (action.equals("unsubscribeFromTopic")) {
+				cordova.getThreadPool().execute(new Runnable() {
+					public void run() {
+						try{
+							FirebaseMessaging.getInstance().unsubscribeFromTopic( args.getString(0) );
+							callbackContext.success();
+						}catch(Exception e){
+							callbackContext.error(e.getMessage());
+						}
+					}
+				});
+			}
+			else{
+				callbackContext.error("Method not found");
+				return false;
+			}
+		}catch(Exception e){
+			Log.d(TAG, "ERROR: onPluginAction: " + e.getMessage());
+			callbackContext.error(e.getMessage());
+			return false;
+		}
+		
+		//cordova.getThreadPool().execute(new Runnable() {
+		//	public void run() {
+		//	  //
+		//	}
+		//});
+		
+		//cordova.getActivity().runOnUiThread(new Runnable() {
+        //    public void run() {
+        //      //
+        //    }
+        //});
+		return true;
+	}
+	
+	public static void sendPushPayload(Map<String, Object> payload) {
+		Log.d(TAG, "==> FCMPlugin sendPushPayload");
+		Log.d(TAG, "\tnotificationCallBackReady: " + notificationCallBackReady);
+		Log.d(TAG, "\tgWebView: " + gWebView);
+	    try {
+		    JSONObject jo = new JSONObject();
+			for (String key : payload.keySet()) {
+			    jo.put(key, payload.get(key));
+				Log.d(TAG, "\tpayload: " + key + " => " + payload.get(key));
+            }
+			String callBack = "javascript:" + notificationCallBack + "(" + jo.toString() + ")";
+			if(notificationCallBackReady && gWebView != null){
+				Log.d(TAG, "\tSent PUSH to view: " + callBack);
+				gWebView.sendJavascript(callBack);
+			}else {
+				Log.d(TAG, "\tView not ready. SAVED NOTIFICATION: " + callBack);
+				lastPush = payload;
+			}
+		} catch (Exception e) {
+			Log.d(TAG, "\tERROR sendPushToView. SAVED NOTIFICATION: " + e.getMessage());
+			lastPush = payload;
+		}
+	}
+
+	public static void sendTokenRefresh(String token) {
+		Log.d(TAG, "==> FCMPlugin sendRefreshToken");
+	  try {
+			String callBack = "javascript:" + tokenRefreshCallBack + "('" + token + "')";
+			gWebView.sendJavascript(callBack);
+		} catch (Exception e) {
+			Log.d(TAG, "\tERROR sendRefreshToken: " + e.getMessage());
+		}
+	}
   
- Log.d(TAG, "failed to read file" + e.getMessage());
-   
-   }
-return result;
-}
-public static void readJsonFile(String fname,Context c,ArrayList<Message> messages)
+  @Override
+	public void onDestroy() {
+		gWebView = null;
+		notificationCallBackReady = false;
+	}
+	@Override
+public void onActivityResult(final int requestCode, final int resultCode, final Intent intent)
+ {
+	 Log.d(TAG, "==> FCMPlugin onActivityResult");
+     if (resultCode == Activity.RESULT_OK && requestCode == 5)
+     {
+          Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+         String result = new String();
+          if (uri != null)
+          {
+              result = uri.toString();
+          }
+          else
+          {
+              result =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString();
+			
+		 }
+		  Log.d(TAG, result);
+		  this.updateSenderSound(this.senderId,result);
+		  this.callback.success( result);
+
+		  
+      }            
+  }
+  public static void readJsonFile(String fname,Context c,ArrayList<Sender> senders)
 {
 	try{
 	
@@ -210,7 +235,7 @@ FileInputStream fis = c.openFileInput(fname);
   JsonReader reader=new JsonReader(isr);
   reader.beginArray();
     while (reader.hasNext()) {
-       messages.add(readMessage(reader));
+       senders.add(readSender(reader));
      }
   reader.endArray();
   reader.close();	
@@ -221,44 +246,34 @@ FileInputStream fis = c.openFileInput(fname);
 		
 	}
 }
- public static Message readMessage(JsonReader reader) throws IOException {
+   public static Sender readSender(JsonReader reader) throws IOException {
       String id=null;
-	 String title=null;
-	 String body=null;
-	 String senderId=null;
-	 String thumbnail= null;
-	 String senderName=null;
-	String arrivalTime=null;
-
+	 String sound=null;
+	boolean muted=false;
      reader.beginObject();
      while (reader.hasNext()) {
        String name = reader.nextName();
        if (name.equals("id")) {
          id = reader.nextString();
-       } else if (name.equals("title")) {
-         title = reader.nextString();
-       } else if (name.equals("body") ) {
-         body=reader.nextString();
-       } else if (name.equals("senderName")) {
-         senderName=reader.nextString();
-       } else if (name.equals("senderId")) {
-         senderId=reader.nextString();
-       } else if (name.equals("arrivalTime")) {
-         arrivalTime=reader.nextString();
-       }else if (name.equals("thumbnail")) {
-         thumbnail=reader.nextString();
-       }  
+       } else if (name.equals("sound")) {
+         sound = reader.nextString();
+       }
+		else if (name.equals("muted")) {
+         muted = reader.nextBoolean();
+       }	   
 	   else {
          reader.skipValue();
        }
      }
      reader.endObject();
-     return new Message(id, title , body , senderId ,senderName,thumbnail,arrivalTime );
+     return new Sender(id, sound , muted );
    }
-   public static void writeJsonFile(String fname ,Context c, ArrayList<Message> messages)
+  
+  
+  public static void writeJsonFile(String fname ,Context c, ArrayList<Sender> senders)
    {
 	   try {
- Log.d(TAG, "Writing to json file");
+ Log.d(TAG, "Writing senders to json file");
  
 
 
@@ -266,8 +281,8 @@ FileOutputStream fos = c.openFileOutput(fname, Context.MODE_PRIVATE);
 JsonWriter writer = new JsonWriter(new OutputStreamWriter(fos));
 writer.setIndent("  ");
 writer.beginArray();
-     for (Message message : messages) {
-       writeMessage(writer, message);
+     for (Sender sender : senders) {
+       writeSender(writer, sender);
      }
      writer.endArray();
 writer.close();
@@ -278,31 +293,131 @@ catch (Exception e){
 
 	   
    }
-    public static void writeMessage(JsonWriter writer, Message message) throws IOException {
+  public static void writeSender(JsonWriter writer, Sender sender) throws IOException {
      writer.beginObject();
-     writer.name("id").value(message.getId());
-     writer.name("title").value(message.getTitle());
-     writer.name("body").value(message.getBody());
-     writer.name("senderId").value(message.getSenderId());
-	 writer.name("thumbnail").value(message.getThumbnail());
-     writer.name("senderName").value(message.getSenderName());
-	 writer.name("arrivalTime").value(Long.toString(message.getArrivalTime()));
+     writer.name("id").value(sender.getId());
+     writer.name("muted").value(sender.getMuted());
+	 writer.name("sound").value(sender.getSound());
     
      writer.endObject();
    }
-   public ArrayList<String> getNotificationSounds() {
-    RingtoneManager manager = new RingtoneManager(this);
-    manager.setType(RingtoneManager.TYPE_NOTIFICATION);
-    Cursor cursor = manager.getCursor();
+   public  void updateSenderSound(String id , String sound)
+   { ArrayList<Sender> senders = new ArrayList<Sender>();
+	 try{
+		  readJsonFile("senders.json",cordova.getActivity(),senders);
+	   boolean found = false;
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {
+			   senders.get(i).setSound(sound);
+			   found=true;
+			   break;
+		   }
+		   
+	   }
+	   if(!found)
+	   {
+		   senders.add(new Sender(id,sound,false));
+		   
+	   }
+	 } 
+	 catch(Exception e)
+	 {
+		 
+	 }try {
+		  writeJsonFile("senders.json",cordova.getActivity(),senders);
+		 
+	 }catch (Exception e ) {
+		 
+		 
+	 }
+	  
+   }
+   public  void muteSender(String id )
+   { ArrayList<Sender> senders = new ArrayList<Sender>();
+	 try{
+		  readJsonFile("senders.json",cordova.getActivity(),senders);
+	   boolean found = false;
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {
+			   senders.get(i).setMuted(true);
+			   found=true;
+			   break;
+		   }
+		   
+	   }
+	   if(!found)
+	   {
+		   senders.add(new Sender(id,"default",true));
+		   
+	   }
+	 } 
+	 catch(Exception e)
+	 {
+		 
+	 }try {
+		  writeJsonFile("senders.json",cordova.getActivity(),senders);
+		 
+	 }catch (Exception e ) {
+		 
+		 
+	 }
+	  
+   }
+   public  void unmuteSender(String id )
+   { ArrayList<Sender> senders = new ArrayList<Sender>();
+	 try{
+		  readJsonFile("senders.json",cordova.getActivity(),senders);
+	   boolean found = false;
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {
+			   senders.get(i).setMuted(false);
+			   found=true;
+			   break;
+		   }
+		   
+	   }
+	   if(!found)
+	   {
+		   senders.add(new Sender(id,"default",false));
+		   
+	   }
+	 } 
+	 catch(Exception e)
+	 {
+		 
+	 }try {
+		  writeJsonFile("senders.json",cordova.getActivity(),senders);
+		 
+	 }catch (Exception e ) {
+		 
+		 
+	 }
+	  
+   }
+   public static Sender getSender(String id,Context c)
+   {  Log.d(TAG, "getting id for sender " + id);
+	   ArrayList<Sender> senders = new ArrayList<Sender>();
+	   try{
+		readJsonFile("senders.json",c,senders);
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {  Log.d(TAG, "getting id for sender " + id + senders.get(i).getSound() );
+			   return senders.get(i);
+		   }
+		   
+	   }   
+	   }catch (Exception e)
+	   {
+		   Log.d(TAG, e.getMessage());
+	   }
 
-    ArrayList<String> list = new ArrayList<String>();
-    while (cursor.moveToNext()) {
-        String id = cursor.getString(RingtoneManager.ID_COLUMN_INDEX);
-        String uri = cursor.getString(RingtoneManager.URI_COLUMN_INDEX);
-
-        list.add(uri + "/" + id);
-    }
-
-    return list;
-}
-}
+	   return null;
+   }
+} 
