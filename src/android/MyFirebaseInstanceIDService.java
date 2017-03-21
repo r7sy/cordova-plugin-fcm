@@ -22,7 +22,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 		if(s.size()!=0)
 		{
 		MyFirebaseMessagingService.postData("https://ethaar-it.info/registerUser.php"
-		,new String[]{"mobileNumber","token" , "OS"},new String[]{s.get(0),refreshedToken,"android"});
+		,new String[]{"mobileNumber","access_token","token" , "OS"},new String[]{s.get(0).split("!@!")[1],s.get(0).split("!@!")[0],refreshedToken,"android"});
 		}
 		FCMPlugin.sendTokenRefresh( refreshedToken );
 
