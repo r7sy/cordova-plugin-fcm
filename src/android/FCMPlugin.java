@@ -296,7 +296,7 @@ catch (Exception e){
   public static void writeSender(JsonWriter writer, Sender sender) throws IOException {
      writer.beginObject();
      writer.name("id").value(sender.getId());
-     writer.name.("muted").value(sender.getMuted());
+     writer.name("muted").value(sender.getMuted());
 	 writer.name("sound").value(sender.getSound());
     
      writer.endObject();
