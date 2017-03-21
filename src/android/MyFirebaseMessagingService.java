@@ -152,6 +152,7 @@ BufferedWriter writer = new BufferedWriter(
 writer.write(query);
 writer.flush();
 writer.close();
+conn.connect();
 os.close();
 BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
 StringBuilder sb = new StringBuilder();
@@ -160,10 +161,11 @@ while ((output = br.readLine()) != null)
 sb.append(output);
 br.close();
 
-return sb.toString();
  Log.d(TAG, "sending post");
-conn.connect();
+
  Log.d(TAG, "sending post done" +conn.getResponseCode());
+ 
+return sb.toString();
 }
 		catch(Exception e){
 		Log.d(TAG, "sending post failed + " + e.getMessage());
