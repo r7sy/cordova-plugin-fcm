@@ -400,7 +400,7 @@ catch (Exception e){
 	 }
 	  
    }
-   public static String getSender(String id,Context c)
+   public static Sender getSender(String id,Context c)
    {  Log.d(TAG, "getting id for sender " + id);
 	   ArrayList<Sender> senders = new ArrayList<Sender>();
 	   try{
