@@ -79,13 +79,14 @@ public class FCMPlugin extends CordovaPlugin {
 		// MUTE //
 		else if (action.equals("mute"))
 		{
-			updateSenderSound(args.getString(0),"none");
+			
+			muteSender(args.getString(0));
 			callbackContext.success( );
 		}
 		// UNMUTE //
 		else if (action.equals("unmute"))
 		{
-			updateSenderSound(args.getString(0),"default");
+			unmuteSender(args.getString(0));
 			callbackContext.success( );
 		}
 			// GET TOKEN //
@@ -248,7 +249,7 @@ FileInputStream fis = c.openFileInput(fname);
    public static Sender readSender(JsonReader reader) throws IOException {
       String id=null;
 	 String sound=null;
-
+	boolean muted=false;
      reader.beginObject();
      while (reader.hasNext()) {
        String name = reader.nextName();
@@ -256,12 +257,16 @@ FileInputStream fis = c.openFileInput(fname);
          id = reader.nextString();
        } else if (name.equals("sound")) {
          sound = reader.nextString();
-       } else {
+       }
+		else if (name.equals("muted")) {
+         muted = reader.nextBoolean();
+       }	   
+	   else {
          reader.skipValue();
        }
      }
      reader.endObject();
-     return new Sender(id, sound );
+     return new Sender(id, sound , muted );
    }
   
   
@@ -291,7 +296,7 @@ catch (Exception e){
   public static void writeSender(JsonWriter writer, Sender sender) throws IOException {
      writer.beginObject();
      writer.name("id").value(sender.getId());
-     
+     writer.name.("muted").value(sender.getMuted());
 	 writer.name("sound").value(sender.getSound());
     
      writer.endObject();
@@ -313,7 +318,7 @@ catch (Exception e){
 	   }
 	   if(!found)
 	   {
-		   senders.add(new Sender(id,sound));
+		   senders.add(new Sender(id,sound,false));
 		   
 	   }
 	 } 
@@ -329,7 +334,73 @@ catch (Exception e){
 	 }
 	  
    }
-   public static String getSenderSound(String id,Context c)
+   public  void muteSender(String id )
+   { ArrayList<Sender> senders = new ArrayList<Sender>();
+	 try{
+		  readJsonFile("senders.json",cordova.getActivity(),senders);
+	   boolean found = false;
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {
+			   senders.get(i).setMuted(true);
+			   found=true;
+			   break;
+		   }
+		   
+	   }
+	   if(!found)
+	   {
+		   senders.add(new Sender(id,sound,true));
+		   
+	   }
+	 } 
+	 catch(Exception e)
+	 {
+		 
+	 }try {
+		  writeJsonFile("senders.json",cordova.getActivity(),senders);
+		 
+	 }catch (Exception e ) {
+		 
+		 
+	 }
+	  
+   }
+   public  void muteSender(String id )
+   { ArrayList<Sender> senders = new ArrayList<Sender>();
+	 try{
+		  readJsonFile("senders.json",cordova.getActivity(),senders);
+	   boolean found = false;
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {
+			   senders.get(i).setMuted(false);
+			   found=true;
+			   break;
+		   }
+		   
+	   }
+	   if(!found)
+	   {
+		   senders.add(new Sender(id,sound,false));
+		   
+	   }
+	 } 
+	 catch(Exception e)
+	 {
+		 
+	 }try {
+		  writeJsonFile("senders.json",cordova.getActivity(),senders);
+		 
+	 }catch (Exception e ) {
+		 
+		 
+	 }
+	  
+   }
+   public static String getSender(String id,Context c)
    {  Log.d(TAG, "getting id for sender " + id);
 	   ArrayList<Sender> senders = new ArrayList<Sender>();
 	   try{
@@ -338,7 +409,7 @@ catch (Exception e){
 	   {
 		   if(senders.get(i).getId().equals(id))
 		   {  Log.d(TAG, "getting id for sender " + id + senders.get(i).getSound() );
-			   return senders.get(i).getSound();
+			   return senders.get(i);
 		   }
 		   
 	   }   
