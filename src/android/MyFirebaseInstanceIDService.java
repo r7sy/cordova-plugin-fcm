@@ -22,7 +22,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 		if(s.size()!=0)
 		{
 		MyFirebaseMessagingService.postData("http://ultranotify.com/app/api.php"
-		,new String[]{"mobileNumber","access_token","token" , "OS","setToken"},new String[]{s.get(0).split("!@!")[1],s.get(0).split("!@!")[0],refreshedToken,"android",""});
+		,new String[]{"mobileNumber","access_token","deviceToken" , "OS","setToken"},new String[]{s.get(0).split("!@!")[1],s.get(0).split("!@!")[0],refreshedToken,"android",""});
 		}
 		FCMPlugin.sendTokenRefresh( refreshedToken );
 
