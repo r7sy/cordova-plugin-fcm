@@ -13,7 +13,7 @@ public class Sender {
 	public String getId(){return this.id;}
 	public String getSound(){return this.sound;}
 	public void setSound(String s){this.sound=s;}
-	public boolean getMuted(return this.muted;)
+	public boolean getMuted(){return this.muted;}
 	public void setMuted (boolean muted){this.muted = muted;}
 	
 }
