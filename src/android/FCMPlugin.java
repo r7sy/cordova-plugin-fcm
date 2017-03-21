@@ -351,7 +351,7 @@ catch (Exception e){
 	   }
 	   if(!found)
 	   {
-		   senders.add(new Sender(id,sound,true));
+		   senders.add(new Sender(id,"default",true));
 		   
 	   }
 	 } 
@@ -367,7 +367,7 @@ catch (Exception e){
 	 }
 	  
    }
-   public  void muteSender(String id )
+   public  void unmuteSender(String id )
    { ArrayList<Sender> senders = new ArrayList<Sender>();
 	 try{
 		  readJsonFile("senders.json",cordova.getActivity(),senders);
@@ -384,7 +384,7 @@ catch (Exception e){
 	   }
 	   if(!found)
 	   {
-		   senders.add(new Sender(id,sound,false));
+		   senders.add(new Sender(id,"default",false));
 		   
 	   }
 	 } 
