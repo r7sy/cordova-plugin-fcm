@@ -89,6 +89,18 @@ public class FCMPlugin extends CordovaPlugin {
 			unmuteSender(args.getString(0));
 			callbackContext.success( );
 		}
+		// VIBRATION ON //
+		else if (action.equals("vibrateon"))
+		{
+			turnVibrateOn(args.getString(0));
+			callbackContext.success( );
+		}
+		// UNMUTE //
+		else if (action.equals("vibrateoff"))
+		{
+			turnVibrateOff(args.getString(0));
+			callbackContext.success( );
+		}
 			// GET TOKEN //
 			else if (action.equals("getToken")) {
 				cordova.getActivity().runOnUiThread(new Runnable() {
@@ -250,6 +262,8 @@ FileInputStream fis = c.openFileInput(fname);
       String id=null;
 	 String sound=null;
 	boolean muted=false;
+	
+	boolean vibrate=true;
      reader.beginObject();
      while (reader.hasNext()) {
        String name = reader.nextName();
@@ -260,13 +274,16 @@ FileInputStream fis = c.openFileInput(fname);
        }
 		else if (name.equals("muted")) {
          muted = reader.nextBoolean();
-       }	   
+       }
+else if (name.equals("vibrate")) {
+         vibrate = reader.nextBoolean();
+       }	   	   
 	   else {
          reader.skipValue();
        }
      }
      reader.endObject();
-     return new Sender(id, sound , muted );
+     return new Sender(id, sound , muted ,vibrate );
    }
   
   
@@ -297,6 +314,8 @@ catch (Exception e){
      writer.beginObject();
      writer.name("id").value(sender.getId());
      writer.name("muted").value(sender.getMuted());
+	 
+     writer.name("vibrate").value(sender.getVibrate());
 	 writer.name("sound").value(sender.getSound());
     
      writer.endObject();
@@ -318,7 +337,7 @@ catch (Exception e){
 	   }
 	   if(!found)
 	   {
-		   senders.add(new Sender(id,sound,false));
+		   senders.add(new Sender(id,sound,false,true));
 		   
 	   }
 	 } 
@@ -351,7 +370,7 @@ catch (Exception e){
 	   }
 	   if(!found)
 	   {
-		   senders.add(new Sender(id,"default",true));
+		   senders.add(new Sender(id,"default",true,true));
 		   
 	   }
 	 } 
@@ -400,6 +419,73 @@ catch (Exception e){
 	 }
 	  
    }
+   public  void turnVibrateOn(String id )
+   { ArrayList<Sender> senders = new ArrayList<Sender>();
+	 try{
+		  readJsonFile("senders.json",cordova.getActivity(),senders);
+	   boolean found = false;
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {
+			   senders.get(i).setVibrate(true);
+			   found=true;
+			   break;
+		   }
+		   
+	   }
+	   if(!found)
+	   {
+		   senders.add(new Sender(id,"default",true,true));
+		   
+	   }
+	 } 
+	 catch(Exception e)
+	 {
+		 
+	 }try {
+		  writeJsonFile("senders.json",cordova.getActivity(),senders);
+		 
+	 }catch (Exception e ) {
+		 
+		 
+	 }
+	  
+   }
+    public  void turnVibrateOff(String id )
+   { ArrayList<Sender> senders = new ArrayList<Sender>();
+	 try{
+		  readJsonFile("senders.json",cordova.getActivity(),senders);
+	   boolean found = false;
+	   for(int i=0; i < senders.size() ;i++)
+	   {
+		   if(senders.get(i).getId().equals(id))
+		   {
+			   senders.get(i).setVibrate(false);
+			   found=true;
+			   break;
+		   }
+		   
+	   }
+	   if(!found)
+	   {
+		   senders.add(new Sender(id,"default",true,false));
+		   
+	   }
+	 } 
+	 catch(Exception e)
+	 {
+		 
+	 }try {
+		  writeJsonFile("senders.json",cordova.getActivity(),senders);
+		 
+	 }catch (Exception e ) {
+		 
+		 
+	 }
+	  
+   }
+   
    public static Sender getSender(String id,Context c)
    {  Log.d(TAG, "getting id for sender " + id);
 	   ArrayList<Sender> senders = new ArrayList<Sender>();
