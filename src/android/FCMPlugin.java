@@ -403,7 +403,7 @@ catch (Exception e){
 	   }
 	   if(!found)
 	   {
-		   senders.add(new Sender(id,"default",false));
+		   senders.add(new Sender(id,"default",false,true));
 		   
 	   }
 	 } 
