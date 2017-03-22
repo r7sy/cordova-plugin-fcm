@@ -36,6 +36,12 @@ FCMPlugin.prototype.mute = function(id,success, error ){
 FCMPlugin.prototype.unmute = function(id,success, error ){
 	exec(success, error, "FCMPlugin", 'unmute', [id]);
 }
+FCMPlugin.prototype.vibrateOn = function(id,success, error ){
+	exec(success, error, "FCMPlugin", 'vibrateon', [id]);
+}
+FCMPlugin.prototype.vibrateOff = function(id,success, error ){
+	exec(success, error, "FCMPlugin", 'vibrateoff', [id]);
+}
 // DEFAULT NOTIFICATION CALLBACK //
 FCMPlugin.prototype.onNotificationReceived = function(payload){
 	console.log("Received push notification")
