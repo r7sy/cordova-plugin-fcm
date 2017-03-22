@@ -136,6 +136,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			{	 notificationBuilder.setSound(soundUri);
 				notificationBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
 			}
+			if(sender==null || (sender!=null  && sender.getVibrate()))
+			{	 
+				notificationBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+			}
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
