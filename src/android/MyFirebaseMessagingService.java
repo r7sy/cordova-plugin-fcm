@@ -133,7 +133,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                .setContentIntent(pendingIntent);
 			if(sender==null || (sender!=null  && !sender.getMuted()))
-				 notificationBuilder.setSound(soundUri);
+			{	 notificationBuilder.setSound(soundUri);
+				notificationBuilder.setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
+			}
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
