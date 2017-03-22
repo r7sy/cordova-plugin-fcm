@@ -3,11 +3,13 @@ public class Sender {
 	private String id;
 	private String sound ;
 	private boolean muted ;
-	public Sender(String id , String sound,boolean muted)
+	private boolean vibrate;
+	public Sender(String id , String sound,boolean muted,boolean vibrate)
 	{
 		this.id=id;
 		this.sound=sound;
 		this.muted =muted;
+		this.vibrate=vibrate;
 	}
 	
 	public String getId(){return this.id;}
@@ -16,4 +18,6 @@ public class Sender {
 	public boolean getMuted(){return this.muted;}
 	public void setMuted (boolean muted){this.muted = muted;}
 	
+	public boolean getVibrate(){return this.vibrate;}
+	public void setVibrate (boolean vibrate){this.vibrate = vibrate;}
 }
