@@ -93,7 +93,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 			ArrayList<Message> messages =new ArrayList<Message>();
 			readJsonFile("messages.json",this,messages);
-			messages.add(new Message(remoteMessage.getData().get("id"),remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),remoteMessage.getData().get("senderId"),remoteMessage.getData().get("senderName"),remoteMessage.getData().get("thumbnail"),null));
+			messages.add(new Message(remoteMessage.getData().get("id"),remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),remoteMessage.getData().get("senderId"),remoteMessage.getData().get("senderName"),remoteMessage.getData().get("thumbnail_url"),remoteMessage.getData().get("thumbnail_hash"),null));
 			writeJsonFile("messages.json",this,messages);
 			}
 			 
@@ -266,7 +266,9 @@ FileInputStream fis = c.openFileInput(fname);
 	 String title=null;
 	 String body=null;
 	 String senderId=null;
-	 String thumbnail= null;
+	 String thumbnail_url= null;
+	 
+	 String thumbnail_hash= null;
 	 String senderName=null;
 	String arrivalTime=null;
 
@@ -285,15 +287,17 @@ FileInputStream fis = c.openFileInput(fname);
          senderId=reader.nextString();
        } else if (name.equals("arrivalTime")) {
          arrivalTime=reader.nextString();
-       }else if (name.equals("thumbnail")) {
-         thumbnail=reader.nextString();
+       }else if (name.equals("thumbnail_url")) {
+         thumbnail_url=reader.nextString();
+       }else if (name.equals("thumbnail_hash")) {
+         thumbnail_hash=reader.nextString();
        }  
 	   else {
          reader.skipValue();
        }
      }
      reader.endObject();
-     return new Message(id, title , body , senderId ,senderName,thumbnail,arrivalTime );
+     return new Message(id, title , body , senderId ,senderName,thumbnail_url,thumbnail_hash,arrivalTime );
    }
    public static void writeJsonFile(String fname ,Context c, ArrayList<Message> messages)
    {
@@ -301,7 +305,7 @@ FileInputStream fis = c.openFileInput(fname);
  Log.d(TAG, "Writing to json file");
  
 
-
+_
 FileOutputStream fos = c.openFileOutput(fname, Context.MODE_PRIVATE);
 JsonWriter writer = new JsonWriter(new OutputStreamWriter(fos));
 writer.setIndent("  ");
@@ -324,7 +328,9 @@ catch (Exception e){
      writer.name("title").value(message.getTitle());
      writer.name("body").value(message.getBody());
      writer.name("senderId").value(message.getSenderId());
-	 writer.name("thumbnail").value(message.getThumbnail());
+	 writer.name("thumbnail_url").value(message.getThumbnailUrl());
+	 
+	 writer.name("thumbnail_hash").value(message.getThumbnailHash());
      writer.name("senderName").value(message.getSenderName());
 	 writer.name("arrivalTime").value(Long.toString(message.getArrivalTime()));
     
