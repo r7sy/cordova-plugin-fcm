@@ -305,7 +305,6 @@ FileInputStream fis = c.openFileInput(fname);
  Log.d(TAG, "Writing to json file");
  
 
-_
 FileOutputStream fos = c.openFileOutput(fname, Context.MODE_PRIVATE);
 JsonWriter writer = new JsonWriter(new OutputStreamWriter(fos));
 writer.setIndent("  ");
