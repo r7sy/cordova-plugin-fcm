@@ -8,7 +8,7 @@ public class Message {
 	
 	private String thumbnail_url;
 	
-	private String hash;
+	private String thumbnail_hash;
 	private String senderName;
 	private Date arrivalTime;
 	public Message(String id , String title , String body , String senderId,String senderName,String thumbnail_url,String tumbnail_hash,String arrivalTime)
