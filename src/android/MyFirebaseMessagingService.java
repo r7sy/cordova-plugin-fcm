@@ -96,7 +96,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 			 data.put("valid","false");
 		  FCMPlugin.sendPushPayload( data );
 		}
-			else{
+			else if (res!=null && res.contains("ok-200")){
 				data.put("valid","true");
 				 FCMPlugin.sendPushPayload( data );
 			 if(data.get("title")!=null&&data.get("body")!=null&&data.get("id")!=null&&(id.size()==0||!id.contains(data.get("id").toString())))
