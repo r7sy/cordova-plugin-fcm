@@ -121,7 +121,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         String senderId= data.get("senderId").toString();
 		if(data.get("url")!=null)
 		{
-		Intent intent = new Intent(this, Uri.parse(data.get("url").toString()));
+		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.get("url").toString()));
         	
 		}
 		else{
