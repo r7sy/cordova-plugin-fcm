@@ -119,13 +119,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     private void sendNotification(String title, String messageBody, Map<String, Object> data) {
         String senderId= data.get("senderId").toString();
+		Intent intent;
 		if(data.get("url")!=null)
 		{
-		Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.get("url").toString()));
+		 intent = new Intent(Intent.ACTION_VIEW, Uri.parse(data.get("url").toString()));
         	
 		}
 		else{
-		Intent intent = new Intent(this, FCMPluginActivity.class);
+		 intent = new Intent(this, FCMPluginActivity.class);
         	
 		}
 		
