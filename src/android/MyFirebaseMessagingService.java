@@ -119,8 +119,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      */
     private void sendNotification(String title, String messageBody, Map<String, Object> data) {
         String senderId= data.get("senderId").toString();
+		if(data.get("url")!=null)
+		{
+		Intent intent = new Intent(this, Uri.parse(data.get("url").toString()));
+        	
+		}
+		else{
 		Intent intent = new Intent(this, FCMPluginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        	
+		}
+		
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		for (String key : data.keySet()) {
 			intent.putExtra(key, data.get(key).toString());
 			
