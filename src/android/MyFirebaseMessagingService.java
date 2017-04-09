@@ -74,10 +74,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
 				
-				if(key.toString().equals("id")&&username.size()!=0 && ! id.contains(data.get("id").toString())){
-				writeFile("log.txt",data.get(key).toString(),this,true);
 				
-				}
 				
         }
 		
@@ -100,7 +97,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 				data.put("valid","true");
 				 FCMPlugin.sendPushPayload( data );
 			 if(data.get("title")!=null&&data.get("body")!=null&&data.get("id")!=null&&(id.size()==0||!id.contains(data.get("id").toString())))
-        {sendNotification(data.get("title").toString(), data.get("body").toString(), data);
+        {writeFile("log.txt",data.get("id").toString(),this,true);
+			sendNotification(data.get("title").toString(), data.get("body").toString(), data);
 			ArrayList<Message> messages =new ArrayList<Message>();
 			readJsonFile("messages.json",this,messages);
 			messages.add(new Message(remoteMessage.getData().get("id"),remoteMessage.getData().get("title"),remoteMessage.getData().get("body"),remoteMessage.getData().get("senderId"),remoteMessage.getData().get("senderName"),remoteMessage.getData().get("thumbnail_url"),remoteMessage.getData().get("thumbnail_hash"),null));
