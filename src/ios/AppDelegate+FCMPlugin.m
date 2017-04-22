@@ -166,9 +166,9 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type
 {
     NSLog(@"didReceiveIncomingPushWithPayload",@"message recieved");
-	NSLog(@"rdwan voip data %@", payload);
+	NSLog(@"rdwan voip data %@", [payload dictionaryPayload]);
 	//NSLog(@"rdwan voip alert %@", payload["alert"]);
-	 NSDictionary *userInfoMutable = [payload mutableCopy];
+	 NSDictionary *userInfoMutable = [[payload dictionaryPayload] mutableCopy];
 	 /*UILocalNotification* localNotification = [[UILocalNotificationalloc] init]; 
 		localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:0];
 	localNotification.alertBody = payload["alert"];
