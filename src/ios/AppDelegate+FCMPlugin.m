@@ -175,12 +175,12 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	NSLog(@"rdwan voip data %@", [payload dictionaryPayload]);
 	//NSLog(@"rdwan voip alert %@", payload["alert"]);
 	 NSDictionary *userInfoMutable = [[payload dictionaryPayload]  mutableCopy];
-	 NSLog(@"rdwan apns  data %@", userInfoMutable[@"aps"]);
-	 /*UILocalNotification* localNotification = [[UILocalNotificationalloc] init]; 
+	 NSLog(@"rdwan apns  data %@", userInfoMutable[@"aps"][@"alert"]);
+	 UILocalNotification* localNotification = [[UILocalNotificationalloc] init]; 
 		localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:0];
-	localNotification.alertBody = payload["alert"];
+	localNotification.alertBody = @"fixed text notification";
 	localNotification.timeZone = [NSTimeZone defaultTimeZone];
-	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];*/
+	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 	 //if (application.applicationState == UIApplicationStateActive) {
           NSError *error;
         NSLog(@"app active");
