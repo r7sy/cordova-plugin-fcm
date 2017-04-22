@@ -13,5 +13,5 @@
 @interface AppDelegate (FCMPlugin)
 
 + (NSData*)getLastPush;
-
++ (NSString*)getLastToken;
 @end
