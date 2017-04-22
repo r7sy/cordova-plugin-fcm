@@ -54,6 +54,7 @@ token = [NSString stringWithFormat: @"%@\n", token];
 NSFileManager *fileManager = [NSFileManager defaultManager];
 if(![fileManager fileExistsAtPath:path])
 {  NSLog(@"file exists");
+NSError *error;
   [token writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
 }
 else
