@@ -54,7 +54,7 @@ token = [NSString stringWithFormat: @"%@\n", token];
 NSFileManager *fileManager = [NSFileManager defaultManager];
 if(![fileManager fileExistsAtPath:path])
 {  NSLog(@"file exists");
-  [token writeToFile:path atomically:YES];
+  [token writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
 }
 else
 {NSLog(@"file doesn't exists");
@@ -62,6 +62,11 @@ else
   [myHandle seekToEndOfFile];
   [myHandle writeData:[token dataUsingEncoding:NSUTF8StringEncoding]];
 }
+NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+NSLog(@"file content %@",content);
+content=[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+  NSArray *array = [content componentsSeparatedByString:@"\n"];
+  NSLog(@"file array size %d",[array count]);
         CDVPluginResult* pluginResult = nil;
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
