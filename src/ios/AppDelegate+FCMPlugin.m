@@ -380,7 +380,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 }
 
 
-+(NSString*)getToken
++(NSString*)getLastToken
 {
     return lastToken;
 }
