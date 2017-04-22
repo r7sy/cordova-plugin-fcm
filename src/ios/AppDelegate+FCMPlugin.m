@@ -159,8 +159,13 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     }
 
     NSLog(@"PushCredentials: %@", [credentials token]);
-	lastToken=  [[NSString alloc] initWithData:[credentials token]
-                                         encoding:NSASCIIStringEncoding] ;
+	const unsigned *tokenBytes = [credentials.token bytes];
+    lastToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                         ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                         ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                         ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+
+	
 	 [FCMPlugin.fcmPlugin notifyOfTokenRefresh:lastToken];
 }
 
