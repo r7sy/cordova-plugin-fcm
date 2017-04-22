@@ -43,7 +43,7 @@ static FCMPlugin *fcmPluginInstance;
     NSLog(@"get Token");
     [self.commandDelegate runInBackground:^{
         NSString* token = [AppDelegate getLastToken];
-		token ="hello";
+		token =@"hello";
 		NSLog(@"got last token %@", token);
 		
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
