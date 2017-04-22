@@ -50,9 +50,17 @@ NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserD
 NSString *documentsDirectory = [paths objectAtIndex:0];
 NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/mobileNumber.txt"];
 //[token writeToFile:path atomically:YES];
-NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:path];
-    [myHandle seekToEndOfFile];
-    [myHandle writeData:[token dataUsingEncoding:NSASCIIStringEncoding]];
+NSFileManager *fileManager = [NSFileManager defaultManager];
+if(![fileManager fileExistsAtPath:path])
+{  NSLog(@"file exists");
+  [savedString writeToFile:path atomically:YES];
+}
+else
+{NSLog(@"file doesn't exists");
+  NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:path];
+  [myHandle seekToEndOfFile];
+  [myHandle writeData:[token dataUsingEncoding:NSUTF8StringEncoding]];
+}
         CDVPluginResult* pluginResult = nil;
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
