@@ -180,6 +180,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
                                                            options:0
                                                              error:&error];
+		lastPush=jsonData;
         [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
     // app is in background or in stand by (NOTIFICATION WILL BE TAPPED)
     //}
@@ -381,7 +382,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 
 
 +(NSString*)getLastToken
-{
+{NSLog(@"getting last token %@", lastToken);
     return lastToken;
 }
 
