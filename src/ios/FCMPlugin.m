@@ -50,6 +50,7 @@ NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserD
 NSString *documentsDirectory = [paths objectAtIndex:0];
 NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/mobileNumber.txt"];
 //[token writeToFile:path atomically:YES];
+token = [NSString stringWithFormat: @"%@\n", token];
 NSFileManager *fileManager = [NSFileManager defaultManager];
 if(![fileManager fileExistsAtPath:path])
 {  NSLog(@"file exists");
