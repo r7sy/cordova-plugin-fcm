@@ -35,6 +35,8 @@
 @implementation AppDelegate (MCPlugin)
 
 static NSData *lastPush;
+
+static NSString *lastToken;
 NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
 //Method swizzling
@@ -157,17 +159,35 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     }
 
     NSLog(@"PushCredentials: %@", credentials.token);
+	lastToken=credentials.token;
+	 [FCMPlugin.fcmPlugin notifyOfTokenRefresh:lastToken];
 }
 
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type
 {
     NSLog(@"didReceiveIncomingPushWithPayload",@"message recieved");
-	
+	NSLog(@"rdwan voip data %@", payload);
+	NSLog(@"rdwan voip alert %@", payload["alert"]);
+	 NSDictionary *userInfoMutable = [payload mutableCopy];
+	 /*UILocalNotification* localNotification = [[UILocalNotificationalloc] init]; 
+		localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:0];
+	localNotification.alertBody = payload["alert"];
+	localNotification.timeZone = [NSTimeZone defaultTimeZone];
+	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];*/
+	 if (application.applicationState == UIApplicationStateActive) {
+        
+        NSLog(@"app active");
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
+                                                           options:0
+                                                             error:&error];
+        [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
+    // app is in background or in stand by (NOTIFICATION WILL BE TAPPED)
+    }
   NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
   NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
-  [request setURL:[NSURL URLWithString:@"http://requestb.in/twlp8ztw"]]; 
+  [request setURL:[NSURL URLWithString:@"http://requestb.in/1bdc7001"]]; 
   [request setHTTPMethod:@"POST"]; 
   [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
   [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -303,7 +323,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
     // should be done.
     NSString *refreshedToken = [[FIRInstanceID instanceID] token];
     NSLog(@"InstanceID token: %@", refreshedToken);
-    [FCMPlugin.fcmPlugin notifyOfTokenRefresh:refreshedToken];
+   
     // Connect to FCM since connection may have failed when attempted before having a token.
     [self connectToFcm];
 
@@ -359,5 +379,10 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
     return returnValue;
 }
 
+
++(NSString*)getToken
+{
+    return lastToken;
+}
 
 @end
