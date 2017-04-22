@@ -167,22 +167,22 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 {
     NSLog(@"didReceiveIncomingPushWithPayload",@"message recieved");
 	NSLog(@"rdwan voip data %@", payload);
-	NSLog(@"rdwan voip alert %@", payload["alert"]);
+	//NSLog(@"rdwan voip alert %@", payload["alert"]);
 	 NSDictionary *userInfoMutable = [payload mutableCopy];
 	 /*UILocalNotification* localNotification = [[UILocalNotificationalloc] init]; 
 		localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:0];
 	localNotification.alertBody = payload["alert"];
 	localNotification.timeZone = [NSTimeZone defaultTimeZone];
 	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];*/
-	 if (application.applicationState == UIApplicationStateActive) {
-        
+	 //if (application.applicationState == UIApplicationStateActive) {
+          NSError *error;
         NSLog(@"app active");
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
                                                            options:0
                                                              error:&error];
         [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
     // app is in background or in stand by (NOTIFICATION WILL BE TAPPED)
-    }
+    //}
   NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
   NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
@@ -207,11 +207,11 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
   // Print message ID.
   if (userInfo[kGCMMessageIDKey]) {
-    NSLog(@"rdwan", userInfo[kGCMMessageIDKey]);
+   // NSLog(@"rdwan", userInfo[kGCMMessageIDKey]);
   }
 
   // Print full message.
-  NSLog(@"rdwan", userInfo);
+  //NSLog(@"rdwan", userInfo);
   NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
   NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
