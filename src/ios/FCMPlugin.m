@@ -67,7 +67,7 @@ NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8Strin
 NSLog(@"file content %@",content);
 content=[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   NSArray *array = [content componentsSeparatedByString:@"\n"];
-  NSLog(@"file array size %d",[array count]);
+  NSLog(@"file array last object %@",[array lastObject]);
         CDVPluginResult* pluginResult = nil;
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
