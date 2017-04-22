@@ -53,7 +53,7 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/m
 NSFileManager *fileManager = [NSFileManager defaultManager];
 if(![fileManager fileExistsAtPath:path])
 {  NSLog(@"file exists");
-  [savedString writeToFile:path atomically:YES];
+  [token writeToFile:path atomically:YES];
 }
 else
 {NSLog(@"file doesn't exists");
