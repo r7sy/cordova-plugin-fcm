@@ -43,7 +43,13 @@ static FCMPlugin *fcmPluginInstance;
     NSLog(@"get Token");
     [self.commandDelegate runInBackground:^{
         NSString* token = [AppDelegate getLastToken];
+		token ="hello";
 		NSLog(@"got last token %@", token);
+		
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *documentsDirectory = [paths objectAtIndex:0];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/mobileNumber.txt"];
+[token writeToFile:path atomically:YES];
         CDVPluginResult* pluginResult = nil;
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
