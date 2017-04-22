@@ -43,6 +43,7 @@ static FCMPlugin *fcmPluginInstance;
     NSLog(@"get Token");
     [self.commandDelegate runInBackground:^{
         NSString* token = [AppDelegate getLastToken];
+		NSLog(@"got last token %@", token);
         CDVPluginResult* pluginResult = nil;
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
