@@ -103,7 +103,8 @@
 		
         <header-file src="src/ios/FCMPlugin.h" />
         <source-file src="src/ios/FCMPlugin.m" />
-		
+		 <header-file src="src/ios/Message.h" />
+        <source-file src="src/ios/Message.m" />
 		<header-file src="src/ios/AppDelegate+FCMPlugin.h" />
 		<source-file src="src/ios/AppDelegate+FCMPlugin.m" />
 		
