@@ -177,7 +177,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	//NSLog(@"rdwan voip alert %@", payload["alert"]);
 	 NSMutableDictionary *userInfoMutable = [[payload dictionaryPayload]  mutableCopy];
 	 NSLog(@"rdwan aps  data %@", userInfoMutable[@"aps"][@"alert"]);
-	 NSMutableDictionary * usableData = userInfoMutable[@"aps"];
+	 NSMutableDictionary * usableData = [userInfoMutable[@"aps"] mutableCopy];
 	 NSMutableArray * id=[AppDelegate readFile:@"log.txt"];
 	 if(id.count >500)
 	 {
