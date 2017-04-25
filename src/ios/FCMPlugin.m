@@ -77,7 +77,7 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/m
          
   }
 }
-	[AppDelegate writeFile:@"test.txt":@"hello my test":NO];
+	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
 		NSLog(@"got last token %@", token);
