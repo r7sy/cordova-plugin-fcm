@@ -48,7 +48,7 @@ static FCMPlugin *fcmPluginInstance;
 	if ([NSJSONSerialization isValidJSONObject:[m getDict]])
 {
   // Serialize the dictionary
-  NSError *error;
+ /* NSError *error;
   NSData *json = [NSJSONSerialization dataWithJSONObject:[m getDict] options:NSJSONWritingPrettyPrinted error:&error];
   NSLog(@"serilized dict");
   // If no errors, let's view the JSON
@@ -63,7 +63,7 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/m
 	[jsonString writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
          
   }
-}
+}*/
     [self.commandDelegate runInBackground:^{
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
@@ -71,20 +71,20 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/m
 		
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 NSString *documentsDirectory = [paths objectAtIndex:0];
-NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/mobileNumber.txt"];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/messages.json"];
 //[token writeToFile:path atomically:YES];
 token = [NSString stringWithFormat: @"%@\n", token];
 NSFileManager *fileManager = [NSFileManager defaultManager];
 if(![fileManager fileExistsAtPath:path])
 {  NSLog(@"file doesn't exist");
 NSError *error;
-  [token writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
+ // [token writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
 }
 else
 {NSLog(@"file doesn't exists");
   NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:path];
   [myHandle seekToEndOfFile];
-  [myHandle writeData:[token dataUsingEncoding:NSUTF8StringEncoding]];
+ // [myHandle writeData:[token dataUsingEncoding:NSUTF8StringEncoding]];
 }
 NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 NSLog(@"file content %@",content);
