@@ -492,4 +492,32 @@ if (json != nil && error == nil)
 
 }
 }
+
++ (NSString*)postData: (NSString*) url : (NSMutableArray*) keys : (NSMutableArray*) values{
+NSError* error;
+NSString * result;
+	  NSString *post=[[NSString alloc] init];
+		for( int i=0;i<keys.count;i++)
+	  {
+	  post=[NSString stringWithFormat:@"%@&%@=%@",post,keys[i],values[i]];
+	  
+	  }
+  NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
+  NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
+  [request setURL:[NSURL URLWithString:@"http://www.ultranotify.com/app/api.php?mobileNumber=0991530597&access_token=1564&confirmRecieve&id=1"]]; 
+  [request setHTTPMethod:@"POST"]; 
+  [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
+  [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+  [request setHTTPBody:postData];
+  //NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
+ NSURLResponse *response = nil;
+NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+if(!error &&responseData)
+{
+result= [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+}
+ return result;
+
+}
 @end
