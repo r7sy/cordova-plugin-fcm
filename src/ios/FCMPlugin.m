@@ -43,16 +43,12 @@ static FCMPlugin *fcmPluginInstance;
 {
 	
     [self.commandDelegate runInBackground:^{
-	NSString * ar = [[NSString alloc ] init];
-        ar=[NSString stringWithFormat:@"%@%@\n",ar,@"hello"];
-   NSLog(@"yessss %@",ar);
+	
    [AppDelegate writeFile:@"mobileNumber.txt":@"hello!@!man":NO];
-NSString* resp = [AppDelegate postData:@"http://www.ultranotify.com/app/api.php?":@[@"access_token",@"id",@"confirmSeen",@"mobileNumber"]:@[@"4546",@"1",@"",@"0991530597"]];
  NSLog(@"Got response %@",resp);
 
  
         NSString* token = [AppDelegate getLastToken];
-		token =@"hello";
 		NSLog(@"got last token %@", token);
         CDVPluginResult* pluginResult = nil;
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
@@ -115,6 +111,14 @@ NSString* resp = [AppDelegate postData:@"http://www.ultranotify.com/app/api.php?
 
 -(void) notifyOfTokenRefresh:(NSString *)token
 {
+ NSMutableArray * username=[AppDelegate readFile:@"mobileNumber.txt"];
+ if(username.count!=0)
+ {
+ 
+  NSArray * splitArray=[username[0] componentsSeparatedByString:@"!@!"];
+	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
+	[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"mobileNumber",@"access_token",@"deviceToken" , @"OS",@"setToken"]:@[splitArray[1],splitArray[0],token,@"ios"]];
+ }
     NSString * notifyJS = [NSString stringWithFormat:@"%@('%@');", tokenRefreshCallback, token];
     NSLog(@"stringByEvaluatingJavaScriptFromString %@", notifyJS);
     
