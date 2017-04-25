@@ -45,8 +45,6 @@ static FCMPlugin *fcmPluginInstance;
     [self.commandDelegate runInBackground:^{
 	
    [AppDelegate writeFile:@"mobileNumber.txt":@"hello!@!man":NO];
- NSLog(@"Got response %@",resp);
-
  
         NSString* token = [AppDelegate getLastToken];
 		NSLog(@"got last token %@", token);
