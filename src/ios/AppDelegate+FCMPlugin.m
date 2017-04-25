@@ -556,11 +556,13 @@ content.title = dict[@"title"];
 content.body = dict[@"body"];
 content.sound = [UNNotificationSound defaultSound];
 UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger
-            triggerWithTimeInterval:0 repeats:NO];
+            triggerWithTimeInterval:1 repeats:NO];
 UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:dict[@"id"]
             content:content trigger:trigger];
 UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-[center addNotificationRequest:request completionHandler:nil];			
+UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+    [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error){
+    }];		
  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 @end
