@@ -51,8 +51,8 @@ static FCMPlugin *fcmPluginInstance;
 	Message* m = [[Message alloc] initWithDict:dict withDate:nil];
 	Message* m1 = [[Message alloc] initWithDict:dict2 withDate:nil];
 	NSMutableArray* arr=[[NSMutableArray alloc] init];
-	[arr addObject:[m getDict]];
-	[arr addObject:[m1 getDict]];
+	[arr addObject:m];
+	[arr addObject:m1];
 	
 	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
 	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
@@ -63,7 +63,7 @@ static FCMPlugin *fcmPluginInstance;
 	NSMutableArray* newar=[AppDelegate readJSONFile:@"test.json"];
 	for(int i=0;i<[newar count];i++)
 	{
-	NSLog([newar[i] body]);
+	NSLog(@"%@",[newar[i] body]);
 	
 	}
         NSString* token = [AppDelegate getLastToken];
