@@ -439,4 +439,56 @@ NSArray *array = [content componentsSeparatedByString:@"\n"];
 }
 return marray;
 }
++ (NSMutableArray *)readJSONFile:(NSString*)name {
+NSError *error;
+NSFileManager *fileManager = [NSFileManager defaultManager];
+
+NSMutableArray *marray=[[NSMutableArray alloc] init];
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *documentsDirectory = [paths objectAtIndex:0];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
+if([fileManager fileExistsAtPath:path])
+{
+NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+if(!error)
+{
+
+NSData * jsonData = [NSData dataWithContentsOfFile:path];
+id array = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+if ([object isKindOfClass:[NSArray class]] && error == nil)
+{
+for(int i=0;i< [array count];i++)
+{
+[marray addObject:[[Message alloc]initWithDict:array[i]]];
+}
+
+}
+}
+}
+return marray;
+}
+
+(void)writeJSONFile:(NSString*)name : (NSMutableArray *)data{
+NSError *error;
+NSMutableArray *marray=[[NSMutableArray alloc] init];
+
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *documentsDirectory = [paths objectAtIndex:0];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
+for(int i=0;i< [data count];i++)
+{
+[marray addObject:[data[i] getDict]];
+}
+if ([NSJSONSerialization isValidJSONObject:marray])
+{
+NSData *json = [NSJSONSerialization dataWithJSONObject:marray options:NSJSONWritingPrettyPrinted error:&error];
+if (json != nil && error == nil)
+  {
+   NSString *jsonString = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
+  [jsonString writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
+  
+  }
+
+}
+}
 @end
