@@ -169,7 +169,7 @@ if ([array isKindOfClass:[NSArray class]] && error == nil)
 for(int i=0;i< [array count];i++)
 {
 NSDictionary * object=array[i];
-[marray addObject:[[Message alloc]initWithDict:array[i]]];
+[marray addObject:[[Sender alloc]initWithDict:array[i]]];
 }
 
 }
