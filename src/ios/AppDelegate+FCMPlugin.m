@@ -419,6 +419,8 @@ NSLog(@"Failed writing to file");
 }
 + (NSMutableArray *)readFile:(NSString*)name{
 NSError *error;
+NSFileManager *fileManager = [NSFileManager defaultManager];
+
 NSMutableArray *marray=[[NSMutableArray alloc] init];
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 NSString *documentsDirectory = [paths objectAtIndex:0];
