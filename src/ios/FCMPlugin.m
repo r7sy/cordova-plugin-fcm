@@ -42,15 +42,22 @@ static FCMPlugin *fcmPluginInstance;
 {
 	 NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
  ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
+ NSDictionary *dict2 = @{@"id": @"2",@"title":@"some title",@"body":@"some other body",@"senderId":@"2"
+ ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
     NSLog(@"get Token");
 	Message* m = [[Message alloc] initWithDict:dict withDate:nil];
-	NSLog(@"got message dict %s",[m getDict]);
-	if ([NSJSONSerialization isValidJSONObject:[m getDict]])
+	Message* m1 = [[Message alloc] initWithDict:dict2 withDate:nil];
+	NSMutableArray* arr=[[NSMutableArray alloc] init];
+	[arr addObject:m];
+	[arr addObject:m2];
+	
+	//NSLog(@"got message dict %s",[m getDict]);
+	if ([NSJSONSerialization isValidJSONObject:arr])
 {
   // Serialize the dictionary
  NSError *error;
-  NSData *json = [NSJSONSerialization dataWithJSONObject:[m getDict] options:NSJSONWritingPrettyPrinted error:&error];
-  NSLog(@"serilized dict");
+  NSData *json = [NSJSONSerialization dataWithJSONObject:arr options:NSJSONWritingPrettyPrinted error:&error];
+  NSLog(@"serilized array");
   // If no errors, let's view the JSON
   if (json != nil && error == nil)
   {
@@ -97,7 +104,7 @@ NSLog(@"file content %@",content);
    NSString* arrayElem = [array objectAtIndex:i];
   NSLog(@"file array %d object %@",i,arrayElem);
  }*/
- NSData * jsonData = [NSData dataWithContentsOfFile:path];
+ /*NSData * jsonData = [NSData dataWithContentsOfFile:path];
  id object = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
   if ([object isKindOfClass:[NSDictionary class]] && error == nil)
 {
@@ -107,7 +114,7 @@ NSLog(@"file content %@",content);
 	NSLog(@"message: %@", [m2 body]);
   
   
-  }
+  }*/
         CDVPluginResult* pluginResult = nil;
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
