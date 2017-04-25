@@ -41,7 +41,7 @@ static FCMPlugin *fcmPluginInstance;
 - (void) getToken:(CDVInvokedUrlCommand *)command 
 {
 	NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
- ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
+ ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan",@"muted":[[NSNumber alloc] initWithBool:@YES]};
     NSLog(@"get Token");
 	Message* m = [[Message alloc] initWithDict:dict];
 	NSLog(@"got message dict %s",[m getDict]);
