@@ -11,7 +11,7 @@
 #import <Foundation/Foundation.h>
 #import <PushKit/PushKit.h>
 #import "Firebase.h"
-
+#import "Message.h"
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 @import UserNotifications;
 #endif
@@ -459,7 +459,7 @@ if ([object isKindOfClass:[NSArray class]] && error == nil)
 {
 for(int i=0;i< [array count];i++)
 {
-[marray addObject:[[Message alloc]initWithDict:array[i]]];
+[marray addObject:[[Message alloc]initWithDict:array[i] withDate:[[NSDate alloc] initWithTimeIntervalSince1970:[object[@"arrivalTime"] doubleValue]]]];
 }
 
 }
@@ -468,7 +468,7 @@ for(int i=0;i< [array count];i++)
 return marray;
 }
 
-(void)writeJSONFile:(NSString*)name : (NSMutableArray *)data{
++(void)writeJSONFile:(NSString*)name : (NSMutableArray *)data{
 NSError *error;
 NSMutableArray *marray=[[NSMutableArray alloc] init];
 
