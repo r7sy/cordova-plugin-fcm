@@ -43,6 +43,7 @@ static FCMPlugin *fcmPluginInstance;
 {
 	
     [self.commandDelegate runInBackground:^{
+	NSError* error;
 	  NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
   NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
@@ -52,13 +53,14 @@ static FCMPlugin *fcmPluginInstance;
   [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
   [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
   [request setHTTPBody:postData];
-  NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
- 
-  if(conn) {
-    NSLog(@"Connection Successful");
-} else {
-    NSLog(@"Connection could not be made");
+  //NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
+ NSURLResponse *response = nil;
+NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+if(!error &&responseData)
+{
+NSLog(@"response %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding])
 }
+ 
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
 		NSLog(@"got last token %@", token);
@@ -202,7 +204,5 @@ if (json != nil && error == nil)
 }
 }
 
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    NSLog(@"response %@",response);
-}
+
 @end
