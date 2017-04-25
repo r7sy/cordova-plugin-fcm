@@ -392,5 +392,27 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {NSLog(@"getting last token %@", lastToken);
     return lastToken;
 }
++ (void)writeFile:(NString*)name : (NString*)data : (BOOL) append{
+NSError *error;
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *documentsDirectory = [paths objectAtIndex:0];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
+NSFileManager *fileManager = [NSFileManager defaultManager];
+if(![fileManager fileExistsAtPath:path] || !append)
+{  NSLog(@"Writing file");
 
+  [data writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
+}
+else
+{NSLog(@"Appending to file");
+  NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:path];
+  [myHandle seekToEndOfFile];
+ [myHandle writeData:[data dataUsingEncoding:NSUTF8StringEncoding]];
+}
+if(error)
+{
+NSLog(@"Failed writing to file");
+ 
+}
+}
 @end
