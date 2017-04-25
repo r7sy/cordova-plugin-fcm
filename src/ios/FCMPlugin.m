@@ -40,6 +40,8 @@ static FCMPlugin *fcmPluginInstance;
 // GET TOKEN //
 - (void) getToken:(CDVInvokedUrlCommand *)command 
 {
+	
+    [self.commandDelegate runInBackground:^{
 	 NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
  ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
  NSDictionary *dict2 = @{@"id": @"2",@"title":@"some title",@"body":@"some other body",@"senderId":@"2"
@@ -71,7 +73,7 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/m
          
   }
 }
-    [self.commandDelegate runInBackground:^{
+	
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
 		NSLog(@"got last token %@", token);
