@@ -392,7 +392,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {NSLog(@"getting last token %@", lastToken);
     return lastToken;
 }
-+ (void)writeFile:(NString*)name : (NString*)data : (BOOL) append{
++ (void)writeFile:(NSString*)name : (NSString*)data : (BOOL) append{
 NSError *error;
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 NSString *documentsDirectory = [paths objectAtIndex:0];
