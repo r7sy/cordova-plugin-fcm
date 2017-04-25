@@ -191,6 +191,8 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	 NSLog(@"Notification Data %@",usableData);
 	 
 	  NSMutableArray * username=[AppDelegate readFile:@"mobileNumber.txt"];
+	   NSLog(@"array is %@ ",username);
+	
 	  if(usableData[@"id"] && username.count!=0)
 	  {
 	  NSArray * splitArray=[username[0] componentsSeparatedByString:@"!@!"];
