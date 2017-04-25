@@ -102,7 +102,7 @@ NSLog(@"file content %@",content);
   if ([object isKindOfClass:[NSDictionary class]] && error == nil)
 {
   NSLog(@"dictionary: %@", object);
-  Message* m2 = [[Message alloc] initWithDict:object withDate:[NSDate initWithTimeIntervalSince1970:object[@"arrivalTime"]]];
+  Message* m2 = [[Message alloc] initWithDict:object withDate:[[NSDate alloc] initWithTimeIntervalSince1970:object[@"arrivalTime"]]];
 	NSLog(@"message: %@", [m2 body]);
   
   
