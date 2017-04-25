@@ -43,7 +43,7 @@ static FCMPlugin *fcmPluginInstance;
 {
 	
     [self.commandDelegate runInBackground:^{
-	 /*NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
+	 NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
  ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
  NSDictionary *dict2 = @{@"id": @"2",@"title":@"some title",@"body":@"some other body",@"senderId":@"2"
  ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
@@ -52,14 +52,14 @@ static FCMPlugin *fcmPluginInstance;
 	Message* m1 = [[Message alloc] initWithDict:dict2 withDate:nil];
 	NSMutableArray* arr=[[NSMutableArray alloc] init];
 	[arr addObject:[m getDict]];
-	[arr addObject:[m1 getDict]];*/
+	[arr addObject:[m1 getDict]];
 	
 	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
 	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
 	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
-	NSLog("test.txt %@",[AppDelegate readFile:@"test.txt"]	);
+	NSLog(@"test.txt %@",[AppDelegate readFile:@"test.txt"]	);
 	[AppDelegate writeJSONFile:@"test.json":arr];
-	NSLog("test.txt %@",[AppDelegate readFile:@"test.json"]	);
+	NSLog(@"test.txt %@",[AppDelegate readFile:@"test.json"]	);
 	NSMutableArray* newar=[AppDelegate readJSONFile:@"test.json"];
 	for(int i=0;i<[newar count];i++)
 	{
