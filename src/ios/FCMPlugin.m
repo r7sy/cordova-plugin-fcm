@@ -75,27 +75,38 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/m
 //[token writeToFile:path atomically:YES];
 token = [NSString stringWithFormat: @"%@\n", token];
 NSFileManager *fileManager = [NSFileManager defaultManager];
-if(![fileManager fileExistsAtPath:path])
+/*if(![fileManager fileExistsAtPath:path])
 {  NSLog(@"file doesn't exist");
 NSError *error;
- // [token writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
+  [token writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
 }
 else
 {NSLog(@"file doesn't exists");
   NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:path];
   [myHandle seekToEndOfFile];
- // [myHandle writeData:[token dataUsingEncoding:NSUTF8StringEncoding]];
-}
+ [myHandle writeData:[token dataUsingEncoding:NSUTF8StringEncoding]];
+}*/
+
 NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
 NSLog(@"file content %@",content);
-content=[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+/*content=[content stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
   NSArray *array = [content componentsSeparatedByString:@"\n"];
   //NSLog(@"file array last object %@",[array lastObject]);
   int i;
  for (i = 0; i < [array count]; i++) {
    NSString* arrayElem = [array objectAtIndex:i];
   NSLog(@"file array %d object %@",i,arrayElem);
- }
+ }*/
+ NSData * jsonData = [NSData dataWithContentsOfFile:path];
+ id object = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+  if ([object isKindOfClass:[NSDictionary class]] && error == nil)
+{
+  NSLog(@"dictionary: %@", object);
+  Message* m2 = [[Message alloc] initWithDict:object withDate:[NSDate initWithTimeIntervalSince1970:object[@"arrivalTime"]]];
+	NSLog(@"message: %@", [m2 body]);
+  
+  
+  }
         CDVPluginResult* pluginResult = nil;
         pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:token];
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
