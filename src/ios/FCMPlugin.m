@@ -59,7 +59,7 @@ static FCMPlugin *fcmPluginInstance;
 	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
 	NSLog(@"test.txt %@",[AppDelegate readFile:@"test.txt"]	);
 	[AppDelegate writeJSONFile:@"test.json":arr];
-	NSLog(@"test.txt %@",[AppDelegate readFile:@"test.json"]	);
+	NSLog(@"test.txt %@",[AppDelegate readFile:@"test.json"]);
 	NSMutableArray* newar=[AppDelegate readJSONFile:@"test.json"];
 	for(int i=0;i<[newar count];i++)
 	{
@@ -155,5 +155,57 @@ static FCMPlugin *fcmPluginInstance;
     }
     appInForeground = YES;
 }
++ (NSMutableArray *)readJSONFile:(NSString*)name {
+NSError *error;
+NSFileManager *fileManager = [NSFileManager defaultManager];
 
+NSMutableArray *marray=[[NSMutableArray alloc] init];
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *documentsDirectory = [paths objectAtIndex:0];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
+if([fileManager fileExistsAtPath:path])
+{
+NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+if(!error)
+{
+
+NSData * jsonData = [NSData dataWithContentsOfFile:path];
+id array = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
+if ([array isKindOfClass:[NSArray class]] && error == nil)
+{
+for(int i=0;i< [array count];i++)
+{
+NSDictionary * object=array[i];
+[marray addObject:[[Message alloc]initWithDict:array[i]]];
+}
+
+}
+}
+}
+return marray;
+}
+
++(void)writeJSONFile:(NSString*)name : (NSMutableArray *)data{
+NSError *error;
+NSMutableArray *marray=[[NSMutableArray alloc] init];
+
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *documentsDirectory = [paths objectAtIndex:0];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
+for(int i=0;i< [data count];i++)
+{
+[marray addObject:[data[i] getDict]];
+}
+if ([NSJSONSerialization isValidJSONObject:marray])
+{
+NSData *json = [NSJSONSerialization dataWithJSONObject:marray options:NSJSONWritingPrettyPrinted error:&error];
+if (json != nil && error == nil)
+  {
+   NSString *jsonString = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
+  [jsonString writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
+  
+  }
+
+}
+}
 @end
