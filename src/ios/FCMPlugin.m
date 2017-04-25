@@ -43,24 +43,9 @@ static FCMPlugin *fcmPluginInstance;
 {
 	
     [self.commandDelegate runInBackground:^{
-	NSError* error;
-	  NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
-  NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-  NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
-  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
-  [request setURL:[NSURL URLWithString:@"http://www.ultranotify.com/app/api.php?mobileNumber=0991530597&access_token=1564&confirmRecieve&id=1"]]; 
-  [request setHTTPMethod:@"POST"]; 
-  [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
-  [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-  [request setHTTPBody:postData];
-  //NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
- NSURLResponse *response = nil;
-NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-if(!error &&responseData)
-{
-NSLog(@"response %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
-}
- 
+NSString* resp = [AppDelegate postData:@"http://www.ultranotify.com/app/api.php?":
+	@[@"access_token",@"id",@"confirmSeen",@"mobileNumber"],[@"4546",@"1",@"",@"0991530597"]];
+ NSLog(@"Got response %@",resp);
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
 		NSLog(@"got last token %@", token);
