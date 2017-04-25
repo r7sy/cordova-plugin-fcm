@@ -11,6 +11,7 @@
 #import <Foundation/Foundation.h>
 #import <PushKit/PushKit.h>
 #import "Firebase.h"
+#import <AudioToolbox/AudioServices.h>
 #import "Message.h"
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
 @import UserNotifications;
@@ -128,7 +129,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
                                                        options:0
                                                          error:&error];
-    [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
+    //[FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
     
     // Change this to your preferred presentation option
     completionHandler(UNNotificationPresentationOptionNone);
@@ -199,15 +200,20 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
 	  
 	  NSString* resp=[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
-	  
+	    NSError *error;
 	  [usableData setObject:[[NSNumber alloc] initWithBool:YES] forKey:@"valid"];
-	   NSError *error;
+	          [FCMPlugin.fcmPlugin notifyOfMessage:[NSJSONSerialization dataWithJSONObject:usableData
+                                                           options:0
+                                                             error:&error]];
+	 
 	  lastPush=[NSJSONSerialization dataWithJSONObject:usableData
                                                            options:0
                                                              error:&error];
 		 if(usableData[@"title"]&&usableData[@"body"]&&usableData[@"id"]&&(id.count==0||![id containsObject:usableData[@"id"]]))
 		 {
+		 
 		 [AppDelegate writeFile:@"log.txt":usableData[@"id"]:YES];
+		 [AppDelegate showNotification:usableData];
 		 NSMutableArray * messages= [AppDelegate readJSONFile:@"messages.json"];
 		 [messages addObject:[[Message alloc] initWithDict:usableData withDate:nil]];
 		 [AppDelegate writeJSONFile:@"messages.JSON":messages];
@@ -217,18 +223,9 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	  
 	  
 	  
-	 UILocalNotification* localNotification = [[UILocalNotification alloc] init]; 
-		localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:0];
-	localNotification.alertBody = @"fixed text notification";
-	localNotification.timeZone = [NSTimeZone defaultTimeZone];
-	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-	 //if (application.applicationState == UIApplicationStateActive) {
-         NSError * error;
-        NSLog(@"app active");
+	 
         
-        [FCMPlugin.fcmPlugin notifyOfMessage:[NSJSONSerialization dataWithJSONObject:usableData
-                                                           options:0
-                                                             error:&error]];
+
     // app is in background or in stand by (NOTIFICATION WILL BE TAPPED)
     //}
  
@@ -338,7 +335,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
                                                            options:0
                                                              error:&error];
-        [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
+        //[FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
     // app is in background or in stand by (NOTIFICATION WILL BE TAPPED)
     }
 
@@ -548,5 +545,19 @@ result= [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncodin
 }
  return result;
 
+}
++(void) showNotification:(NSDict *) dict 
+{
+UNMutableNotificationContent *content = [UNMutableNotificationContent new];
+content.title = dict[@"title"];
+content.body = dict[@"body"];
+content.sound = [UNNotificationSound defaultSound];
+UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger
+            triggerWithTimeInterval:0 repeats:NO];
+UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:dict[@"id"]
+            content:content trigger:trigger];
+UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
+[center addNotificationRequest:request];			
+ AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 @end
