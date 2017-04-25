@@ -16,5 +16,6 @@
 - (void)notifyOfTokenRefresh:(NSString*) token;
 - (void)appEnterBackground;
 - (void)appEnterForeground;
-
++ (NSMutableArray *)readJSONFile:(NSString*)name ;
++ (void)writeJSONFile:(NSString*)name : (NSMutableArray *)data ;
 @end
