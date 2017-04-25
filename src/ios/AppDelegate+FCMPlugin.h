@@ -14,5 +14,5 @@
 
 + (NSData*)getLastPush;
 + (NSString*)getLastToken;
-+ (void)writeFile:(NString*)name : (NString*)Data : (BOOL) append;
++ (void)writeFile:(NSString*)name : (NSString*)Data : (BOOL) append;
 @end
