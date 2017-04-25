@@ -20,7 +20,7 @@ self.senderId=dict[@"senderId"];
 self.thumbnail_url=dict[@"thumbnail_url"];
 self.thumbnail_hash=dict[@"thumbnail_hash"];
 self.senderName=dict[@"senderName"];
-
+self.muted=dict[@"muted"];
 
 }
 return self;
@@ -28,7 +28,7 @@ return self;
 -(NSDictionary *) getDict
 {
  NSDictionary *dict = @{@"id": self.id,@"title":self.title,@"body":self.body,@"senderId":self.senderId
- ,@"thumbnail_url":self.thumbnail_url,@"thumbnail_hash":self.thumbnail_hash,@"senderName":self.senderName};
+ ,@"thumbnail_url":self.thumbnail_url,@"thumbnail_hash":self.thumbnail_hash,@"senderName":self.senderName,@"muted":self.muted};
    return dict;
 }
 
