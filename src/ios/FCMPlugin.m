@@ -54,16 +54,16 @@ static FCMPlugin *fcmPluginInstance;
 	[arr addObject:[m getDict]];
 	[arr addObject:[m1 getDict]];*/
 	
-	[AppDelegate writeFile:@"test.txt":@"hello my test":yes];
-	[AppDelegate writeFile:@"test.txt":@"hello my test":yes];
-	[AppDelegate writeFile:@"test.txt":@"hello my test":yes];
-	NSLog([AppDelegate readFile:@"test.txt"]	);
+	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
+	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
+	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
+	NSLog("test.txt %@",[AppDelegate readFile:@"test.txt"]	);
 	[AppDelegate writeJSONFile:@"test.json":arr];
-	NSLog([AppDelegate readFile:@"test.json"]	);
+	NSLog("test.txt %@",[AppDelegate readFile:@"test.json"]	);
 	NSMutableArray* newar=[AppDelegate readJSONFile:@"test.json"];
 	for(int i=0;i<[newar count];i++)
 	{
-	NSLog(newar[i].body);
+	NSLog([newar[i] body]);
 	
 	}
         NSString* token = [AppDelegate getLastToken];
