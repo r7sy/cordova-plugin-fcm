@@ -404,7 +404,9 @@ if(![fileManager fileExistsAtPath:path] || !append)
   [data writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
 }
 else
-{NSLog(@"Appending to file");
+{
+NSLog(@"Appending to file");
+data = [NSString stringWithFormat: @"%@\n", data];
   NSFileHandle *myHandle = [NSFileHandle fileHandleForWritingAtPath:path];
   [myHandle seekToEndOfFile];
  [myHandle writeData:[data dataUsingEncoding:NSUTF8StringEncoding]];
@@ -414,5 +416,25 @@ if(error)
 NSLog(@"Failed writing to file");
  
 }
+}
++ (NSMutableArray *)readFile:(NSString*)name{
+NSError *error;
+NSMutableArray *marray=[[NSMutableArray alloc] init];
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *documentsDirectory = [paths objectAtIndex:0];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
+if([fileManager fileExistsAtPath:path])
+{
+NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+if(!error)
+{
+NSArray *array = [content componentsSeparatedByString:@"\n"];
+
+[marray addObjectsFromArray:array];
+[marray removeLastObject];
+}
+
+}
+return marray;
 }
 @end
