@@ -3,6 +3,7 @@
 
 #import "AppDelegate+FCMPlugin.h"
 #import "Message.h"
+#import "Sender.h"
 #import <Cordova/CDV.h>
 #import "FCMPlugin.h"
 #import "Firebase.h"
@@ -42,7 +43,7 @@ static FCMPlugin *fcmPluginInstance;
 {
 	
     [self.commandDelegate runInBackground:^{
-	 NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
+	 /*NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
  ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
  NSDictionary *dict2 = @{@"id": @"2",@"title":@"some title",@"body":@"some other body",@"senderId":@"2"
  ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
@@ -51,8 +52,11 @@ static FCMPlugin *fcmPluginInstance;
 	Message* m1 = [[Message alloc] initWithDict:dict2 withDate:nil];
 	NSMutableArray* arr=[[NSMutableArray alloc] init];
 	[arr addObject:[m getDict]];
-	[arr addObject:[m1 getDict]];
-	
+	[arr addObject:[m1 getDict]];*/
+	NSDictionary *dict = @{@id:@"1",@sound:@"default",muted:[[NSNumber alloc] initWithBool:@NO],vibrate:[[NSNumber alloc] initWithBool:@YES]};
+	Sender* s = [[Sender alloc] initWithDict:dict];
+	NSMutableArray* arr=[[NSMutableArray alloc] init];
+	[arr addObject:[s getDict]];
 	//NSLog(@"got message dict %s",[m getDict]);
 	if ([NSJSONSerialization isValidJSONObject:arr])
 {
