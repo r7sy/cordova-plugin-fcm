@@ -47,7 +47,7 @@ static FCMPlugin *fcmPluginInstance;
   NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
-  [request setURL:[NSURL URLWithString:@"http://requestb.in/1l8hlwz1"]]; 
+  [request setURL:[NSURL URLWithString:@"http://www.ultranotify.com/app/api.php?mobileNumber=0991530597&access_token=1564&confirmRecieve&id=1"]]; 
   [request setHTTPMethod:@"POST"]; 
   [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
   [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
