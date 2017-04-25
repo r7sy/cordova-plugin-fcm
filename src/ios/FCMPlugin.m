@@ -40,7 +40,7 @@ static FCMPlugin *fcmPluginInstance;
 // GET TOKEN //
 - (void) getToken:(CDVInvokedUrlCommand *)command 
 {
-	NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
+	/* NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
  ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan",@"muted":[[NSNumber alloc] initWithBool:@YES]};
     NSLog(@"get Token");
 	Message* m = [[Message alloc] initWithDict:dict];
@@ -48,7 +48,7 @@ static FCMPlugin *fcmPluginInstance;
 	if ([NSJSONSerialization isValidJSONObject:[m getDict]])
 {
   // Serialize the dictionary
- /* NSError *error;
+ NSError *error;
   NSData *json = [NSJSONSerialization dataWithJSONObject:[m getDict] options:NSJSONWritingPrettyPrinted error:&error];
   NSLog(@"serilized dict");
   // If no errors, let's view the JSON
