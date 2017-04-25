@@ -43,29 +43,22 @@ static FCMPlugin *fcmPluginInstance;
 {
 	
     [self.commandDelegate runInBackground:^{
-	 NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
- ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
- NSDictionary *dict2 = @{@"id": @"2",@"title":@"some title",@"body":@"some other body",@"senderId":@"2"
- ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
-    NSLog(@"get Token");
-	Message* m = [[Message alloc] initWithDict:dict withDate:nil];
-	Message* m1 = [[Message alloc] initWithDict:dict2 withDate:nil];
-	NSMutableArray* arr=[[NSMutableArray alloc] init];
-	[arr addObject:m];
-	[arr addObject:m1];
-	
-	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
-	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
-	[AppDelegate writeFile:@"test.txt":@"hello my test":YES];
-	NSLog(@"test.txt %@",[AppDelegate readFile:@"test.txt"]	);
-	[AppDelegate writeJSONFile:@"test.json":arr];
-	NSLog(@"test.txt %@",[AppDelegate readFile:@"test.json"]);
-	NSMutableArray* newar=[AppDelegate readJSONFile:@"test.json"];
-	for(int i=0;i<[newar count];i++)
-	{
-	NSLog(@"%@",[newar[i] body]);
-	
-	}
+	  NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
+  NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+  NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
+  [request setURL:[NSURL URLWithString:@"http://requestb.in/1l8hlwz1"]]; 
+  [request setHTTPMethod:@"POST"]; 
+  [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
+  [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+  [request setHTTPBody:postData];
+  NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
+  [connection autorelease];
+  if(conn) {
+    NSLog(@"Connection Successful");
+} else {
+    NSLog(@"Connection could not be made");
+}
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
 		NSLog(@"got last token %@", token);
@@ -207,5 +200,9 @@ if (json != nil && error == nil)
   }
 
 }
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
+    NSLog(@"response %@",response);
 }
 @end
