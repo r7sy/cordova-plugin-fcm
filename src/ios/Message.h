@@ -11,5 +11,5 @@
 @property(nonatomic, readwrite) NSString * senderName;
 @property(nonatomic, readwrite) NSDate  * arrivalTime;
 -(NSDictionary *) getDict;
--(id) initWithDict :(NSDictionary *) dict ;
+-(id) initWithDict :(NSDictionary *) dict withDate:(NSDate *)date ;
 @end
