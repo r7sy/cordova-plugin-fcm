@@ -453,11 +453,13 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString st
 if([fileManager fileExistsAtPath:path])
 {
 NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+
 if(!error)
 {
 NSArray *array = [content componentsSeparatedByString:@"\n"];
 
 [marray addObjectsFromArray:array];
+if(array.count>1)
 [marray removeLastObject];
 }
 
