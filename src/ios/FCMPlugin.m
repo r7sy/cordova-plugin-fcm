@@ -2,7 +2,7 @@
 #include <sys/sysctl.h>
 
 #import "AppDelegate+FCMPlugin.h"
-
+#import "Message.h"
 #import <Cordova/CDV.h>
 #import "FCMPlugin.h"
 #import "Firebase.h"
@@ -40,7 +40,11 @@ static FCMPlugin *fcmPluginInstance;
 // GET TOKEN //
 - (void) getToken:(CDVInvokedUrlCommand *)command 
 {
+	NSDictionary *dict = @{@"id": "1",@"title":"some title",@"body":"some body",@"senderId":"1"
+ ,@"thumbnail_url":"logo.png",@"thumbnail_hash":"aawdawdaw",@"senderName":"rdwan"};
     NSLog(@"get Token");
+	Message* m = [[Message alloc] initWithDict:dict];
+	NSLog(@"got message dict %d",[m getDict]);
     [self.commandDelegate runInBackground:^{
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
