@@ -52,7 +52,7 @@ static FCMPlugin *fcmPluginInstance;
 	[arr addObject:m1];
 	
 	//NSLog(@"got message dict %s",[m getDict]);
-	if ([NSJSONSerialization isValidJSONObject:arr])
+	if ([NSJSONSerialization isValidJSONObject:[arr copy]])
 {
   // Serialize the dictionary
  NSError *error;
