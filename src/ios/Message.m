@@ -8,7 +8,7 @@
    
 }
 
--(id) initWithDict :(NSDictionary *) dict
+-(id) initWithDict :(NSDictionary *) dict withDate:(NSDate *)date
 {
 self=[super init];
 if(self)
@@ -20,7 +20,11 @@ self.senderId=dict[@"senderId"];
 self.thumbnail_url=dict[@"thumbnail_url"];
 self.thumbnail_hash=dict[@"thumbnail_hash"];
 self.senderName=dict[@"senderName"];
-self.muted=dict[@"muted"];
+self.arrivalTime = date;
+if(self.arrivalTime)
+{
+self.arrivalTime=[[NSDate alloc] init];
+}
 
 }
 return self;
@@ -28,7 +32,7 @@ return self;
 -(NSDictionary *) getDict
 {
  NSDictionary *dict = @{@"id": self.id,@"title":self.title,@"body":self.body,@"senderId":self.senderId
- ,@"thumbnail_url":self.thumbnail_url,@"thumbnail_hash":self.thumbnail_hash,@"senderName":self.senderName,@"muted":self.muted};
+ ,@"thumbnail_url":self.thumbnail_url,@"thumbnail_hash":self.thumbnail_hash,@"senderName":self.senderName,@"arrivalTime":[[NSNumber alloc] init:[self.arrivalTime timeIntervalSince1970]]};
    return dict;
 }
 
