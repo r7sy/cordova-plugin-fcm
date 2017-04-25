@@ -43,7 +43,7 @@ static FCMPlugin *fcmPluginInstance;
 	 NSDictionary *dict = @{@"id": @"1",@"title":@"some title",@"body":@"some body",@"senderId":@"1"
  ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
     NSLog(@"get Token");
-	Message* m = [[Message alloc] initWithDict:dict];
+	Message* m = [[Message alloc] initWithDict:dict andWithDate:nil];
 	NSLog(@"got message dict %s",[m getDict]);
 	if ([NSJSONSerialization isValidJSONObject:[m getDict]])
 {
