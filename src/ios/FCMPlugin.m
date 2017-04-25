@@ -53,7 +53,7 @@ static FCMPlugin *fcmPluginInstance;
 	NSMutableArray* arr=[[NSMutableArray alloc] init];
 	[arr addObject:[m getDict]];
 	[arr addObject:[m1 getDict]];*/
-	NSDictionary *dict = @{@id:@"1",@sound:@"default",muted:[[NSNumber alloc] initWithBool:@NO],vibrate:[[NSNumber alloc] initWithBool:@YES]};
+	NSDictionary *dict = @{@id:@"1",@sound:@"default",muted:[[NSNumber alloc] initWithBool:NO],vibrate:[[NSNumber alloc] initWithBool:YES]};
 	Sender* s = [[Sender alloc] initWithDict:dict];
 	NSMutableArray* arr=[[NSMutableArray alloc] init];
 	[arr addObject:[s getDict]];
@@ -116,8 +116,8 @@ NSLog(@"file content %@",content);
 {
   NSLog(@"dictionary: %@", object);
   
-  Message* m2 = [[Message alloc] initWithDict:object withDate:[[NSDate alloc] initWithTimeIntervalSince1970:[object[@"arrivalTime"] doubleValue]]];
-	NSLog(@"message: %@", [m2 body]);
+  //Message* m2 = [[Message alloc] initWithDict:object withDate:[[NSDate alloc] initWithTimeIntervalSince1970:[object[@"arrivalTime"] doubleValue]]];
+	//NSLog(@"message: %@", [m2 body]);
   
   
   }*/
