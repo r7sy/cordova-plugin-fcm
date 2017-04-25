@@ -61,7 +61,7 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/m
 
     NSLog(@"JSON: %@", jsonString);
 	[jsonString writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
-    [jsonString release];      
+         
   }
 }
     [self.commandDelegate runInBackground:^{
