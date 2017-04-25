@@ -560,7 +560,6 @@ UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger
 UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:dict[@"id"]
             content:content trigger:trigger];
 UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error){
     }];		
  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
