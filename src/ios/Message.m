@@ -21,7 +21,7 @@ self.thumbnail_url=dict[@"thumbnail_url"];
 self.thumbnail_hash=dict[@"thumbnail_hash"];
 self.senderName=dict[@"senderName"];
 self.arrivalTime = date;
-if(self.arrivalTime)
+if(!self.arrivalTime)
 {
 self.arrivalTime=[[NSDate alloc] init];
 }
