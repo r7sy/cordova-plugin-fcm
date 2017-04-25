@@ -546,7 +546,7 @@ result= [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncodin
  return result;
 
 }
-+(void) showNotification:(NSDict *) dict 
++(void) showNotification:(NSDictonary *) dict 
 {
 UNMutableNotificationContent *content = [UNMutableNotificationContent new];
 content.title = dict[@"title"];
