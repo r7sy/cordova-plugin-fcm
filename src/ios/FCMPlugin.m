@@ -68,7 +68,7 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/m
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
 		NSLog(@"got last token %@", token);
-		
+NSError *error;		
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 NSString *documentsDirectory = [paths objectAtIndex:0];
 NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/messages.json"];
@@ -77,7 +77,7 @@ token = [NSString stringWithFormat: @"%@\n", token];
 NSFileManager *fileManager = [NSFileManager defaultManager];
 /*if(![fileManager fileExistsAtPath:path])
 {  NSLog(@"file doesn't exist");
-NSError *error;
+
   [token writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
 }
 else
