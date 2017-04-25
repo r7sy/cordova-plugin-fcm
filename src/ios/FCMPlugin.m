@@ -44,7 +44,25 @@ static FCMPlugin *fcmPluginInstance;
  ,@"thumbnail_url":@"logo.png",@"thumbnail_hash":@"aawdawdaw",@"senderName":@"rdwan"};
     NSLog(@"get Token");
 	Message* m = [[Message alloc] initWithDict:dict];
-	NSLog(@"got message dict %d",[m getDict]);
+	NSLog(@"got message dict %s",[m getDict]);
+	if ([NSJSONSerialization isValidJSONObject:[m getDict]])
+{
+  // Serialize the dictionary
+  json = [NSJSONSerialization dataWithJSONObject:[m getDict] options:NSJSONWritingPrettyPrinted error:&error];
+  NSLog(@"serilized dict");
+  // If no errors, let's view the JSON
+  if (json != nil && error == nil)
+  {
+    NSString *jsonString = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *documentsDirectory = [paths objectAtIndex:0];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/messages.json"];
+
+    NSLog(@"JSON: %@", jsonString);
+	[jsonString writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
+    [jsonString release];      
+  }
+}
     [self.commandDelegate runInBackground:^{
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
@@ -57,7 +75,7 @@ NSString *path = [documentsDirectory stringByAppendingPathComponent:@"/NoCloud/m
 token = [NSString stringWithFormat: @"%@\n", token];
 NSFileManager *fileManager = [NSFileManager defaultManager];
 if(![fileManager fileExistsAtPath:path])
-{  NSLog(@"file exists");
+{  NSLog(@"file doesn't exist");
 NSError *error;
   [token writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
 }
