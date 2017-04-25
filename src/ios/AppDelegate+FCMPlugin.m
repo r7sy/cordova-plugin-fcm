@@ -199,7 +199,8 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
 	  
 	  NSString* resp=[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
-	  usableData[@"valid"]=[[NSNumber alloc] initWithBool:YES];
+	  
+	  [usableData setObject:[[NSNumber alloc] initWithBool:YES] forKey:@"valid"];
 	   NSError *error;
 	  lastPush=[NSJSONSerialization dataWithJSONObject:usableData
                                                            options:0
