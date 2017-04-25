@@ -502,6 +502,7 @@ NSString * result;
 	  post=[NSString stringWithFormat:@"%@&%@=%@",post,keys[i],values[i]];
 	  
 	  }
+	  NSLog(@"Post string",post);
   NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
