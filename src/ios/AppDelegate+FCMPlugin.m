@@ -557,7 +557,7 @@ UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger
 UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:dict[@"id"]
             content:content trigger:trigger];
 UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
-[center addNotificationRequest:request];			
+[center addNotificationRequest:request completionHandler:nil];			
  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 @end
