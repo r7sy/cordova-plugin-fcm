@@ -48,11 +48,11 @@ static FCMPlugin *fcmPluginInstance;
 	Message* m = [[Message alloc] initWithDict:dict withDate:nil];
 	Message* m1 = [[Message alloc] initWithDict:dict2 withDate:nil];
 	NSMutableArray* arr=[[NSMutableArray alloc] init];
-	[arr addObject:m];
-	[arr addObject:m1];
+	[arr addObject:[m getDict]];
+	[arr addObject:[m1 getDict]];
 	
 	//NSLog(@"got message dict %s",[m getDict]);
-	if ([NSJSONSerialization isValidJSONObject:[arr copy]])
+	if ([NSJSONSerialization isValidJSONObject:arr])
 {
   // Serialize the dictionary
  NSError *error;
