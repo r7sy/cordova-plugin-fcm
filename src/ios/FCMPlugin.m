@@ -58,7 +58,7 @@ static FCMPlugin *fcmPluginInstance;
 NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
 if(!error &&responseData)
 {
-NSLog(@"response %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding])
+NSLog(@"response %@", [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding]);
 }
  
         NSString* token = [AppDelegate getLastToken];
