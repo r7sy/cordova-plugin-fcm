@@ -53,7 +53,7 @@ static FCMPlugin *fcmPluginInstance;
 	NSMutableArray* arr=[[NSMutableArray alloc] init];
 	[arr addObject:[m getDict]];
 	[arr addObject:[m1 getDict]];*/
-	NSDictionary *dict = @{@id:@"1",@sound:@"default",@"muted":[[NSNumber alloc] initWithBool:NO],@"vibrate":[[NSNumber alloc] initWithBool:YES]};
+	NSDictionary *dict = @{@"id":@"1",@"sound":@"default",@"muted":[[NSNumber alloc] initWithBool:NO],@"vibrate":[[NSNumber alloc] initWithBool:YES]};
 	Sender* s = [[Sender alloc] initWithDict:dict];
 	NSMutableArray* arr=[[NSMutableArray alloc] init];
 	[arr addObject:[s getDict]];
