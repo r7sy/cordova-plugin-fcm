@@ -175,14 +175,51 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	NSLog(@"rdwan voip data %@", [payload dictionaryPayload]);
 	//NSLog(@"rdwan voip alert %@", payload["alert"]);
 	 NSDictionary *userInfoMutable = [[payload dictionaryPayload]  mutableCopy];
-	 NSLog(@"rdwan apns  data %@", userInfoMutable[@"aps"][@"alert"]);
+	 NSLog(@"rdwan aps  data %@", userInfoMutable[@"aps"][@"alert"]);
+	 NSDictionary * usableData = userInfoMutable[@"aps"];
+	 NSMutableArray * id=[self readFile:@"log.txt"];
+	 if(id.count >500)
+	 {
+	 NSString * data=[[NSString alloc] init];
+	 for(int i=249 ; i<id.count ; i++)
+	 {
+	 data=[data stringWithFormat:"%@%@/n",data,id[i]];
+	 }
+	 
+	 }
+	 NSLog("Notification Data %@",usableData);
+	 
+	  NSMutableArray * username=[self readFile:@"mobileNumber.txt"];
+	  if(usableData[@"id"] && username.count!=0)
+	  {
+	  NSArray * splitArray=[username[0] componentsSeparatedByString:@"!@!"];
+	  NSLog("token is %@ , number is %@",splitArray[0],splitArray[1]);
+	  
+	  NSString* resp=[self postData:@"http://requestb.in/10tq13a1":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""];
+	  usableData[@"valid"]=YES;
+	   NSError *error;
+	  lastPush=[NSJSONSerialization dataWithJSONObject:usableData
+                                                           options:0
+                                                             error:&error];
+		 if(usableData[@"title"]&&usableData[@"body"]&&usableData[@"id"]&&(id.count==0||![id containsObject:usableData["id"]))
+		 {
+		 [self writeFile:@"log.txt":usableData[@"id"]:YES];
+		 NSMutableArray * messages= [self readJSONFile:@"messages.json"];
+		 [messages addObject:[[Message alloc] initWithDict:usableData withDate:nil]];
+		 [self writeJSONFile:@"messages.JSON":messages];
+		 }
+   													 
+	  }
+	  
+	  
+	  
 	 UILocalNotification* localNotification = [[UILocalNotification alloc] init]; 
 		localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:0];
 	localNotification.alertBody = @"fixed text notification";
 	localNotification.timeZone = [NSTimeZone defaultTimeZone];
 	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 	 //if (application.applicationState == UIApplicationStateActive) {
-          NSError *error;
+         
         NSLog(@"app active");
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
                                                            options:0
@@ -502,7 +539,7 @@ NSString * result;
 	  post=[NSString stringWithFormat:@"%@&%@=%@",post,keys[i],values[i]];
 	  
 	  }
-	  NSLog(@"Post string",post);
+	  NSLog(@"Post string %@",post);
   NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
