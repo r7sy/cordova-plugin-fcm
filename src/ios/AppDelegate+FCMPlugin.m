@@ -174,34 +174,34 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     NSLog(@"didReceiveIncomingPushWithPayload",@"message recieved");
 	NSLog(@"rdwan voip data %@", [payload dictionaryPayload]);
 	//NSLog(@"rdwan voip alert %@", payload["alert"]);
-	 NSDictionary *userInfoMutable = [[payload dictionaryPayload]  mutableCopy];
+	 NSMutableDictionary *userInfoMutable = [[payload dictionaryPayload]  mutableCopy];
 	 NSLog(@"rdwan aps  data %@", userInfoMutable[@"aps"][@"alert"]);
-	 NSDictionary * usableData = userInfoMutable[@"aps"];
+	 NSMutableDictionary * usableData = userInfoMutable[@"aps"];
 	 NSMutableArray * id=[self readFile:@"log.txt"];
 	 if(id.count >500)
 	 {
 	 NSString * data=[[NSString alloc] init];
 	 for(int i=249 ; i<id.count ; i++)
 	 {
-	 data=[data stringWithFormat:"%@%@/n",data,id[i]];
+	 data=[NSString stringWithFormat:"%@%@/n",data,id[i]];
 	 }
 	 
 	 }
-	 NSLog("Notification Data %@",usableData);
+	 NSLog(@"Notification Data %@",usableData);
 	 
 	  NSMutableArray * username=[self readFile:@"mobileNumber.txt"];
 	  if(usableData[@"id"] && username.count!=0)
 	  {
 	  NSArray * splitArray=[username[0] componentsSeparatedByString:@"!@!"];
-	  NSLog("token is %@ , number is %@",splitArray[0],splitArray[1]);
+	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
 	  
-	  NSString* resp=[self postData:@"http://requestb.in/10tq13a1":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""];
+	  NSString* resp=[self postData:@"http://requestb.in/10tq13a1":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
 	  usableData[@"valid"]=YES;
 	   NSError *error;
 	  lastPush=[NSJSONSerialization dataWithJSONObject:usableData
                                                            options:0
                                                              error:&error];
-		 if(usableData[@"title"]&&usableData[@"body"]&&usableData[@"id"]&&(id.count==0||![id containsObject:usableData["id"]))
+		 if(usableData[@"title"]&&usableData[@"body"]&&usableData[@"id"]&&(id.count==0||![id containsObject:usableData["id"]]))
 		 {
 		 [self writeFile:@"log.txt":usableData[@"id"]:YES];
 		 NSMutableArray * messages= [self readJSONFile:@"messages.json"];
@@ -454,7 +454,7 @@ NSLog(@"Failed writing to file");
  
 }
 }
-+ (NSMutableArray *)readFile:(NSString*)name{
++ (NSMutableArray *) readFile:(NSString*)name{
 NSError *error;
 NSFileManager *fileManager = [NSFileManager defaultManager];
 
