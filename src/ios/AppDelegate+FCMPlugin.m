@@ -222,11 +222,10 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	 //if (application.applicationState == UIApplicationStateActive) {
          NSError * error;
         NSLog(@"app active");
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
+        
+        [FCMPlugin.fcmPlugin notifyOfMessage:[NSJSONSerialization dataWithJSONObject:usableData
                                                            options:0
-                                                             error:&error];
-		lastPush=jsonData;
-        [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
+                                                             error:&error]];
     // app is in background or in stand by (NOTIFICATION WILL BE TAPPED)
     //}
  
@@ -444,7 +443,7 @@ NSLog(@"Failed writing to file");
 + (NSMutableArray *) readFile:(NSString*)name{
 NSError *error;
 NSFileManager *fileManager = [NSFileManager defaultManager];
-
+NSLog(@"reading file %@",name);
 NSMutableArray *marray=[[NSMutableArray alloc] init];
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 NSString *documentsDirectory = [paths objectAtIndex:0];
