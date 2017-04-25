@@ -9,7 +9,7 @@
 @property(nonatomic, readwrite) NSString * thumbnail_url;
 @property(nonatomic, readwrite) NSString * thumbnail_hash;
 @property(nonatomic, readwrite) NSString * senderName;
-
+@property(nonatomic, readwrite) NSNumber * muted;
 -(NSDictionary *) getDict;
 -(id) initWithDict :(NSDictionary *) dict ;
 @end
