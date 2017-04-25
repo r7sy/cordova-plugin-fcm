@@ -530,7 +530,7 @@ NSString * result;
   NSData *postData = [post dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
   NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
   NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
-  [request setURL:[NSURL URLWithString:@"http://www.ultranotify.com/app/api.php?mobileNumber=0991530597&access_token=1564&confirmRecieve&id=1"]]; 
+  [request setURL:[NSURL URLWithString:url]]; 
   [request setHTTPMethod:@"POST"]; 
   [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
   [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
