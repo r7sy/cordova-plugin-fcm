@@ -32,7 +32,7 @@ return self;
 -(NSDictionary *) getDict
 {
  NSDictionary *dict = @{@"id": self.id,@"title":self.title,@"body":self.body,@"senderId":self.senderId
- ,@"thumbnail_url":self.thumbnail_url,@"thumbnail_hash":self.thumbnail_hash,@"senderName":self.senderName,@"arrivalTime":[[NSNumber alloc] init:[self.arrivalTime timeIntervalSince1970]]};
+ ,@"thumbnail_url":self.thumbnail_url,@"thumbnail_hash":self.thumbnail_hash,@"senderName":self.senderName,@"arrivalTime":[[NSNumber alloc] initWithDouble:[self.arrivalTime timeIntervalSince1970]]};
    return dict;
 }
 
