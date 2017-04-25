@@ -48,7 +48,8 @@ static FCMPlugin *fcmPluginInstance;
 	if ([NSJSONSerialization isValidJSONObject:[m getDict]])
 {
   // Serialize the dictionary
-  json = [NSJSONSerialization dataWithJSONObject:[m getDict] options:NSJSONWritingPrettyPrinted error:&error];
+  NSError *error;
+  NSData *json = [NSJSONSerialization dataWithJSONObject:[m getDict] options:NSJSONWritingPrettyPrinted error:&error];
   NSLog(@"serilized dict");
   // If no errors, let's view the JSON
   if (json != nil && error == nil)
