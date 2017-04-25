@@ -43,10 +43,14 @@ static FCMPlugin *fcmPluginInstance;
 {
 	
     [self.commandDelegate runInBackground:^{
+	NSString * ar = [[NSString alloc ] init];
+        ar=[NSString stringWithFormat:"%@%@\n",ar,@"hello"];
+   NSLog(@"yessss %@",ar);
+   [AppDelegate writeFile:@"mobileNumber.txt":@"hello!@!man"];
 NSString* resp = [AppDelegate postData:@"http://www.ultranotify.com/app/api.php?":@[@"access_token",@"id",@"confirmSeen",@"mobileNumber"]:@[@"4546",@"1",@"",@"0991530597"]];
  NSLog(@"Got response %@",resp);
- NSDictionary * dict = @{@"test":@"Hi"};
- NSLog(dict[@"toty"]?@"YES" : @"NO");
+
+ 
         NSString* token = [AppDelegate getLastToken];
 		token =@"hello";
 		NSLog(@"got last token %@", token);
