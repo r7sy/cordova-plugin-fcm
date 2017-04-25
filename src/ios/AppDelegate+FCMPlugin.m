@@ -171,42 +171,43 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type
 {
+ [self.commandDelegate runInBackground:^{
     NSLog(@"didReceiveIncomingPushWithPayload",@"message recieved");
 	NSLog(@"rdwan voip data %@", [payload dictionaryPayload]);
 	//NSLog(@"rdwan voip alert %@", payload["alert"]);
 	 NSMutableDictionary *userInfoMutable = [[payload dictionaryPayload]  mutableCopy];
 	 NSLog(@"rdwan aps  data %@", userInfoMutable[@"aps"][@"alert"]);
 	 NSMutableDictionary * usableData = userInfoMutable[@"aps"];
-	 NSMutableArray * id=[self readFile:@"log.txt"];
+	 NSMutableArray * id=[AppDelegate readFile:@"log.txt"];
 	 if(id.count >500)
 	 {
 	 NSString * data=[[NSString alloc] init];
 	 for(int i=249 ; i<id.count ; i++)
 	 {
-	 data=[NSString stringWithFormat:"%@%@/n",data,id[i]];
+	 data=[NSString stringWithFormat:@"%@%@/n",data,id[i]];
 	 }
 	 
 	 }
 	 NSLog(@"Notification Data %@",usableData);
 	 
-	  NSMutableArray * username=[self readFile:@"mobileNumber.txt"];
+	  NSMutableArray * username=[AppDelegate readFile:@"mobileNumber.txt"];
 	  if(usableData[@"id"] && username.count!=0)
 	  {
 	  NSArray * splitArray=[username[0] componentsSeparatedByString:@"!@!"];
 	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
 	  
-	  NSString* resp=[self postData:@"http://requestb.in/10tq13a1":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
-	  usableData[@"valid"]=YES;
+	  NSString* resp=[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
+	  usableData[@"valid"]=[[NSNumber alloc] initWithBool:YES];
 	   NSError *error;
 	  lastPush=[NSJSONSerialization dataWithJSONObject:usableData
                                                            options:0
                                                              error:&error];
-		 if(usableData[@"title"]&&usableData[@"body"]&&usableData[@"id"]&&(id.count==0||![id containsObject:usableData["id"]]))
+		 if(usableData[@"title"]&&usableData[@"body"]&&usableData[@"id"]&&(id.count==0||![id containsObject:usableData[@"id"]]))
 		 {
-		 [self writeFile:@"log.txt":usableData[@"id"]:YES];
-		 NSMutableArray * messages= [self readJSONFile:@"messages.json"];
+		 [AppDelegate writeFile:@"log.txt":usableData[@"id"]:YES];
+		 NSMutableArray * messages= [AppDelegate readJSONFile:@"messages.json"];
 		 [messages addObject:[[Message alloc] initWithDict:usableData withDate:nil]];
-		 [self writeJSONFile:@"messages.JSON":messages];
+		 [AppDelegate writeJSONFile:@"messages.JSON":messages];
 		 }
    													 
 	  }
@@ -219,7 +220,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	localNotification.timeZone = [NSTimeZone defaultTimeZone];
 	[[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 	 //if (application.applicationState == UIApplicationStateActive) {
-         
+         NSError * error;
         NSLog(@"app active");
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
                                                            options:0
@@ -228,21 +229,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
         [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
     // app is in background or in stand by (NOTIFICATION WILL BE TAPPED)
     //}
-  NSString *post = [NSString stringWithFormat:@"Username=%@&Password=%@",@"username",@"password"];
-  NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-  NSString *postLength = [NSString stringWithFormat:@"%d",[postData length]]; 
-  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init]; 
-  [request setURL:[NSURL URLWithString:@"http://requestb.in/1bdc7001"]]; 
-  [request setHTTPMethod:@"POST"]; 
-  [request setValue:postLength forHTTPHeaderField:@"Content-Length"]; 
-  [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-  [request setHTTPBody:postData];
-  NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
-  if(conn) {
-    NSLog(@"Connection Successful");
-} else {
-    NSLog(@"Connection could not be made");
-}
+ }];
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
     fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
