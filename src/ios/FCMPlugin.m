@@ -53,7 +53,7 @@ static FCMPlugin *fcmPluginInstance;
   [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
   [request setHTTPBody:postData];
   NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self]; 
-  [conn autorelease];
+ 
   if(conn) {
     NSLog(@"Connection Successful");
 } else {
