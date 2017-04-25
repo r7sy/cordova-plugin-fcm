@@ -171,7 +171,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 
 - (void)pushRegistry:(PKPushRegistry *)registry didReceiveIncomingPushWithPayload:(PKPushPayload *)payload forType:(NSString *)type
 {
- [self.commandDelegate runInBackground:^{
+
     NSLog(@"didReceiveIncomingPushWithPayload",@"message recieved");
 	NSLog(@"rdwan voip data %@", [payload dictionaryPayload]);
 	//NSLog(@"rdwan voip alert %@", payload["alert"]);
@@ -229,7 +229,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
         [FCMPlugin.fcmPlugin notifyOfMessage:jsonData];
     // app is in background or in stand by (NOTIFICATION WILL BE TAPPED)
     //}
- }];
+ 
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
     fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
