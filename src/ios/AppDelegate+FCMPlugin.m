@@ -455,10 +455,11 @@ if(!error)
 
 NSData * jsonData = [NSData dataWithContentsOfFile:path];
 id array = [NSJSONSerialization JSONObjectWithData:jsonData options:NSJSONReadingAllowFragments error:&error];
-if ([object isKindOfClass:[NSArray class]] && error == nil)
+if ([array isKindOfClass:[NSArray class]] && error == nil)
 {
 for(int i=0;i< [array count];i++)
 {
+NSDictionary * object=array[@"arrivalTime"];
 [marray addObject:[[Message alloc]initWithDict:array[i] withDate:[[NSDate alloc] initWithTimeIntervalSince1970:[object[@"arrivalTime"] doubleValue]]]];
 }
 
