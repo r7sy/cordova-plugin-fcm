@@ -303,5 +303,21 @@ if (json != nil && error == nil)
 }
 }
 
++ (Sender*) getSender : (NSString *) id {
+NSSender * s;
+NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
+ 
+   for(int i=0;i<senders.count;i++)
+		{
+		if([id isEqual:[senders[i] id]])
+		{
+		s=(Sender *) senders[i];
+		
+		break;
+		}
+		
+		}
+		return s;
 
+}
 @end
