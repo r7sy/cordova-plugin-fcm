@@ -41,13 +41,14 @@ static FCMPlugin *fcmPluginInstance;
 
 NSString* id=[command.arguments objectAtIndex:0];
  [self.commandDelegate runInBackground:^{
-   NSMutableArray* senders = [FCMPlugin readJSONFile:"senders.json"];
+   NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
 		if([id isEqual:[senders[i] id]])
 		{
-		senders[i].muted=YES;
+		Sender* s1=(Sender *) senders[i];
+		s1.muted=YES;
 		found=YES;
 		break;
 		}
@@ -55,7 +56,7 @@ NSString* id=[command.arguments objectAtIndex:0];
 		}
 		if(!found)
 		{
-		NSDictionary * dict=@{@"id":id,@"sound":"default",@"muted":[[NSNumber alloc] initWithBool:YES],@"vibrate":[[NSNumber alloc] initWithBool:YES]};
+		NSDictionary * dict=@{@"id":id,@"sound":@"default",@"muted":[[NSNumber alloc] initWithBool:YES],@"vibrate":[[NSNumber alloc] initWithBool:YES]};
 		Sender * s=[[Sender alloc] initWithDict:dict];
 		[senders addObject:s];
 		}
@@ -67,13 +68,14 @@ NSString* id=[command.arguments objectAtIndex:0];
 
 NSString* id=[command.arguments objectAtIndex:0];
  [self.commandDelegate runInBackground:^{
-   NSMutableArray* senders = [FCMPlugin readJSONFile:"senders.json"];
+   NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
 		if([id isEqual:[senders[i] id]])
 		{
-		senders[i].muted=NO;
+		Sender* s1=(Sender *) senders[i];
+		s1.muted=NO;
 		found=YES;
 		break;
 		}
@@ -81,7 +83,7 @@ NSString* id=[command.arguments objectAtIndex:0];
 		}
 		if(!found)
 		{
-		NSDictionary * dict=@{@"id":id,@"sound":"default",@"muted":[[NSNumber alloc] initWithBool:NO],@"vibrate":[[NSNumber alloc] initWithBool:YES]};
+		NSDictionary * dict=@{@"id":id,@"sound":@"default",@"muted":[[NSNumber alloc] initWithBool:NO],@"vibrate":[[NSNumber alloc] initWithBool:YES]};
 		Sender * s=[[Sender alloc] initWithDict:dict];
 		[senders addObject:s];
 		}
