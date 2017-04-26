@@ -577,8 +577,13 @@ content.body = dict[@"body"];
 Sender* s = [FCMPlugin getSender:dict[@"senderId"]];
 
 content.sound = [UNNotificationSound defaultSound];
-if(s&&[[s muted] boolValue])
+NSLog(@"Found sender %@",[s getDict])
+if(s&&[s.muted boolValue])
+{
+NSLog(@"Muting");
 content.sound=nil;
+
+}
 
 UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger
             triggerWithTimeInterval:1 repeats:NO];
@@ -588,8 +593,12 @@ UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotification
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error){
     }];
 	if(!s||[[s vibrate] boolValue])
+	{
+	NSLog(@"vibrating");
  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-}
+
+	}
+	}
 +(void) deleteData{
 NSError *error;
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
