@@ -556,14 +556,20 @@ result= [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncodin
 UNMutableNotificationContent *content = [UNMutableNotificationContent new];
 content.title = dict[@"title"];
 content.body = dict[@"body"];
+Sender* s = [FCMPlugin getSender:dict[@"senderId"]];
+
 content.sound = [UNNotificationSound defaultSound];
+if(s&&[s[@"muted"] boolValue])
+content.sound=nil;
+
 UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger
             triggerWithTimeInterval:1 repeats:NO];
 UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:dict[@"id"]
             content:content trigger:trigger];
 UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error){
-    }];		
+    }];
+	if(!s||[s[@"vibrate"] boolValue])
  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
 }
 +(void) deleteData{
