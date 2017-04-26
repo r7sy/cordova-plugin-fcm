@@ -177,7 +177,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 if(splitArray.count==2){
 	 
 	 NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
-	[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"mobileNumber",@"access_token",@"deviceToken" , @"OS",@"setToken"]:@[splitArray[1],splitArray[0],lastToken,@"ios"]];
+	[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"mobileNumber",@"access_token",@"deviceToken" , @"OS",@"setToken"]:@[splitArray[1],splitArray[0],lastToken,@"ios",@""]];
  
 }
 
