@@ -217,6 +217,7 @@ NSString* id=[command.arguments objectAtIndex:0];
 -(void) notifyOfTokenRefresh:(NSString *)token
 {
  NSString * username=[AppDelegate readFile:@"mobileNumber.txt"];
+  NSLog(@"read file in notify token %s",username);
  if(username!=@"")
  {
  
