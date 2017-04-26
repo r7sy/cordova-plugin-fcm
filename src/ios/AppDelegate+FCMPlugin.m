@@ -183,7 +183,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	 NSLog(@"rdwan aps  data %@", userInfoMutable[@"aps"][@"alert"]);
 	 NSMutableDictionary * usableData = [userInfoMutable[@"aps"] mutableCopy];
 	 NSString* content=[AppDelegate readFile:@"log.txt"];
-	 NSMutableArray * id=[[NSMutableArray alloc]] init];
+	 NSMutableArray * id=[[NSMutableArray alloc] init];
 	 NSArray *array = [content componentsSeparatedByString:@"\n"];
 
 	[id addObjectsFromArray:array];
@@ -459,7 +459,7 @@ NSString *documentsDirectory = [paths objectAtIndex:0];
 NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
 if([fileManager fileExistsAtPath:path])
 {
- *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+ content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
 
 if(!error)
 {
