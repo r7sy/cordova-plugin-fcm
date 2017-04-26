@@ -147,16 +147,7 @@ NSString* id=[command.arguments objectAtIndex:0];
 }
 // GET TOKEN //
 - (void) getToken:(CDVInvokedUrlCommand *)command 
-{ NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
-	NSDictionary * dict=@{@"id":@"1",@"sound":@"default",@"muted":[[NSNumber alloc] initWithBool:YES],@"vibrate":[[NSNumber alloc] initWithBool:YES]};
-		Sender * s=[[Sender alloc] initWithDict:dict];
-		[senders addObject:s];
-		[FCMPlugin writeJSONFile:senders];
-		Sender* s = [FCMPlugin getSender:@"1"];
-		if(s&&[s.muted boolValue])
-		NSLog(@"Ringing");
-			if(!s||[[s vibrate] boolValue])
-			NSLog(@"Vibrating");
+{ 
     [self.commandDelegate runInBackground:^{
 	
    [AppDelegate writeFile:@"mobileNumber.txt":@"hello!@!man":NO];
