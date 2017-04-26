@@ -13,7 +13,7 @@
 #import "Firebase.h"
 #import <AudioToolbox/AudioServices.h>
 #import <UserNotifications/UserNotifications.h>
-
+#import "Sender.h"
 #import <UserNotifications/UNUserNotificationCenter.h>
 #import "Message.h"
 #if defined(__IPHONE_10_0) && __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_10_0
