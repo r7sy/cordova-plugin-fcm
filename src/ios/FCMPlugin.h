@@ -23,4 +23,5 @@
 - (void) vibrateoff : (CDVInvokedUrlCommand*) command;
 + (NSMutableArray *)readJSONFile:(NSString*)name ;
 + (void)writeJSONFile:(NSString*)name : (NSMutableArray *)data ;
++ (Sender*) getSender : (NSString *) id ;
 @end
