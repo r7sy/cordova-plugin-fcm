@@ -91,6 +91,60 @@ NSString* id=[command.arguments objectAtIndex:0];
    }];
 
 }
+- (void) vibrateon : (CDVInvokedUrlCommand*) command{
+
+NSString* id=[command.arguments objectAtIndex:0];
+ [self.commandDelegate runInBackground:^{
+   NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
+   BOOL found = NO;
+   for(int i=0;i<senders.count;i++)
+		{
+		if([id isEqual:[senders[i] id]])
+		{
+		Sender* s1=(Sender *) senders[i];
+		s1.vibrate=[[NSNumber alloc] initWithBool:YES];
+		found=YES;
+		break;
+		}
+		
+		}
+		if(!found)
+		{
+		NSDictionary * dict=@{@"id":id,@"sound":@"default",@"muted":[[NSNumber alloc] initWithBool:NO],@"vibrate":[[NSNumber alloc] initWithBool:YES]};
+		Sender * s=[[Sender alloc] initWithDict:dict];
+		[senders addObject:s];
+		}
+		[FCMPlugin writeJSONFile:@"senders.json":senders];
+   }];
+
+}
+- (void) vibrateoff : (CDVInvokedUrlCommand*) command{
+
+NSString* id=[command.arguments objectAtIndex:0];
+ [self.commandDelegate runInBackground:^{
+   NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
+   BOOL found = NO;
+   for(int i=0;i<senders.count;i++)
+		{
+		if([id isEqual:[senders[i] id]])
+		{
+		Sender* s1=(Sender *) senders[i];
+		s1.vibrate=[[NSNumber alloc] initWithBool:NO];
+		found=YES;
+		break;
+		}
+		
+		}
+		if(!found)
+		{
+		NSDictionary * dict=@{@"id":id,@"sound":@"default",@"muted":[[NSNumber alloc] initWithBool:NO],@"vibrate":[[NSNumber alloc] initWithBool:NO]};
+		Sender * s=[[Sender alloc] initWithDict:dict];
+		[senders addObject:s];
+		}
+		[FCMPlugin writeJSONFile:@"senders.json":senders];
+   }];
+
+}
 // GET TOKEN //
 - (void) getToken:(CDVInvokedUrlCommand *)command 
 {
