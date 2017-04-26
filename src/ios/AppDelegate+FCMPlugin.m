@@ -182,7 +182,13 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	 NSMutableDictionary *userInfoMutable = [[payload dictionaryPayload]  mutableCopy];
 	 NSLog(@"rdwan aps  data %@", userInfoMutable[@"aps"][@"alert"]);
 	 NSMutableDictionary * usableData = [userInfoMutable[@"aps"] mutableCopy];
-	 NSMutableArray * id=[AppDelegate readFile:@"log.txt"];
+	 NSString* content=[AppDelegate readFile:@"log.txt"];
+	 NSMutableArray * id=[[NSMutableArray alloc]] init];
+	 NSArray *array = [content componentsSeparatedByString:@"\n"];
+
+	[id addObjectsFromArray:array];
+	if(id.count>1)
+	[id removeLastObject];
 	 if(id.count >500)
 	 {
 	 NSString * data=[[NSString alloc] init];
@@ -194,12 +200,12 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 	 }
 	 NSLog(@"Notification Data %@",usableData);
 	 
-	  NSMutableArray * username=[AppDelegate readFile:@"mobileNumber.txt"];
+	  NSString * username=[AppDelegate readFile:@"mobileNumber.txt"];
 	   NSLog(@"array is %@ ",username);
 	
-	  if(usableData[@"id"] && username.count!=0)
+	  if(usableData[@"id"] && username!=@"")
 	  {
-	  NSArray * splitArray=[username[0] componentsSeparatedByString:@"!@!"];
+	  NSArray * splitArray=[username componentsSeparatedByString:@"!@!"];
 	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
 	  
 	  NSString* resp=[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
@@ -443,29 +449,25 @@ NSLog(@"Failed writing to file");
  
 }
 }
-+ (NSMutableArray *) readFile:(NSString*)name{
++ (NSString *) readFile:(NSString*)name{
 NSError *error;
 NSFileManager *fileManager = [NSFileManager defaultManager];
 NSLog(@"reading file %@",name);
-NSMutableArray *marray=[[NSMutableArray alloc] init];
+NSString *content=[[NSString alloc] init];
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 NSString *documentsDirectory = [paths objectAtIndex:0];
 NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
 if([fileManager fileExistsAtPath:path])
 {
-NSString *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
+ *content = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:&error];
 
 if(!error)
 {
-NSArray *array = [content componentsSeparatedByString:@"\n"];
 
-[marray addObjectsFromArray:array];
-if(array.count>1)
-[marray removeLastObject];
 }
 
 }
-return marray;
+return content;
 }
 + (NSMutableArray *)readJSONFile:(NSString*)name {
 NSError *error;
@@ -563,5 +565,12 @@ UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotification
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error){
     }];		
  AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+}
++(void) deleteData{
+NSError *error;
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+NSString *documentsDirectory = [paths objectAtIndex:0];
+NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",@"mobileNumber.txt" ]];
+[[NSFileManager defaultManager] removeItemAtPath:path error:&error];
 }
 @end
