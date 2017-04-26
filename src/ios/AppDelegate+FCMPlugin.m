@@ -168,7 +168,15 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
                          ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
                          ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
                          ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
-
+	NSString * username=[AppDelegate readFile:@"mobileNumber.txt"];
+  NSLog(@"read file in notify token %s",username);
+ if(username!=@"")
+ {
+ 
+  NSArray * splitArray=[username componentsSeparatedByString:@"!@!"];
+	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
+	[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"mobileNumber",@"access_token",@"deviceToken" , @"OS",@"setToken"]:@[splitArray[1],splitArray[0],token,@"ios"]];
+ }	
 	
 	 [FCMPlugin.fcmPlugin notifyOfTokenRefresh:lastToken];
 }
@@ -502,7 +510,7 @@ return marray;
 +(void)writeJSONFile:(NSString*)name : (NSMutableArray *)data{
 NSError *error;
 NSMutableArray *marray=[[NSMutableArray alloc] init];
-NSLog(@"writing json file with size %d",data.count)
+NSLog(@"writing json file with size %d",data.count);
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 NSString *documentsDirectory = [paths objectAtIndex:0];
 NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
@@ -510,7 +518,7 @@ for(int i=0;i< [data count];i++)
 {
 [marray addObject:[data[i] getDict]];
 }
-NSLog(@"writing json file with marray size %d",marray.count)
+NSLog(@"writing json file with marray size %d",marray.count);
 if ([NSJSONSerialization isValidJSONObject:marray])
 {
 NSData *json = [NSJSONSerialization dataWithJSONObject:marray options:NSJSONWritingPrettyPrinted error:&error];
