@@ -152,7 +152,7 @@ NSString* id=[command.arguments objectAtIndex:0];
     [self.commandDelegate runInBackground:^{
 	
    [AppDelegate writeFile:@"mobileNumber.txt":@"hello!@!man":NO];
-	[AppDelegate deleteData];
+	
         NSString* token = [AppDelegate getLastToken];
 		NSLog(@"got last token %@", token);
         CDVPluginResult* pluginResult = nil;
