@@ -18,6 +18,9 @@
 - (void)appEnterForeground;
 - (void) mute : (CDVInvokedUrlCommand*) command;
 - (void) unmute : (CDVInvokedUrlCommand*) command;
+
+- (void) vibrateon : (CDVInvokedUrlCommand*) command;
+- (void) vibrateoff : (CDVInvokedUrlCommand*) command;
 + (NSMutableArray *)readJSONFile:(NSString*)name ;
 + (void)writeJSONFile:(NSString*)name : (NSMutableArray *)data ;
 @end
