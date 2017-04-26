@@ -238,7 +238,7 @@ if(splitArray.count==2){
 		 [AppDelegate showNotification:usableData];
 		 NSMutableArray * messages= [AppDelegate readJSONFile:@"messages.json"];
 		 [messages addObject:[[Message alloc] initWithDict:usableData withDate:nil]];
-		 [AppDelegate writeJSONFile:@"messages.JSON":messages];
+		 [AppDelegate writeJSONFile:@"messages.json":messages];
 		 }
    													 
 	  }
