@@ -45,7 +45,7 @@ static FCMPlugin *fcmPluginInstance;
     [self.commandDelegate runInBackground:^{
 	
    [AppDelegate writeFile:@"mobileNumber.txt":@"hello!@!man":NO];
- 
+	[AppDelegate deleteData];
         NSString* token = [AppDelegate getLastToken];
 		NSLog(@"got last token %@", token);
         CDVPluginResult* pluginResult = nil;
