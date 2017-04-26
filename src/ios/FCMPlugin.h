@@ -16,6 +16,8 @@
 - (void)notifyOfTokenRefresh:(NSString*) token;
 - (void)appEnterBackground;
 - (void)appEnterForeground;
+- (void) mute : (CDVInvokedUrlCommand*) command;
+- (void) unmute : (CDVInvokedUrlCommand*) command;
 + (NSMutableArray *)readJSONFile:(NSString*)name ;
 + (void)writeJSONFile:(NSString*)name : (NSMutableArray *)data ;
 @end
