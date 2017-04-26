@@ -20,5 +20,5 @@
 + (void)writeJSONFile:(NSString*)name : (NSMutableArray *)data ;
 + (NSString*)postData: (NSString*) url : (NSMutableArray*) keys : (NSMutableArray*) values; 
 + (void) deleteData;
-+(void) showNotification:(NSDict *) dict ;
++(void) showNotification:(NSDictionary *) dict ;
 @end
