@@ -523,13 +523,15 @@ for(int i=0;i< [data count];i++)
 {
 [marray addObject:[data[i] getDict]];
 }
-NSLog(@"writing json file with marray size %d",marray.count);
+NSLog(@"writing json file with marray  %s",marray);
 if ([NSJSONSerialization isValidJSONObject:marray])
 {
+NSLog(@"writing valid json file with marray  ");
 NSData *json = [NSJSONSerialization dataWithJSONObject:marray options:NSJSONWritingPrettyPrinted error:&error];
 if (json != nil && error == nil)
   {
    NSString *jsonString = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
+   NSLog(@"writing valid json  %s  ",jsonString);
   [jsonString writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
   
   }
