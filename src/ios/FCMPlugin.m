@@ -48,7 +48,7 @@ NSString* id=[command.arguments objectAtIndex:0];
 		if([id isEqual:[senders[i] id]])
 		{
 		Sender* s1=(Sender *) senders[i];
-		s1.muted=YES;
+		s1.muted=[[NSNumber alloc] initWithBool:YES];
 		found=YES;
 		break;
 		}
@@ -69,7 +69,7 @@ NSString* id=[command.arguments objectAtIndex:0];
 NSString* id=[command.arguments objectAtIndex:0];
  [self.commandDelegate runInBackground:^{
    NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
-   BOOL found = NO;
+   BOOL found = [[NSNumber alloc] initWithBool:NO];
    for(int i=0;i<senders.count;i++)
 		{
 		if([id isEqual:[senders[i] id]])
