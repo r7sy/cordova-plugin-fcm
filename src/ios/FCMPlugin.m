@@ -44,7 +44,7 @@ static FCMPlugin *fcmPluginInstance;
 	
     [self.commandDelegate runInBackground:^{
 	
-   [AppDelegate writeFile:@"mobileNumber.txt":@"hello!@!man\n":NO];
+   [AppDelegate writeFile:@"mobileNumber.txt":@"hello!@!man":NO];
  
         NSString* token = [AppDelegate getLastToken];
 		NSLog(@"got last token %@", token);
@@ -109,11 +109,11 @@ static FCMPlugin *fcmPluginInstance;
 
 -(void) notifyOfTokenRefresh:(NSString *)token
 {
- NSMutableArray * username=[AppDelegate readFile:@"mobileNumber.txt"];
- if(username.count!=0)
+ NSString * username=[AppDelegate readFile:@"mobileNumber.txt"];
+ if(username!=@"")
  {
  
-  NSArray * splitArray=[username[0] componentsSeparatedByString:@"!@!"];
+  NSArray * splitArray=[username componentsSeparatedByString:@"!@!"];
 	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
 	[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"mobileNumber",@"access_token",@"deviceToken" , @"OS",@"setToken"]:@[splitArray[1],splitArray[0],token,@"ios"]];
  }
