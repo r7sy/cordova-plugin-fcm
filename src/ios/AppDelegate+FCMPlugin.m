@@ -234,7 +234,7 @@ if(splitArray.count==2){
 		 if(usableData[@"title"]&&usableData[@"body"]&&usableData[@"id"]&&(id.count==0||![id containsObject:usableData[@"id"]]))
 		 {
 		 
-		 [AppDelegate writeFile:@"log.txt":usableData[@"id"]:YES];
+		 [AppDelegate writeFile:@"log.txt":[usableData[@"id"] stringValue]:YES];
 		 [AppDelegate showNotification:usableData];
 		 NSMutableArray * messages= [AppDelegate readJSONFile:@"messages.json"];
 		 [messages addObject:[[Message alloc] initWithDict:usableData withDate:nil]];
