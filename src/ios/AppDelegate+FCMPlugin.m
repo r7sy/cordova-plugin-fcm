@@ -177,7 +177,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 if(splitArray.count==2){
 	 
 	 NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
-	[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"mobileNumber",@"access_token",@"deviceToken" , @"OS",@"setToken"]:@[splitArray[1],splitArray[0],lastToken,@"ios",@""]];
+	[AppDelegate postData:@"http://ultranotify.com/app/api.php":@[@"mobileNumber",@"access_token",@"deviceToken" , @"OS",@"setToken"]:@[splitArray[1],splitArray[0],lastToken,@"ios",@""]];
  
 }
 
@@ -221,7 +221,7 @@ if(splitArray.count==2){
 	  NSArray * splitArray=[username componentsSeparatedByString:@"!@!"];
 	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
 	  
-	  NSString* resp=[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
+	  NSString* resp=[AppDelegate postData:@"http://ultranotify.com/app/api.php":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
 	    NSError *error;
 	  [usableData setObject:[[NSNumber alloc] initWithBool:YES] forKey:@"valid"];
 	          [FCMPlugin.fcmPlugin notifyOfMessage:[NSJSONSerialization dataWithJSONObject:usableData
@@ -577,7 +577,7 @@ content.body = dict[@"body"];
 Sender* s = [FCMPlugin getSender:dict[@"senderId"]];
 
 content.sound = [UNNotificationSound defaultSound];
-NSLog(@"Found sender %@",[s getDict])
+NSLog(@"Found sender %@",[s getDict]);
 if(s&&[s.muted boolValue])
 {
 NSLog(@"Muting");
