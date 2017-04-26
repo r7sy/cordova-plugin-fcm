@@ -587,7 +587,7 @@ content.sound=nil;
 
 UNTimeIntervalNotificationTrigger* trigger = [UNTimeIntervalNotificationTrigger
             triggerWithTimeInterval:1 repeats:NO];
-UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:dict[@"id"]
+UNNotificationRequest* request = [UNNotificationRequest requestWithIdentifier:[dict[@"id"] stringValue]
             content:content trigger:trigger];
 UNUserNotificationCenter* center = [UNUserNotificationCenter currentNotificationCenter];
     [center addNotificationRequest:request withCompletionHandler:^(NSError * _Nullable error){
