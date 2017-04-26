@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 #import <Cordova/CDVPlugin.h>
-
+#import "Sender.h"
 @interface FCMPlugin : CDVPlugin
 {
     //NSString *notificationCallBack;
