@@ -150,7 +150,7 @@ NSString* id=[command.arguments objectAtIndex:0];
 { 
     [self.commandDelegate runInBackground:^{
 	
-   [AppDelegate writeFile:@"mobileNumber.txt":@"hello!@!man":NO];
+   
 	
         NSString* token = [AppDelegate getLastToken];
 		NSLog(@"got last token %@", token);
