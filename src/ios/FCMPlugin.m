@@ -216,15 +216,7 @@ NSString* id=[command.arguments objectAtIndex:0];
 
 -(void) notifyOfTokenRefresh:(NSString *)token
 {
- NSString * username=[AppDelegate readFile:@"mobileNumber.txt"];
-  NSLog(@"read file in notify token %s",username);
- if(username!=@"")
- {
  
-  NSArray * splitArray=[username componentsSeparatedByString:@"!@!"];
-	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
-	[AppDelegate postData:@"http://requestb.in/10tq13a1":@[@"mobileNumber",@"access_token",@"deviceToken" , @"OS",@"setToken"]:@[splitArray[1],splitArray[0],token,@"ios"]];
- }
     NSString * notifyJS = [NSString stringWithFormat:@"%@('%@');", tokenRefreshCallback, token];
     NSLog(@"stringByEvaluatingJavaScriptFromString %@", notifyJS);
     
