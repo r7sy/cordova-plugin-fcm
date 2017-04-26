@@ -502,7 +502,7 @@ return marray;
 +(void)writeJSONFile:(NSString*)name : (NSMutableArray *)data{
 NSError *error;
 NSMutableArray *marray=[[NSMutableArray alloc] init];
-
+NSLog(@"writing json file with size %d",data.count)
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 NSString *documentsDirectory = [paths objectAtIndex:0];
 NSString *path = [documentsDirectory stringByAppendingPathComponent:[NSString stringWithFormat:@"%@%@", @"/NoCloud/",name ]];
@@ -510,6 +510,7 @@ for(int i=0;i< [data count];i++)
 {
 [marray addObject:[data[i] getDict]];
 }
+NSLog(@"writing json file with marray size %d",marray.count)
 if ([NSJSONSerialization isValidJSONObject:marray])
 {
 NSData *json = [NSJSONSerialization dataWithJSONObject:marray options:NSJSONWritingPrettyPrinted error:&error];
@@ -553,6 +554,7 @@ result= [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncodin
 }
 +(void) showNotification:(NSDictionary *) dict 
 {
+NSLog(@"showing notification");
 UNMutableNotificationContent *content = [UNMutableNotificationContent new];
 content.title = dict[@"title"];
 content.body = dict[@"body"];
