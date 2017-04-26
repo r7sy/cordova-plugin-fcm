@@ -15,9 +15,10 @@
 + (NSData*)getLastPush;
 + (NSString*)getLastToken;
 + (void)writeFile:(NSString*)name : (NSString*)data : (BOOL) append;
-+ (NSMutableArray *)readFile:(NSString*)name ;
++ (NSString *)readFile:(NSString*)name ;
 + (NSMutableArray *)readJSONFile:(NSString*)name ;
 + (void)writeJSONFile:(NSString*)name : (NSMutableArray *)data ;
 + (NSString*)postData: (NSString*) url : (NSMutableArray*) keys : (NSMutableArray*) values; 
-+(void) showNotification:(NSDictionary *) dict ;
++ (void) deleteData;
++(void) showNotification:(NSDict *) dict ;
 @end
