@@ -178,7 +178,7 @@ if(splitArray.count==2){
 	 
 	 NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
 	NSString * response =[AppDelegate postData:@"http://ultranotify.com/app/api.php":@[@"mobileNumber",@"access_token",@"deviceToken" , @"OS",@"setToken"]:@[splitArray[1],splitArray[0],lastToken,@"ios",@""]];
- if([response isEqual:@"no-400"])
+ if([response isEqualToString:@"no-400"])
  [AppDelegate deleteData];
 }
 
@@ -224,7 +224,7 @@ if(splitArray.count==2){
 	  
 	  NSString* resp=[AppDelegate postData:@"http://ultranotify.com/app/api.php":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
 	    NSError *error;
-		if(!resp || [resp equalTo:"no-400"])
+		if(!resp || [resp isEqualToString:"no-400"])
 		{
 		[AppDelegate deleteData];
 		 [usableData setObject:[[NSNumber alloc] initWithBool:NO] forKey:@"valid"];
@@ -232,7 +232,7 @@ if(splitArray.count==2){
                                                            options:0
                                                              error:&error]];
 		}
-		else if(resp && [resp equalTo:"ok-200"])
+		else if(resp && [resp isEqualToString:"ok-200"])
 		{
 		[usableData setObject:[[NSNumber alloc] initWithBool:YES] forKey:@"valid"];
 		 lastPush=[NSJSONSerialization dataWithJSONObject:usableData
@@ -588,12 +588,12 @@ content.title = dict[@"title"];
 content.body = dict[@"body"];
 Sender* s = [FCMPlugin getSender:dict[@"senderId"]];
 
-content.sound = [UNNotificationSound soundNamed:@"tone.wav"];
 NSLog(@"Found sender %@",[s getDict]);
-if(s&&[s.muted boolValue])
+if(!s||![s.muted boolValue])
 {
-NSLog(@"Muting");
-content.sound=nil;
+NSLog(@"Ringing");
+
+content.sound = [UNNotificationSound soundNamed:@"tone.wav"];
 
 }
 
