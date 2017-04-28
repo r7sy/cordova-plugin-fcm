@@ -2,7 +2,7 @@
 
 @interface Sender:NSObject
 
-@property(nonatomic, readwrite) NSString * id;
+@property(nonatomic, readwrite) NSNumber * id;
 @property(nonatomic, readwrite) NSString * sound;
 @property(nonatomic, readwrite) NSNumber * muted;
 @property(nonatomic, readwrite) NSNumber * vibrate;
