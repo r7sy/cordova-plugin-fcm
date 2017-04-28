@@ -39,14 +39,14 @@ static FCMPlugin *fcmPluginInstance;
 }
 - (void) mute : (CDVInvokedUrlCommand*) command{
 
-NSString* id=[command.arguments objectAtIndex:0];
+NSNumber* id=[command.arguments objectAtIndex:0];
  [self.commandDelegate runInBackground:^{
    NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
 		NSNumber * temp= (NSNumber *) [senders[i] id];
-		if([id isEqualToString:[temp stringValue]]){
+		if([id intValue]== [temp intValue]){
 		Sender* s1=(Sender *) senders[i];
 		s1.muted=[[NSNumber alloc] initWithBool:YES];
 		found=YES;
@@ -66,14 +66,14 @@ NSString* id=[command.arguments objectAtIndex:0];
 }
 - (void) unmute : (CDVInvokedUrlCommand*) command{
 
-NSString* id=[command.arguments objectAtIndex:0];
+NSNumber* id=[command.arguments objectAtIndex:0];
  [self.commandDelegate runInBackground:^{
    NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
-		NSNumber * temp= (NSNumber *) [senders[i] id];
-		if([id isEqualToString:[temp stringValue]]){
+	NSNumber * temp= (NSNumber *) [senders[i] id];
+		if([id intValue]== [temp intValue]){
 		Sender* s1=(Sender *) senders[i];
 		s1.muted=[[NSNumber alloc] initWithBool:NO];
 		found=YES;
@@ -93,14 +93,14 @@ NSString* id=[command.arguments objectAtIndex:0];
 }
 - (void) vibrateon : (CDVInvokedUrlCommand*) command{
 
-NSString* id=[command.arguments objectAtIndex:0];
+NSNumber* id=[command.arguments objectAtIndex:0];
  [self.commandDelegate runInBackground:^{
    NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
-		NSNumber * temp= (NSNumber *) [senders[i] id];
-		if([id isEqualToString:[temp stringValue]]){
+NSNumber * temp= (NSNumber *) [senders[i] id];
+		if([id intValue]== [temp intValue]){
 		Sender* s1=(Sender *) senders[i];
 		s1.vibrate=[[NSNumber alloc] initWithBool:YES];
 		found=YES;
@@ -120,14 +120,14 @@ NSString* id=[command.arguments objectAtIndex:0];
 }
 - (void) vibrateoff : (CDVInvokedUrlCommand*) command{
 
-NSString* id=[command.arguments objectAtIndex:0];
+NSNumber* id=[command.arguments objectAtIndex:0];
  [self.commandDelegate runInBackground:^{
    NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
-	NSNumber * temp= (NSNumber *) [senders[i] id];
-		if([id isEqualToString:[temp stringValue]]){
+NSNumber * temp= (NSNumber *) [senders[i] id];
+		if([id intValue]== [temp intValue]){
 		Sender* s1=(Sender *) senders[i];
 		s1.vibrate=[[NSNumber alloc] initWithBool:NO];
 		found=YES;
