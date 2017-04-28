@@ -224,7 +224,7 @@ if(splitArray.count==2){
 	  
 	  NSString* resp=[AppDelegate postData:@"http://ultranotify.com/app/api.php":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
 	    NSError *error;
-		if(!resp || [resp isEqualToString:"no-400"])
+		if(!resp || [resp isEqualToString:@"no-400"])
 		{
 		[AppDelegate deleteData];
 		 [usableData setObject:[[NSNumber alloc] initWithBool:NO] forKey:@"valid"];
@@ -232,7 +232,7 @@ if(splitArray.count==2){
                                                            options:0
                                                              error:&error]];
 		}
-		else if(resp && [resp isEqualToString:"ok-200"])
+		else if(resp && [resp isEqualToString:@"ok-200"])
 		{
 		[usableData setObject:[[NSNumber alloc] initWithBool:YES] forKey:@"valid"];
 		 lastPush=[NSJSONSerialization dataWithJSONObject:usableData
