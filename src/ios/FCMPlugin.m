@@ -45,8 +45,8 @@ NSString* id=[command.arguments objectAtIndex:0];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
-		if([id isEqual:[senders[i] id]])
-		{
+		NSNumber * temp= (NSNumber *) [senders[i] id];
+		if([id isEqualToString:[temp stringValue]]){
 		Sender* s1=(Sender *) senders[i];
 		s1.muted=[[NSNumber alloc] initWithBool:YES];
 		found=YES;
@@ -72,8 +72,8 @@ NSString* id=[command.arguments objectAtIndex:0];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
-		if([id isEqual:[senders[i] id]])
-		{
+		NSNumber * temp= (NSNumber *) [senders[i] id];
+		if([id isEqualToString:[temp stringValue]]){
 		Sender* s1=(Sender *) senders[i];
 		s1.muted=[[NSNumber alloc] initWithBool:NO];
 		found=YES;
@@ -99,8 +99,8 @@ NSString* id=[command.arguments objectAtIndex:0];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
-		if([id isEqual:[senders[i] id]])
-		{
+		NSNumber * temp= (NSNumber *) [senders[i] id];
+		if([id isEqualToString:[temp stringValue]]){
 		Sender* s1=(Sender *) senders[i];
 		s1.vibrate=[[NSNumber alloc] initWithBool:YES];
 		found=YES;
@@ -126,8 +126,8 @@ NSString* id=[command.arguments objectAtIndex:0];
    BOOL found = NO;
    for(int i=0;i<senders.count;i++)
 		{
-		if([id isEqual:[senders[i] id]])
-		{
+	NSNumber * temp= (NSNumber *) [senders[i] id];
+		if([id isEqualToString:[temp stringValue]]){
 		Sender* s1=(Sender *) senders[i];
 		s1.vibrate=[[NSNumber alloc] initWithBool:NO];
 		found=YES;
@@ -301,7 +301,8 @@ NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
  
    for(int i=0;i<senders.count;i++)
 		{
-		if([id isEqual:[senders[i] id]])
+		NSNumber * temp= (NSNumber *) [senders[i] id];
+		if([id isEqualToString:[temp stringValue]])
 		{
 		s=(Sender *) senders[i];
 		
