@@ -37,6 +37,34 @@ static FCMPlugin *fcmPluginInstance;
     }];
     
 }
+- (void) pickRingtone : (CDVInvokedUrlCommand*) command{
+
+NSNumber* id=[command.arguments objectAtIndex:0];
+NSString* sound=[command.arguments objectAtIndex:1];
+ [self.commandDelegate runInBackground:^{
+   NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
+   BOOL found = NO;
+   for(int i=0;i<senders.count;i++)
+		{
+		NSNumber * temp= (NSNumber *) [senders[i] id];
+		if([id intValue]== [temp intValue]){
+		Sender* s1=(Sender *) senders[i];
+		s1.sound=sound;
+		found=YES;
+		break;
+		}
+		
+		}
+		if(!found)
+		{
+		NSDictionary * dict=@{@"id":id,@"sound":sound,@"muted":[[NSNumber alloc] initWithBool:NO],@"vibrate":[[NSNumber alloc] initWithBool:YES]};
+		Sender * s=[[Sender alloc] initWithDict:dict];
+		[senders addObject:s];
+		}
+		[FCMPlugin writeJSONFile:@"senders.json":senders];
+   }];
+
+}
 - (void) mute : (CDVInvokedUrlCommand*) command{
 
 NSNumber* id=[command.arguments objectAtIndex:0];
