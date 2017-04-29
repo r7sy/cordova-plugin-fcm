@@ -26,8 +26,8 @@ FCMPlugin.prototype.getToken = function( success, error ){
 	exec(success, error, "FCMPlugin", 'getToken', []);
 }
 // PICK RINGTONE //
-FCMPlugin.prototype.pickRingtone = function(id,success, error ){
-	exec(success, error, "FCMPlugin", 'ringtone', [id]);
+FCMPlugin.prototype.pickRingtone = function(id,sound,success, error ){
+	exec(success, error, "FCMPlugin", 'ringtone', [id,sound]);
 }
 FCMPlugin.prototype.mute = function(id,success, error ){
 	exec(success, error, "FCMPlugin", 'mute', [id]);
