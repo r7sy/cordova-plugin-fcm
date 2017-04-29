@@ -228,7 +228,7 @@ public void onActivityResult(final int requestCode, final int resultCode, final 
           }
           else
           {
-              result =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION).toString();
+              result =  "none";
 			
 		 }
 		  Log.d(TAG, result);
@@ -329,8 +329,16 @@ catch (Exception e){
 	   {
 		   if(senders.get(i).getId().equals(id))
 		   {
-			   senders.get(i).setSound(sound);
-			   senders.get(i).setMuted(falsE);
+			   if(sound.equals("none")) 
+			   {
+				   senders.get(i).setMuted(true);
+				   
+			   }
+			   else{
+			    senders.get(i).setSound(sound);
+			   senders.get(i).setMuted(false);
+			   }
+			  
 			   found=true;
 			   break;
 		   }
