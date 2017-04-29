@@ -221,9 +221,11 @@ if(splitArray.count==2){
 	  {
 	  NSArray * splitArray=[username componentsSeparatedByString:@"!@!"];
 	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
-	  
+	  if(splitArray.count==2)
 	  NSString* resp=[AppDelegate postData:@"http://ultranotify.com/app/api.php":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
-	    NSError *error;
+	   else
+		return;	   
+		NSError *error;
 		if(!resp || [resp isEqualToString:@"no-400"])
 		{
 		[AppDelegate deleteData];
