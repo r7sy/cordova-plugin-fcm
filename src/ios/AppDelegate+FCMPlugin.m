@@ -594,8 +594,10 @@ NSLog(@"Found sender %@",[s getDict]);
 if(!s||![s.muted boolValue])
 {
 NSLog(@"Ringing");
-
-content.sound = [UNNotificationSound soundNamed:@"tone.wav"];
+if(!s.sound||[s.sound isEqualToString:@"default"])
+content.sound = [UNNotificationSound defaultSound];
+else
+content.sound = [UNNotificationSound soundNamed:s.sound];
 
 }
 
