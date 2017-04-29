@@ -330,6 +330,7 @@ catch (Exception e){
 		   if(senders.get(i).getId().equals(id))
 		   {
 			   senders.get(i).setSound(sound);
+			   senders.get(i).setMuted(falsE);
 			   found=true;
 			   break;
 		   }
