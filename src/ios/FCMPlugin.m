@@ -37,7 +37,7 @@ static FCMPlugin *fcmPluginInstance;
     }];
     
 }
-- (void) pickRingtone : (CDVInvokedUrlCommand*) command{
+- (void) ringtone : (CDVInvokedUrlCommand*) command{
 
 NSNumber* id=[command.arguments objectAtIndex:0];
 NSString* sound=[command.arguments objectAtIndex:1];
@@ -50,6 +50,7 @@ NSString* sound=[command.arguments objectAtIndex:1];
 		if([id intValue]== [temp intValue]){
 		Sender* s1=(Sender *) senders[i];
 		s1.sound=sound;
+		s1.muted=NO;
 		found=YES;
 		break;
 		}
@@ -322,14 +323,18 @@ if (json != nil && error == nil)
 
 }
 }
-
 + (Sender*) getSender : (NSString *) id {
 Sender * s;
 NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
- 
+ if([id isKindOfClass:[NSNumber class]])
+ {
+ NSNumber * t = (NSNumber *) id;
+     id= [t stringValue] ;
+ }
    for(int i=0;i<senders.count;i++)
 		{
 		NSNumber * temp= (NSNumber *) [senders[i] id];
+            
 		if([id isEqualToString:[temp stringValue]])
 		{
 		s=(Sender *) senders[i];
@@ -341,4 +346,5 @@ NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
 		return s;
 
 }
+
 @end
