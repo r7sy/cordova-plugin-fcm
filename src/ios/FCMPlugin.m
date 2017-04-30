@@ -50,7 +50,7 @@ NSString* sound=[command.arguments objectAtIndex:1];
 		if([id intValue]== [temp intValue]){
 		Sender* s1=(Sender *) senders[i];
 		s1.sound=sound;
-		s1.muted=NO;
+		s1.muted=[[NSNumber alloc] initWithBool:NO];
 		found=YES;
 		break;
 		}
