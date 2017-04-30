@@ -520,7 +520,7 @@ if ([array isKindOfClass:[NSArray class]] && error == nil)
 for(int i=0;i< [array count];i++)
 {
 NSDictionary * object=array[i];
-[marray addObject:[[Message alloc]initWithDict:array[i] withDate:[[NSDate alloc] initWithTimeIntervalSince1970:[object[@"arrivalTime"] doubleValue]]]];
+[marray addObject:[[Message alloc]initWithDict:array[i] withDate:[[NSDate alloc] initWithTimeIntervalSince1970:[object[@"arrivalTime"] doubleValue]/1000]]];
 }
 
 }
