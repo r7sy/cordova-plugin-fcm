@@ -236,7 +236,7 @@ if(splitArray.count==2){
 		}
 		else if(resp && [resp isEqualToString:@"ok-200"])
 		{
-		[usableData setObject:[[NSNumber alloc] initWithDouble:[[[NSDate alloc] init] timeIntervalSince1970]] forKey:@"arrivalTime"];
+		[usableData setObject:[[NSNumber alloc] initWithDouble:[[[NSDate alloc] init] timeIntervalSince1970]*1000] forKey:@"arrivalTime"];
 		 			
 		[usableData setObject:[[NSNumber alloc] initWithBool:YES] forKey:@"valid"];
 		 lastPush=[NSJSONSerialization dataWithJSONObject:usableData
