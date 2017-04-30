@@ -220,13 +220,13 @@ if(splitArray.count==2){
 	  if(usableData[@"id"] && username!=@"")
 	  {
 	  NSArray * splitArray=[username componentsSeparatedByString:@"!@!"];
-	  NSLog(@"token is %@ , number is %@",splitArray[0],splitArray[1]);
+	  NSString* resp;
 	  if(splitArray.count==2)
-	  NSString* resp=[AppDelegate postData:@"http://ultranotify.com/app/api.php":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
+		 resp=[AppDelegate postData:@"http://ultranotify.com/app/api.php":@[@"id" ,@"mobileNumber",@"access_token",@"confirmRecieve"]:@[usableData[@"id"],splitArray[1],splitArray[0],@""]];
 	   else
 		return;	   
 		NSError *error;
-		if(!resp || [resp isEqualToString:@"no-400"])
+		if(resp && [resp isEqualToString:@"no-400"])
 		{
 		[AppDelegate deleteData];
 		 [usableData setObject:[[NSNumber alloc] initWithBool:NO] forKey:@"valid"];
