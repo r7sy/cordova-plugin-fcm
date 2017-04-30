@@ -318,12 +318,12 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
 
         NSLog(@"New method with push callback: %@", userInfo);
         
-        [userInfoMutable setValue:@(YES) forKey:@"wasTapped"];
+       /* [userInfoMutable setValue:@(YES) forKey:@"wasTapped"];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
                                                            options:0
                                                              error:&error];
         NSLog(@"APP WAS CLOSED DURING PUSH RECEPTION Saved data: %@", jsonData);
-        lastPush = jsonData;
+        lastPush = jsonData;*/
 
     
     completionHandler();
@@ -339,12 +339,13 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
     if (application.applicationState != UIApplicationStateActive) {
         NSLog(@"New method with push callback: %@", userInfo);
         
-        [userInfoMutable setValue:@(YES) forKey:@"wasTapped"];
+        /*[userInfoMutable setValue:@(YES) forKey:@"wasTapped"];
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:userInfoMutable
                                                            options:0
                                                              error:&error];
         NSLog(@"APP WAS CLOSED DURING PUSH RECEPTION Saved data: %@", jsonData);
-        lastPush = jsonData;
+        lastPush = jsonData;*/
+      
     }
 }
 // [END receive_message in background] iOS < 10]
