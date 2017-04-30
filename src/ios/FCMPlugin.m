@@ -335,11 +335,10 @@ NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
 		{
 		NSString * temp;
             if([[senders[i] id] isKindOfClass:[NSNumber class] ])
-            {
-            NSNumber * t2 = (NSNumber *) [senders[i] id];
-                 temp= [t2 stringValue];
-            }
-           
+             {
+             NSNumber * t2 = (NSNumber *) [senders[i] id];
+                  temp= [t2 stringValue];
+             }
             
 		if([id isEqualToString:temp])
 		{
