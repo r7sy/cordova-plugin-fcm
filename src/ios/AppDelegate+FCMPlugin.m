@@ -210,7 +210,7 @@ if(splitArray.count==2){
 	 {
 	 data=[NSString stringWithFormat:@"%@%@/n",data,id[i]];
 	 }
-	  [AppDelegate writeFile:@"log.txt":data:NO];
+	   [AppDelegate writeFile:@"log.txt":data:NO];
 	 }
 	 NSLog(@"Notification Data %@",usableData);
 	 
