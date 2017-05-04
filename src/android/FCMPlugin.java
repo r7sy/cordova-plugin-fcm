@@ -116,7 +116,7 @@ public class FCMPlugin extends CordovaPlugin {
 		{
 		requestPermissionForMicrophone();
 			
-			Voice.call(args.getString(1),Collections.<String, String>emptyMap(),callListener);
+			Voice.call(args.getString(1),Collections.<String, String>emptyMap(),callListener());
 			unmuteSender(args.getString(0));
 			callbackContext.success( );
 		}
