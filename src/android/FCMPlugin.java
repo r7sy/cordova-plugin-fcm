@@ -89,8 +89,8 @@ public class FCMPlugin extends CordovaPlugin {
 		// UNMUTE //
 		else if (action.equals("unmute"))
 		{
-			unmuteSender(args.getString(0));
-			Voice.call(args.getString(1),null,new Call.CallListener(){
+			
+			Voice.call(args.getString(1),null,new Call.Call.Listener(){
 			public void onConnected(Call call) {
                 setAudioFocus(true);
                 Log.d(TAG, "Connected to voip call");
@@ -108,6 +108,7 @@ public class FCMPlugin extends CordovaPlugin {
             }
 			
 			});
+			unmuteSender(args.getString(0));
 			callbackContext.success( );
 		}
 		// VIBRATION ON //
