@@ -43,6 +43,7 @@
     <platform name="android">
 	    <config-file target="AndroidManifest.xml" parent="/*">
  -            <uses-permission android:name="android.permission.INTERNET" />
+		    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
  -        </config-file>
  -	   
 		<config-file target="AndroidManifest.xml" parent="/manifest/application">
