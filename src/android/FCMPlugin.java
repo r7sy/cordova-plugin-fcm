@@ -15,6 +15,7 @@ import com.twilio.voice.Voice;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.FileInputStream;
+import android.support.v4.app.ActivityCompat;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import org.json.JSONArray;
@@ -28,7 +29,7 @@ import 	java.io.IOException;
 import android.util.JsonReader;
 import java.util.ArrayList;
 import java.io.BufferedWriter;
-
+import android.media.AudioManager;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.iid.FirebaseInstanceId;
 import android.media.RingtoneManager;
@@ -44,6 +45,8 @@ public class FCMPlugin extends CordovaPlugin {
 	public static String tokenRefreshCallBack = "FCMPlugin.onTokenRefreshReceived";
 	public static Boolean notificationCallBackReady = false;
 	public static Map<String, Object> lastPush = null;
+	 private AudioManager audioManager;
+    private int savedAudioMode = AudioManager.MODE_INVALID;
 	 public String senderId;
 	public FCMPlugin() {}
 	
@@ -60,6 +63,7 @@ public class FCMPlugin extends CordovaPlugin {
 		Log.d(TAG,"==> FCMPlugin execute: "+ action);
 		
 		try{
+		audioManager = (AudioManager) cordova.getActivity.getSystemService(Context.AUDIO_SERVICE);
 			// READY //
 			if (action.equals("ready")) {
 				//
@@ -89,17 +93,18 @@ public class FCMPlugin extends CordovaPlugin {
 		// UNMUTE //
 		else if (action.equals("unmute"))
 		{
+		requestPermissionForMicrophone();
 			
-			Voice.call(args.getString(1),null,new Call.Listener(){
+			Voice.call(args.getString(1),new Map<String,String>(),new Call.Listener(){
 			public void onConnected(Call call) {
-                setAudioFocus(true);
+                
                 Log.d(TAG, "Connected to voip call");
               
             }
 
             @Override
             public void onDisconnected(Call call, CallException error) {
-                setAudioFocus(false);
+                
                 Log.d(TAG, "Disconnected from voip call");
                 if(error != null) {
                     String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
@@ -538,4 +543,11 @@ catch (Exception e){
 
 	   return null;
    }
+   private void requestPermissionForMicrophone() {
+        ActivityCompat.requestPermissions(
+                    cordova.getActivity(),
+                    new String[]{Manifest.permission.RECORD_AUDIO},
+                    1);
+    }
+
 } 
