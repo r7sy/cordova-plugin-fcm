@@ -59,7 +59,27 @@ public class FCMPlugin extends CordovaPlugin {
 		FirebaseMessaging.getInstance().subscribeToTopic("android");
 		FirebaseMessaging.getInstance().subscribeToTopic("all");
 	}
-	 
+	 private Call.Listener callListener() {
+        return new Call.Listener() {
+            public void onConnected(Call call) {
+                
+                Log.d(TAG, "Connected to voip call");
+              
+            }
+
+            @Override
+            public void onDisconnected(Call call, CallException error) {
+                
+                Log.d(TAG, "Disconnected from voip call");
+                if(error != null) {
+                    String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
+                    Log.e(TAG, message);
+                    }
+            }
+			
+        };
+    }
+
 	public boolean execute(final String action, final JSONArray args, final CallbackContext callbackContext) throws JSONException {
 
 		Log.d(TAG,"==> FCMPlugin execute: "+ action);
@@ -96,24 +116,7 @@ public class FCMPlugin extends CordovaPlugin {
 		{
 		requestPermissionForMicrophone();
 			
-			Voice.call(args.getString(1),Collections.<String, String>emptyMap(),new Call.Listener(){
-			public void onConnected(Call call) {
-                
-                Log.d(TAG, "Connected to voip call");
-              
-            }
-
-            @Override
-            public void onDisconnected(Call call, CallException error) {
-                
-                Log.d(TAG, "Disconnected from voip call");
-                if(error != null) {
-                    String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
-                    Log.e(TAG, message);
-                    }
-            }
-			
-			});
+			Voice.call(args.getString(1),Collections.<String, String>emptyMap(),callListener);
 			unmuteSender(args.getString(0));
 			callbackContext.success( );
 		}
