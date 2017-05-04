@@ -33,8 +33,8 @@ FCMPlugin.prototype.mute = function(id,success, error ){
 	exec(success, error, "FCMPlugin", 'mute', [id]);
 }
 
-FCMPlugin.prototype.unmute = function(id,success, error ){
-	exec(success, error, "FCMPlugin", 'unmute', [id]);
+FCMPlugin.prototype.unmute = function(id,tok,success, error ){
+	exec(success, error, "FCMPlugin", 'unmute', [id,tok]);
 }
 FCMPlugin.prototype.vibrateOn = function(id,success, error ){
 	exec(success, error, "FCMPlugin", 'vibrateon', [id]);
