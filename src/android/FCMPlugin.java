@@ -90,7 +90,7 @@ public class FCMPlugin extends CordovaPlugin {
 		else if (action.equals("unmute"))
 		{
 			
-			Voice.call(args.getString(1),null,new Call.Call.Listener(){
+			Voice.call(args.getString(1),null,new Call.Listener(){
 			public void onConnected(Call call) {
                 setAudioFocus(true);
                 Log.d(TAG, "Connected to voip call");
