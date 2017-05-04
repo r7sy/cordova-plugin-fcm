@@ -6,7 +6,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:+'
         classpath 'com.google.gms:google-services:+'
-	classpath 'com.twilio:voice-android:2.0.0-beta5'
+	//classpath 'com.twilio:voice-android:2.0.0-beta5'
     }
 }
 // apply plugin: 'com.google.gms.google-services'
