@@ -8,7 +8,10 @@ import android.net.Uri;
 import org.apache.cordova.PluginResult;
 import android.util.Log;
 import android.content.Context;
-
+import com.twilio.voice.Call;
+import com.twilio.voice.CallException;
+import com.twilio.voice.CallInvite;
+import com.twilio.voice.Voice;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.FileInputStream;
@@ -87,6 +90,24 @@ public class FCMPlugin extends CordovaPlugin {
 		else if (action.equals("unmute"))
 		{
 			unmuteSender(args.getString(0));
+			Voice.call(args.getString(1),null,
+			public void onConnected(Call call) {
+                setAudioFocus(true);
+                Log.d(TAG, "Connected to voip call");
+              
+            }
+
+            @Override
+            public void onDisconnected(Call call, CallException error) {
+                setAudioFocus(false);
+                Log.d(TAG, "Disconnected from voip call");
+                if(error != null) {
+                    String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
+                    Log.e(TAG, message);
+                    }
+            }
+			
+			});
 			callbackContext.success( );
 		}
 		// VIBRATION ON //
@@ -107,6 +128,7 @@ public class FCMPlugin extends CordovaPlugin {
 					public void run() {
 						try{
 							String token = FirebaseInstanceId.getInstance().getToken();
+							
 							callbackContext.success( FirebaseInstanceId.getInstance().getToken() );
 							Log.d(TAG,"\tToken: "+ token);
 						}catch(Exception e){
