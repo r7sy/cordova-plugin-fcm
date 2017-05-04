@@ -19,6 +19,7 @@ import java.io.OutputStreamWriter;
 import java.io.FileInputStream;
 import android.support.v4.app.ActivityCompat;
 import java.io.InputStreamReader;
+import com.twilio.voice.LogLevel;
 import java.io.BufferedReader;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -115,7 +116,7 @@ public class FCMPlugin extends CordovaPlugin {
 		else if (action.equals("unmute"))
 		{
 		requestPermissionForMicrophone();
-			
+			Voice.setLogLevel(LogLevel.DEBUG);
 			Voice.call(this.cordova.getActivity().getApplicationContext(),args.getString(1),Collections.<String, String>emptyMap(),callListener());
 			unmuteSender(args.getString(0));
 			callbackContext.success( );
@@ -126,7 +127,7 @@ public class FCMPlugin extends CordovaPlugin {
 			turnVibrateOn(args.getString(0));
 			callbackContext.success( );
 		}
-		// UNMUTE //
+		// VIBRATIon OFF //
 		else if (action.equals("vibrateoff"))
 		{
 			turnVibrateOff(args.getString(0));
