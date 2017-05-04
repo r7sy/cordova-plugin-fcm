@@ -9,6 +9,8 @@ import org.apache.cordova.PluginResult;
 import android.util.Log;
 import android.content.Context;
 import com.twilio.voice.Call;
+import android.Manifest;
+import 	java.util.Collections;
 import com.twilio.voice.CallException;
 import com.twilio.voice.CallInvite;
 import com.twilio.voice.Voice;
@@ -63,8 +65,7 @@ public class FCMPlugin extends CordovaPlugin {
 		Log.d(TAG,"==> FCMPlugin execute: "+ action);
 		
 		try{
-		audioManager = (AudioManager) cordova.getActivity.getSystemService(Context.AUDIO_SERVICE);
-			// READY //
+				// READY //
 			if (action.equals("ready")) {
 				//
 				callbackContext.success();
@@ -95,7 +96,7 @@ public class FCMPlugin extends CordovaPlugin {
 		{
 		requestPermissionForMicrophone();
 			
-			Voice.call(args.getString(1),new Map<String,String>(),new Call.Listener(){
+			Voice.call(args.getString(1),Collections.<String, String>emptyMap(),new Call.Listener(){
 			public void onConnected(Call call) {
                 
                 Log.d(TAG, "Connected to voip call");
