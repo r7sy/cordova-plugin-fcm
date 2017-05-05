@@ -174,7 +174,7 @@ public class FCMPlugin extends CordovaPlugin {
 				callbackContext.success();
 					
 			}
-			else if (action.equals("disconnectSupport")) {
+			else if (action.equals("disconnectSupport")) 
 			{
 			try{
 			currentCall.disconnect();
