@@ -12,6 +12,13 @@ FCMPlugin.prototype.subscribeToTopic = function( topic, success, error ){
 FCMPlugin.prototype.unsubscribeFromTopic = function( topic, success, error ){
 	exec(success, error, "FCMPlugin", 'unsubscribeFromTopic', [topic]);
 }
+
+FCMPlugin.prototype.connectSupport = function( token, success, error ){
+	exec(success, error, "FCMPlugin", 'connectSupport', [token]);
+}
+FCMPlugin.prototype.disconnectSupport = function(  success, error ){
+	exec(success, error, "FCMPlugin", 'disconnectSupport', [token]);
+}
 // NOTIFICATION CALLBACK //
 FCMPlugin.prototype.onNotification = function( callback, success, error ){
 	FCMPlugin.prototype.onNotificationReceived = callback;
