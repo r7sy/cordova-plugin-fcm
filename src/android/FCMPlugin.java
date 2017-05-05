@@ -46,7 +46,15 @@ public class FCMPlugin extends CordovaPlugin {
 	public static CordovaWebView gWebView;
 	public static String notificationCallBack = "FCMPlugin.onNotificationReceived";
 	public static String tokenRefreshCallBack = "FCMPlugin.onTokenRefreshReceived";
+	public Call currentCall;
+	public static String callConnectedCallBack = "FCMPlugin.onCallConnected";
+	public static String callDisconnectedCallBack = "FCMPlugin.onCallDisconnected";
+	
 	public static Boolean notificationCallBackReady = false;
+	
+	public static Boolean callConnectedCallBackReady = false;
+	
+	public static Boolean callDisconnectedCallBackReady = false;
 	public static Map<String, Object> lastPush = null;
 	 private AudioManager audioManager;
     private int savedAudioMode = AudioManager.MODE_INVALID;
@@ -63,15 +71,16 @@ public class FCMPlugin extends CordovaPlugin {
 	 private Call.Listener callListener() {
         return new Call.Listener() {
             public void onConnected(Call call) {
-                
+				
                 Log.d(TAG, "Connected to voip call");
-              
+				FCMPlugin.callConnected();
             }
 
             @Override
             public void onDisconnected(Call call, CallException error) {
                 
                 Log.d(TAG, "Disconnected from voip call");
+				FCMPlugin.callDisconnected();
                 if(error != null) {
                     String message = String.format("Call Error: %d, %s", error.getErrorCode(), error.getMessage());
                     Log.e(TAG, message);
@@ -116,8 +125,6 @@ public class FCMPlugin extends CordovaPlugin {
 		else if (action.equals("unmute"))
 		{
 		requestPermissionForMicrophone();
-			Voice.setLogLevel(LogLevel.DEBUG);
-			Voice.call(this.cordova.getActivity().getApplicationContext(),args.getString(1),Collections.<String, String>emptyMap(),callListener());
 			unmuteSender(args.getString(0));
 			callbackContext.success( );
 		}
@@ -158,6 +165,24 @@ public class FCMPlugin extends CordovaPlugin {
 						callbackContext.success();
 					}
 				});
+			}
+			else if (action.equals("connectSupport")) {
+				Voice.setLogLevel(LogLevel.DEBUG);
+			currentCall=Voice.call(this.cordova.getActivity().getApplicationContext(),args.getString(0),Collections.<String, String>emptyMap(),callListener());
+			
+				
+				callbackContext.success();
+					
+			}
+			else if (action.equals("disconnectSupport")) {
+			{
+			try{
+			currentCall.disconnect();
+			}
+			catch(Exception e)
+			{
+			}
+			callbackContext.success();
 			}
 			// UN/SUBSCRIBE TOPICS //
 			else if (action.equals("subscribeToTopic")) {
@@ -239,6 +264,24 @@ public class FCMPlugin extends CordovaPlugin {
 			gWebView.sendJavascript(callBack);
 		} catch (Exception e) {
 			Log.d(TAG, "\tERROR sendRefreshToken: " + e.getMessage());
+		}
+	}
+	public static void callConnected( ) {
+		Log.d(TAG, "==> FCMPlugin call connected");
+	  try {
+			String callBack = "javascript:" + callConnectedCallBack + "(" +  ")";
+			gWebView.sendJavascript(callBack);
+		} catch (Exception e) {
+			Log.d(TAG, "\tERROR callConnected: " + e.getMessage());
+		}
+	}
+	public static void callDisconnected( ) {
+		Log.d(TAG, "==> FCMPlugin call disconnected");
+	  try {
+			String callBack = "javascript:" + callDisconnectedCallBack + "(" +  ")";
+			gWebView.sendJavascript(callBack);
+		} catch (Exception e) {
+			Log.d(TAG, "\tERROR callDisconnected: " + e.getMessage());
 		}
 	}
   
