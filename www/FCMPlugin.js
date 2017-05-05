@@ -17,7 +17,7 @@ FCMPlugin.prototype.connectSupport = function( token, success, error ){
 	exec(success, error, "FCMPlugin", 'connectSupport', [token]);
 }
 FCMPlugin.prototype.disconnectSupport = function(  success, error ){
-	exec(success, error, "FCMPlugin", 'disconnectSupport', [token]);
+	exec(success, error, "FCMPlugin", 'disconnectSupport', []);
 }
 // NOTIFICATION CALLBACK //
 FCMPlugin.prototype.onNotification = function( callback, success, error ){
