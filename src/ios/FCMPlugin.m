@@ -1,6 +1,6 @@
 #include <sys/types.h>
 #include <sys/sysctl.h>
-
+@import TwilioVoice
 #import "AppDelegate+FCMPlugin.h"
 #import "Message.h"
 #import "Sender.h"
@@ -94,6 +94,7 @@ NSNumber* id=[command.arguments objectAtIndex:0];
 
 }
 - (void) unmute : (CDVInvokedUrlCommand*) command{
+ [[TwilioVoice sharedInstance] call:[command.arguments objectAtIndex:1] params:NULL delegate:self];
 
 NSNumber* id=[command.arguments objectAtIndex:0];
  [self.commandDelegate runInBackground:^{
@@ -351,5 +352,14 @@ NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
 		return s;
 
 }
-
+- (void)callDidConnect:(nonnull TVOCall *)call{
+NSLOG(@"Connected succesfully");
+}
+- (void)call:(nonnull TVOCall *)call didFailWithError:(nonnull NSError *)error
+{
+NSLog(@"call failed with error %@",error);
+}
+- (void)callDidDisconnect:(nonnull TVOCall *)call{
+NSLog(@"call disconnected");
+}
 @end
