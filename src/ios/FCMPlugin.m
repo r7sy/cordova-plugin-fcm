@@ -1,6 +1,6 @@
 #include <sys/types.h>
 #include <sys/sysctl.h>
-@import TwilioVoice
+@import TwilioVoice;
 #import "AppDelegate+FCMPlugin.h"
 #import "Message.h"
 #import "Sender.h"
@@ -18,6 +18,9 @@ static BOOL appInForeground = YES;
 
 static NSString *notificationCallback = @"FCMPlugin.onNotificationReceived";
 static NSString *tokenRefreshCallback = @"FCMPlugin.onTokenRefreshReceived";
+TVOCall * currentCall;
+static NSString *callConnectedCallBack = @"FCMPlugin.onCallConnected";
+static NSString *callDisconnectedCallBack = @"FCMPlugin.onCallDisconnected";
 static FCMPlugin *fcmPluginInstance;
 
 + (FCMPlugin *) fcmPlugin {
@@ -36,6 +39,22 @@ static FCMPlugin *fcmPluginInstance;
         [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
     }];
     
+}
+
+- (void) connectSupport : (CDVInvokedUrlCommand*) command{
+[self.commandDelegate runInBackground:^{
+
+currentCall =[[TwilioVoice sharedInstance] call:[command.arguments objectAtIndex:0] params:NULL delegate:self];;
+
+
+}];
+}
+- (void) disconnectSupport : (CDVInvokedUrlCommand*) command{
+[self.commandDelegate runInBackground:^{
+if(currentCall)
+{
+[currentCall disconnect];
+}}];
 }
 - (void) ringtone : (CDVInvokedUrlCommand*) command{
 
@@ -94,7 +113,7 @@ NSNumber* id=[command.arguments objectAtIndex:0];
 
 }
 - (void) unmute : (CDVInvokedUrlCommand*) command{
- [[TwilioVoice sharedInstance] call:[command.arguments objectAtIndex:1] params:NULL delegate:self];
+ 
 
 NSNumber* id=[command.arguments objectAtIndex:0];
  [self.commandDelegate runInBackground:^{
@@ -353,13 +372,35 @@ NSMutableArray* senders = [FCMPlugin readJSONFile:@"senders.json"];
 
 }
 - (void)callDidConnect:(nonnull TVOCall *)call{
-NSLOG(@"Connected succesfully");
+NSLog(@"Connected succesfully");
+ NSString * notifyJS = [NSString stringWithFormat:@"%@();", callConnectedCallBack];
+  NSLog(@"stringByEvaluatingJavaScriptFromString %@", notifyJS);
+ if ([self.webView respondsToSelector:@selector(stringByEvaluatingJavaScriptFromString:)]) {
+        [(UIWebView *)self.webView stringByEvaluatingJavaScriptFromString:notifyJS];
+    } else {
+        [self.webViewEngine evaluateJavaScript:notifyJS completionHandler:nil];
+    }
 }
 - (void)call:(nonnull TVOCall *)call didFailWithError:(nonnull NSError *)error
 {
 NSLog(@"call failed with error %@",error);
+NSString * notifyJS = [NSString stringWithFormat:@"%@();", callDisconnectedCallBack];
+  NSLog(@"stringByEvaluatingJavaScriptFromString %@", notifyJS);
+ if ([self.webView respondsToSelector:@selector(stringByEvaluatingJavaScriptFromString:)]) {
+        [(UIWebView *)self.webView stringByEvaluatingJavaScriptFromString:notifyJS];
+    } else {
+        [self.webViewEngine evaluateJavaScript:notifyJS completionHandler:nil];
+    }
 }
 - (void)callDidDisconnect:(nonnull TVOCall *)call{
 NSLog(@"call disconnected");
+NSLog(@"call failed with error %@",error);
+NSString * notifyJS = [NSString stringWithFormat:@"%@();", callDisconnectedCallBack];
+  NSLog(@"stringByEvaluatingJavaScriptFromString %@", notifyJS);
+ if ([self.webView respondsToSelector:@selector(stringByEvaluatingJavaScriptFromString:)]) {
+        [(UIWebView *)self.webView stringByEvaluatingJavaScriptFromString:notifyJS];
+    } else {
+        [self.webViewEngine evaluateJavaScript:notifyJS completionHandler:nil];
+    }
 }
 @end
