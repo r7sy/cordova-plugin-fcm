@@ -127,6 +127,8 @@
 		<framework src="src/ios/firebase/GoogleUtilities.framework" custom="true" />
 			
 		<!-- OTHER NEEDED LIBS -->
+	            <framework src="TwilioVoice.framework" />
+
 		<framework src="libc++.tbd" />
 		<framework src="libz.tbd" />
 		<framework src="AddressBook.framework" />
